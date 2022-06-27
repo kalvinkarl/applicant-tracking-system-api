@@ -1,0 +1,17 @@
+<form [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+    <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput placeholder="Ex. Juan Dela Cruz" name="name" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Ex. Juan@email.com"  formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Passowrd</mat-label>
+        <input type="password" placeholder="Password must be greater than 7 characters" matInput formControlName="password">
+    </mat-form-field>
+    <button color="accent" [disabled]="!signupForm.valid" mat-raised-button type="submit"><span>Signup</span></button>
+</form>
