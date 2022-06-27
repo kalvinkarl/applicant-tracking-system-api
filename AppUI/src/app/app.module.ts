@@ -18,6 +18,8 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { CustomErrorStateMatcher } from './app.custom.components';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     NoopAnimationsModule
   ],
-  providers: [],
+  providers: [
+    {provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,17 +1,27 @@
 <form [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
     <mat-form-field appearance="fill">
-        <mat-label>First name</mat-label>
-        <input matInput placeholder="Ex. Juan Dela Cruz" name="name" formControlName="name">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Ex. Juan Dela Cruz" name="name" >
+        <mat-error *ngIf="signupForm.controls['name'].hasError('required')">
+          Name is <strong>required</strong>
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Ex. Juan@email.com"  formControlName="email">
+        <input matInput placeholder="Ex. Juan@email.com" formControlName="email">
+        <mat-hint>Errors appear instantly!</mat-hint>
+        <mat-error *ngIf="signupForm.controls['email'].hasError('email') && !signupForm.controls['email'].hasError('required')">
+          Please enter a valid email address
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
         <mat-label>Passowrd</mat-label>
         <input type="password" placeholder="Password must be greater than 7 characters" matInput formControlName="password">
+        <mat-error *ngIf="signupForm.controls['password'].hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
     </mat-form-field>
-    <button color="accent" [disabled]="!signupForm.valid" mat-raised-button type="submit"><span>Signup</span></button>
+    <button color="accent" mat-raised-button type="submit" [disabled]=""><span>Signup</span></button>
 </form>
