@@ -1,5 +1,5 @@
 # Applicant Tracking System
-- [DENR-HR - Department of Environment and Natural Resources - Human Resources office website](http://DENR-HR.com/)
+- [DENR-HR](http://DENR-HR.com/)
 - And this will connect to their main website: [DENR region 2](https://r2.denr.gov.ph/)
 - This application will monitor and serve application process of clients of DENR Region 2.
 
