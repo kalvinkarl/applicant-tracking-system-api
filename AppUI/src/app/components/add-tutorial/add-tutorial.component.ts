@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Tutorial } from 'src/app/models/tutorial';
 import { TutorialService } from 'src/app/services/tutorial.service';
 
 @Component({
@@ -10,11 +9,6 @@ import { TutorialService } from 'src/app/services/tutorial.service';
 })
 export class AddTutorialComponent implements OnInit {
   tutorialForm!: FormGroup;
-  tutorial: Tutorial = {
-    title: '',
-    description: '',
-    published: false
-  };
   saved = false;
   constructor(private tutorialService: TutorialService) { }
   
@@ -40,10 +34,5 @@ export class AddTutorialComponent implements OnInit {
   }
   newTutorial(): void {
     this.saved = false;
-    this.tutorial = {
-      title: '',
-      description: '',
-      published: false
-    };
   }
 }
