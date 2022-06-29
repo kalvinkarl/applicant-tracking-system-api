@@ -48,7 +48,7 @@ Tutorial.getAll = (title, result) => {
   });
 };
 Tutorial.getAllPublished = result => {
-  sql.query("SELECT * FROM tutorials WHERE published=true", (err, res) => {
+  sql.query("SELECT * FROM tutorials WHERE Published=true", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
