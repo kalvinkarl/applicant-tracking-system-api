@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +22,7 @@ import { PostsComponent } from './components/posts/posts.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CustomErrorStateMatcher } from './app.custom.components';
+import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { CustomErrorStateMatcher } from './app.custom.components';
     SignupComponent,
     LoginComponent,
     HomeComponent,
-    PostsComponent
+    PostsComponent,
+    AddTutorialComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,9 @@ import { CustomErrorStateMatcher } from './app.custom.components';
     MatListModule,
     MatToolbarModule,
     ReactiveFormsModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     {provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher},
