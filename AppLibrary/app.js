@@ -11,8 +11,12 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to denr human resource website." });
-});
+app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource website." }));
+
+//Tutorials
 require("./routes/tutorial.routes.js")(app);
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));
+//Users
+require("./routes/user.routes.js")(app);
+
+app.get("*", (req, res) => res.json({ error: "page not found" }));
+app.listen(PORT, () => console.log('Server is running on port '+PORT));

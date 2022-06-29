@@ -4,8 +4,8 @@
   "description": "This is the server",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js",
-    "start": "nodemon app.js"
+    "test": "node App.js",
+    "start": "nodemon App.js"
   },
   "author": "Kalvin Karl Nonato",
   "license": "ISC",
