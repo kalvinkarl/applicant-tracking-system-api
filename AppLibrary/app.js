@@ -1,20 +1,24 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const authRoutes = require('./routes/auth');
-const errorController = require('./controllers/error');
+const express = require("express");
+const cors = require("cors");
 const app = express();
-const ports = process.env.PORT || 8080;
-const corsOptions = {
-    origin: 'http://localhost:4200'
+var corsOptions = {
+  origin: "http://localhost:8081"
 };
-app.use(bodyParser.json());
-app.use((req,res,next)=>{
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods','GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
+app.use(cors(corsOptions));
+
+// parse requests of content-type - application/json
+app.use(express.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to denr human resource website." });
 });
-app.use('/auth',authRoutes);
-app.use(errorController.get404);
-app.use(errorController.get500);
-app.listen(ports,()=>console.log('Server is listening in port '+ports+'...'));
+require("./routes/tutorial.routes.js")(app);
+// set port, listen for requests
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
