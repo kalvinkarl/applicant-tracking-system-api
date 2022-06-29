@@ -4,9 +4,9 @@ const authRoutes = require('./routes/auth');
 const errorController = require('./controllers/error');
 const app = express();
 const ports = process.env.PORT || 8080;
-// const corsOptions = {
-//     origin: 'http://localhost:4200'
-// };
+const corsOptions = {
+    origin: 'http://localhost:4200'
+};
 app.use(bodyParser.json());
 app.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin', '*');
