@@ -20,8 +20,6 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { CustomErrorStateMatcher } from './app.custom.components';
 import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.component';
 
 @NgModule({
@@ -47,9 +45,6 @@ import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.com
     NoopAnimationsModule,
     FormsModule,
     HttpClientModule
-  ],
-  providers: [
-    {provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher},
   ],
   bootstrap: [AppComponent]
 })

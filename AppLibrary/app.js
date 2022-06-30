@@ -11,7 +11,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource website." }));
+app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
 
 //Tutorials
 require("./routes/tutorial.routes.js")(app);

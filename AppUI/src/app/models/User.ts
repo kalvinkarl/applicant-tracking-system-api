@@ -1,6 +1,6 @@
 export class User{
-    id?: number;
-    name?: string;
-    email?: string;
-    password?: string;
+    ID?: number;
+    AccessionLevel?: string;
+    Username?: string;
+    Password?: string;
 }

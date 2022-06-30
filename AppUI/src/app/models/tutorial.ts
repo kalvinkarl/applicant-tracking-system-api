@@ -1,6 +1,6 @@
 export class Tutorial {
-    id?: any;
-    title?: string;
-    description?: string;
-    published?: boolean;
+    ID?: any;
+    Title?: string;
+    Description?: string;
+    Published?: boolean;
 }

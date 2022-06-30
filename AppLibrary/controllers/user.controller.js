@@ -29,14 +29,11 @@ exports.create = async (req, res) => {
           });
         }
       }else{
-        res.status(404).send({
-          message: 'A Username ' + req.body.Username + ' is already exist.'
+        res.status(409).send({
+          message: 'A Username ' + data.Username + ' is already exist.'
         });
       }
     });
-
-
-
 };
 // Find a single User by Username
 exports.findByUsername = (req, res) => {
