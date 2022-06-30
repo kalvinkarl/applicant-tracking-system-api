@@ -1,21 +1,16 @@
 <mat-toolbar color="primary">
     <span>
-        <a routerLink="/">
-            <span>Social Posts</span>
-        </a>
+        <a mat-button routerLink="/"><mat-icon class="icon-display">home</mat-icon>DENR-HR</a>
     </span>
     <span>
-        <a routerLinkActive="active-link" routerLink="/posts">
-            <span>Posts</span>
+        <!-- <a mat-button routerLinkActive="active-link" routerLink="/add">
+            Add posts
+        </a> -->
+        <a mat-button routerLinkActive="active-link" routerLink="/login">
+            Login
         </a>
-        <a routerLinkActive="active-link" routerLink="/add">
-            <span>Add posts</span>
-        </a>
-        <a routerLinkActive="active-link" routerLink="/login">
-            <span>Login</span>
-        </a>
-        <a routerLinkActive="active-link" routerLink="/signup">
-            <span>Signup</span>
+        <a mat-button routerLinkActive="active-link" routerLink="/signup">
+            Signup
         </a>
     </span>
 </mat-toolbar>

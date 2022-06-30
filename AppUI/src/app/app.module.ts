@@ -13,12 +13,12 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import { PostsComponent } from './components/posts/posts.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.component';
 
@@ -29,7 +29,6 @@ import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.com
     SignupComponent,
     LoginComponent,
     HomeComponent,
-    PostsComponent,
     AddTutorialComponent
   ],
   imports: [
@@ -44,7 +43,8 @@ import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.com
     ReactiveFormsModule,
     NoopAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatGridListModule,
   ],
   bootstrap: [AppComponent]
 })

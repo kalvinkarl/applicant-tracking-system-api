@@ -1,14 +1,16 @@
 mat-toolbar{
+    font-family: Roboto,Helvetica Neue,sans-serif;
+    font-size: 14px;
+    font-weight: 500;
     display: flex;
     justify-content: space-between;
-    padding: 0 64px;
     a{
-        text-decoration: none;
+         padding: 0 5px 0 5px;
         &.active-link{
-            color: white;
+            background-color: #233167;
         }
     }
-    span{
-        margin-left: 24px;
+    .icon-display {
+        transform: scale(0.7);
     }
 }

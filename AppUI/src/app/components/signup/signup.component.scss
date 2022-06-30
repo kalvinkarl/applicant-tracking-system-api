@@ -1,7 +1,14 @@
+form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 22px;
+}
 mat-form-field{
     width: 100%;
 }
-button{
-    float: right;
-    width: 200px;
+mat-card-actions{
+    padding: 0 7px 0 25px;
+}
+mat-grid-tile {
+background: lightblue;
 }

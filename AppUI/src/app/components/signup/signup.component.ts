@@ -12,6 +12,8 @@ import { UserService } from 'src/app/services/user.service';
 export class SignupComponent implements OnInit  {
   signupForm: FormGroup;
   saved = false;
+  hidePa = true;
+  hideRe = true;
   customErrorStateMatcher = new CustomErrorStateMatcher;
   constructor(private userService: UserService) {
     this.signupForm = new FormGroup({

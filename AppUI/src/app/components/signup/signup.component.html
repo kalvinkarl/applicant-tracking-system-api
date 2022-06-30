@@ -1,47 +1,55 @@
-<form [formGroup]="signupForm" (ngSubmit)="signup()" novalidate>
+<mat-card>
+  <mat-card-title>
+    <h2>Signup</h2>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <form [formGroup]="signupForm" novalidate>
     <mat-form-field appearance="fill">
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="Username" [errorStateMatcher]="customErrorStateMatcher" placeholder="Ex. Juandelacruz">
-        <mat-error *ngIf="signupForm.controls['Username'].hasError('required')">
-          Username is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="signupForm.controls['Username'].errors?.['minlength']">
-          Username should be <strong>greater than 3</strong>
-        </mat-error>
-        <mat-error *ngIf="signupForm.controls['Username'].errors?.['pattern']">
-          Username must only have <strong>letters</strong>, <strong>numbers</strong> and <strong>periods</strong>
-        </mat-error>
-        <mat-error *ngIf="signupForm.controls['Username'].hasError('duplicate')">
-          Username <strong>{{ this.signupForm.value.Username }}</strong> is already exist.
-        </mat-error>
+      <mat-label>Enter your username</mat-label>
+      <input matInput formControlName="Username" [errorStateMatcher]="customErrorStateMatcher" placeholder="Ex. Juandelacruz">
+      <mat-error *ngIf="signupForm.controls['Username'].hasError('required')">
+        Username is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls['Username'].errors?.['minlength']">
+        Username should be <strong>greater than 3</strong>
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls['Username'].errors?.['pattern']">
+        Username must only have <strong>letters</strong>, <strong>numbers</strong> and <strong>periods</strong>
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls['Username'].hasError('duplicate')">
+        Username <strong>{{ this.signupForm.value.Username }}</strong> is already exist.
+      </mat-error>
     </mat-form-field>
-
     <mat-form-field appearance="fill">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="Email" [errorStateMatcher]="customErrorStateMatcher" placeholder="Ex. Juan@email.com">
-        <mat-error *ngIf="signupForm.controls['Email'].hasError('email')">
-          Please enter a valid email address
-        </mat-error>
-        <mat-error *ngIf="signupForm.controls['Email'].hasError('required')">
-          Please enter a valid email address
-        </mat-error>
+      <mat-label>Enter your email</mat-label>
+      <input matInput formControlName="Email" [errorStateMatcher]="customErrorStateMatcher" placeholder="Ex. Juan@email.com">
+      <mat-error *ngIf="signupForm.controls['Email'].hasError('email')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls['Email'].hasError('required')">
+        Please enter a valid email address
+      </mat-error>
     </mat-form-field>
-
     <mat-form-field appearance="fill">
-        <mat-label>Passowrd</mat-label>
-        <input type="password" matInput formControlName="Password" [errorStateMatcher]="customErrorStateMatcher" placeholder="" >
-        <mat-error *ngIf="signupForm.controls['Password'].hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="signupForm.controls['Password'].errors?.['pattern']">
-          <!-- Use 8 or more characters with a mix of letters, numbers & symbols -->
-          Password must have <strong>8 or more characters</strong> with a mix of <strong>Lowercase letters, Uppercase letters , numbers & symbols</strong>
-        </mat-error>
+      <mat-label>Enter your password</mat-label>
+      <input matInput [type]="hidePa ? 'password' : 'text'" formControlName="Password" [errorStateMatcher]="customErrorStateMatcher">
+      <button mat-icon-button matSuffix (click)="hidePa = !hidePa" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePa" >
+        <mat-icon>{{hidePa ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="signupForm.controls['Password'].hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="signupForm.controls['Password'].errors?.['pattern']">
+        <!-- Use 8 or more characters with a mix of letters, numbers & symbols -->
+        Password must have <strong>8 or more characters</strong> with a mix of <strong>Lowercase letters, Uppercase letters , numbers & symbols</strong>
+      </mat-error>
     </mat-form-field>
-    
     <mat-form-field appearance="fill">
-      <mat-label>Confirm password</mat-label>
-      <input type="password" matInput formControlName="PasswordConfirm" [errorStateMatcher]="customErrorStateMatcher" placeholder="" >
+      <mat-label>Confirm your password</mat-label>
+      <input [type]="hideRe ? 'password' : 'text'" matInput formControlName="PasswordConfirm" [errorStateMatcher]="customErrorStateMatcher" placeholder="" >
+      <button mat-icon-button matSuffix (click)="hideRe = !hideRe" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideRe" >
+        <mat-icon>{{hideRe ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
       <mat-error *ngIf="signupForm.controls['PasswordConfirm'].hasError('required')">
         Confirm password is <strong>required</strong>
       </mat-error>
@@ -51,7 +59,9 @@
       <mat-error *ngIf="signupForm.controls['PasswordConfirm'].hasError('mustMatch')">
         Confirm password <strong>doesn't match</strong>
       </mat-error>
-  </mat-form-field>
-
-    <button color="accent" mat-raised-button type="submit" [disabled]=""><span>Signup</span></button>
-</form>
+    </mat-form-field>
+  </form>
+  <mat-card-actions fxFlexAlign="end" align="end">
+    <button color="accent" mat-raised-button type="submit" (click)="signup()">Signup</button>
+  </mat-card-actions>
+</mat-card>
