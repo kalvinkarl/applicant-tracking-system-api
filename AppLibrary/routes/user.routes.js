@@ -5,11 +5,11 @@ module.exports = app => {
     // Create a new User
     router.post("/", users.create);
 
-    // Retrieve a single User with id
+    // Retrieve a single User with username
     router.get("/:Username", users.findByUsername);
 
-    // // Retrieve all Users
-    // router.get("/", users.findAll);
+    // Login username
+    router.get("/auth/:Username", users.auth);
 
     // // Retrieve all published Users
     // router.get("/published", users.findAllPublished);

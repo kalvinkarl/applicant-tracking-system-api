@@ -51,3 +51,15 @@ exports.findByUsername = (req, res) => {
     } else res.send(data);
   });
 };
+exports.auth = (req,res) => {
+  User.findByUsername(req.body.Username, (err,data) => {
+    if(err){
+      if (err.kind === "not_found") {
+      }
+    }else{
+      res.status(409).send({
+        message: 'A Username ' + data.Username + ' is already exist.'
+      });
+    }
+  });
+};
