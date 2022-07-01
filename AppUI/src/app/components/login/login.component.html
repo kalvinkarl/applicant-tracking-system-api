@@ -1,5 +1,5 @@
-<form >
-<input type="text">
-<input type="text">
+<form [formGroup]="loginForm">
+<input type="text" formControlName="Username">
+<input type="text" formControlName="Password">
 <button (click)="signin()">Login</button>
 </form>

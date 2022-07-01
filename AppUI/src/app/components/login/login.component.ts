@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  saved = false;
+  complete: boolean = false;
   constructor(private userService: UserService) {
     this.loginForm = new FormGroup({
       Username: new FormControl(''),
@@ -18,12 +18,17 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void { }
   signin(): void {
-    this.userService.findByUsername('kalvin').subscribe({
-      next: data => {
-        console.log(data);
-        this.saved = true;
+    console.log(this.loginForm.value);
+    this.userService.login(this.loginForm.value)
+    .subscribe({
+      next: res => {
+        localStorage.setItem("token",res.token);
+        this.userService.isUserLoggedIn$.next(true);
+        this.complete = true;
       },
-      error: e => console.log(e)
-    })
+      error: err => {
+        console.log(err.error);
+      }
+    });
   }
 }

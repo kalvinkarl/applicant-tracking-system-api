@@ -8,8 +8,8 @@ module.exports = app => {
     // Retrieve a single User with username
     router.get("/:Username", users.findByUsername);
 
-    // Login username
-    router.get("/auth/:Username", users.auth);
+    // Login a user
+    router.post("/login", users.login);
 
     // // Retrieve all published Users
     // router.get("/published", users.findAllPublished);

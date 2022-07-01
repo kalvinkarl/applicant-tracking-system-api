@@ -1,5 +1,6 @@
 const User = require("../models/user.model.js");
 const Bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 // Create and Save a new User
 exports.create = async (req, res) => {
     // Validate request
@@ -51,15 +52,39 @@ exports.findByUsername = (req, res) => {
     } else res.send(data);
   });
 };
-exports.auth = (req,res) => {
-  User.findByUsername(req.body.Username, (err,data) => {
-    if(err){
+exports.login = (req,res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  User.findByUsername(req.body.Username, async (err, data) => {
+    if (err) {
       if (err.kind === "not_found") {
+        res.status(404).send({
+          message: 'User not found with Username:' + req.body.Username
+        });
+      } else {
+        res.status(500).send({
+          message: 'Error retrieving User with Username ' + req.body.Username
+        });
       }
-    }else{
-      res.status(409).send({
-        message: 'A Username ' + data.Username + ' is already exist.'
-      });
+    } else {
+      console.log('User login:' + req.body.Username);
+      let passwordIsEqual = await Bcrypt.compare(req.body.Password,data.Password);
+      if(!passwordIsEqual){
+        res.status(401).send({ 
+          message: 'Incorrect password for the Username:' + data.Username
+        });
+      }else{
+        let token = jwt.sign({
+          AccessionLevel: data.AccessionLevel,
+          Username: data.Username,
+          ID: data.ID
+        },'secretfortoken',{expiresIn: '1h'});
+        res.send({ token: token });
+      }
     }
   });
 };
