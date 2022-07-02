@@ -88,4 +88,3 @@ exports.login = (req,res) => {
     }
   });
 };
-exports.findAllUsers()
