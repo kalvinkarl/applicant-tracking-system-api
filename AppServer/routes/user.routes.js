@@ -2,6 +2,9 @@ module.exports = app => {
     const users = require("../controllers/user.controller.js");
     var router = require("express").Router();
 
+    // Retrieve all Users
+    router.post("/", users.create);
+
     // Create a new User
     router.post("/", users.create);
 
