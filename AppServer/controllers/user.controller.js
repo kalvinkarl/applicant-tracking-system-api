@@ -122,7 +122,7 @@ exports.create = (req, res) => {
 		})
 	})
 }
-
+// Login user
 const userLogin = async (user, req, res, err) => {
 	if (!err) {
 		let passwordIsEqual = await Bcrypt.compare(req.body.password, user.Password);
@@ -154,6 +154,7 @@ const userLogin = async (user, req, res, err) => {
 		}
 	}
 }
+// Check login username or email
 exports.login = (req, res) => {
 	// Validate Request
 	if (!req.body) {
