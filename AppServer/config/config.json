@@ -1,6 +1,11 @@
 {
-    "host": "localhost",
-    "user": "root",
-    "password": "Dikoalam",
-    "database": "posts"
+	"url" : "http://localhost/",
+	"host": "localhost",
+	"user": "root",
+	"password": "Dikoalam",
+	"database": "posts",
+	"email":{
+		"AUTH_EMAIL": "kalvinkarl28@gmail.com",
+		"AUTH_PASS": "seoyebpsyvuzyvzg"
+	}
 }

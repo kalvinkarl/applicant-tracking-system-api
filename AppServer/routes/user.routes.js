@@ -1,30 +1,33 @@
+const users = require("../controllers/user.controller");
+const express = require("express");
+const router = express.Router();
 module.exports = app => {
-    const users = require("../controllers/user.controller.js");
-    var router = require("express").Router();
+	// Retrieve all Users
+	// router.get("/", users.findAll);
 
-    // Retrieve all Users
-    router.post("/", users.create);
+	// Retrieve a single user with their username
+	router.get("/u/:username", users.findByUsername);
+	
+	// Retrieve a single User with their email address
+	router.get("/e/:email", users.findByEmail);
 
-    // Create a new User
-    router.post("/", users.create);
+	// Create a new user
+	router.post("/signup", users.create);
 
-    // Retrieve a single User with username
-    router.get("/:Username", users.findByUsername);
+	// Login a user
+	router.post("/signin", users.login);
 
-    // Login a user
-    router.post("/login", users.login);
-
-    // // Retrieve all published Users
-    // router.get("/published", users.findAllPublished);
+	// // Retrieve all published Users
+	// router.get("/published", users.findAllPublished);
 
 
-    // // Update a User with id
-    // router.put("/:ID", users.update);
+	// // Update a User with id
+	// router.put("/:ID", users.update);
 
-    // // Delete a User with id
-    // router.delete("/:ID", users.delete);
-    
-    // // Delete all Users
-    // router.delete("/", users.deleteAll);
-    app.use('/api/users', router);
-  };
+	// // Delete a User with id
+	// router.delete("/:ID", users.delete);
+
+	// // Delete all Users
+	// router.delete("/", users.deleteAll);
+	app.use('/api/users', router);
+};
