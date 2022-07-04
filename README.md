@@ -3,8 +3,8 @@
 - And this will connect to their main website: [DENR region 2](https://r2.denr.gov.ph/)
 - This application will monitor and serve application process of clients of DENR Region 2.
 
-## AdministratorS
-### User management
+## Administrators
+### User management *
 ### Office Management
 ### Salary Grade Management
 ### Competency Management

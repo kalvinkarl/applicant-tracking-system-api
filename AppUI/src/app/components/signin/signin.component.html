@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="!complete">
 	<mat-card-title>
 		<h2>Signin</h2>
 	</mat-card-title>
@@ -24,7 +24,7 @@
 				Password is <strong>required</strong>
 			</mat-error>
 			<mat-error *ngIf="signinForm.controls['password'].hasError('incorrect')">
-				You just entered <strong>incorrect</strong> password
+				Password is <strong>incorrect</strong>
 			</mat-error>
 		</mat-form-field>
 	</form>
