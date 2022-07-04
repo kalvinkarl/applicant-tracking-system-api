@@ -21,7 +21,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { HomeComponent } from './components/home/home.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.component';
+import { VerifyComponent } from './components/verify/verify.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.com
     HomeComponent,
     SignupComponent,
     SigninComponent,
-    AddTutorialComponent,
+    VerifyComponent,
   ],
   imports: [
     BrowserModule,
