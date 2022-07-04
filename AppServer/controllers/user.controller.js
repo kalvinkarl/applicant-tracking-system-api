@@ -135,7 +135,7 @@ const userLogin = async (user, req, res, err) => {
 			});
 		}else{
 			if(!user.verified){
-				res.send({message: "Email hasn't been verified yet. Check you inbox."})
+				res.status(403).send({message: "Email hasn't been verified yet."})
 			}else{
 					// let token = jwt.sign({
 					// 	AccessionLevel: data.AccessionLevel,

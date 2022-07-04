@@ -14,8 +14,8 @@ export class UserService {
   signup(data: any): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}/signup`, data);
   }
-  login(user: User): Observable<any> {
-    return this.http.post<User>(`${this.baseUrl}/login`,user)
+  signin(user: User): Observable<any> {
+    return this.http.post<User>(`${this.baseUrl}/signin`,user)
   }
   findByUsername(Username: any): Observable<User> {
     return this.http.get(`${this.baseUrl}/${Username}`);
