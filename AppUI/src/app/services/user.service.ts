@@ -11,8 +11,8 @@ export class UserService {
   constructor(private http: HttpClient) { }
   //To omit only 1 field
   //Omit<User,"Username">
-  create(data: any): Observable<User> {
-    return this.http.post<User>(this.baseUrl, data);
+  signup(data: any): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}/signup`, data);
   }
   login(user: User): Observable<any> {
     return this.http.post<User>(`${this.baseUrl}/login`,user)

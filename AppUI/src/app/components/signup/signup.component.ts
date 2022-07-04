@@ -11,42 +11,54 @@ import { UserService } from 'src/app/services/user.service';
 
 export class SignupComponent implements OnInit  {
   signupForm: FormGroup;
-  saved = false;
+  confirming = false;
+  progress = false;
   hidePa = true;
   hideRe = true;
+  emailDomain = "https://";
   customErrorStateMatcher = new CustomErrorStateMatcher;
   constructor(private userService: UserService) {
     this.signupForm = new FormGroup({
-      AccessionLevel: new FormControl('hr'),
-      Username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.pattern('^[a-zA-Z0-9.]*$')]),
-      Email: new FormControl('', [Validators.required, Validators.email]),
-      Password:  new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
-      PasswordConfirm:  new FormControl('', [Validators.required, Validators.minLength(7)])
+      username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.pattern('^[a-zA-Z0-9.]*$')]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password:  new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
+      passwordConfirm:  new FormControl('', [Validators.required, Validators.minLength(7)]),
+      accessLevel: new FormControl('hr')
     });
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  }
 
   signup(): void {
-    this.signupForm.controls['Username'].markAsDirty();
-    this.signupForm.controls['Email'].markAsDirty();
-    this.signupForm.controls['Password'].markAsDirty();
-    this.signupForm.controls['PasswordConfirm'].markAsDirty();
-    if(this.signupForm.value.Password != this.signupForm.value.PasswordConfirm){
-      this.signupForm.controls['PasswordConfirm'].setErrors({mustMatch: true});
-    }else if(this.signupForm.valid){
-      console.log(this.signupForm.value);
-      this.userService.create(this.signupForm.value).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.saved = true;
-        },
-        error: (e) => {
-          console.log('HTTP error:',e);
-          if(e.status === 409){
-            this.signupForm.controls['Username'].setErrors({ duplicate: true });
+    this.signupForm.controls['username'].markAsDirty();
+    this.signupForm.controls['email'].markAsDirty();
+    this.signupForm.controls['password'].markAsDirty();
+    this.signupForm.controls['passwordConfirm'].markAsDirty();
+    if(this.signupForm.value.password != this.signupForm.value.passwordConfirm){
+      this.signupForm.controls['passwordConfirm'].setErrors({mustMatch: true});
+    }
+    if(this.signupForm.valid){
+      this.progress = true;
+      this.userService.signup(this.signupForm.value).subscribe({
+        error: (err) => {
+          if(err.error.title === "Username"){
+            this.signupForm.controls['username'].setErrors({duplicate: true});
+            this.progress = false;
+          }else if (err.error.title === "Email"){
+            this.signupForm.controls['email'].setErrors({duplicate: true});
+            this.progress = false;
+          }else if(err.error.title === "Exist"){
+            this.signupForm.controls['email'].setErrors({duplicate: true});
+            this.signupForm.controls['username'].setErrors({ duplicate: true , duplicateBoth: true});
+            this.progress = false;
           }
+        },
+        next: (res) => {
+          this.emailDomain += this.signupForm.value.email.substring(this.signupForm.value.email.lastIndexOf("@") +1);
+          this.confirming = true;
+          this.progress = false;
         }
-      });
+      })
     }
   }
 }

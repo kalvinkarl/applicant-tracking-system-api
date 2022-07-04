@@ -89,14 +89,17 @@ exports.create = (req, res) => {
 		User.findByEmail(req.body.email, async (mailError) => {
 			if(!mailError && !usernameError){
 				res.status(409).send({
+					title: "Exist",
 					message: "User is already exist, please login using your username " + req.body.username
 				});
 			} else if(!usernameError) {
 				res.status(409).send({
+					title: "Username",
 					message: "A user is already exist using your username " + req.body.username
 				});
 			} else if(!mailError) {
 				res.status(409).send({
+					title: "Email",
 					message: "A user is already exist using your email address " + req.body.email
 				});
 			}else{

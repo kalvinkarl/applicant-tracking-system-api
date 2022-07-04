@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
@@ -14,22 +15,22 @@ import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NavigationComponent } from './components/navigation/navigation.component';
-import { SignupComponent } from './components/signup/signup.component';
-import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SigninComponent } from './components/signin/signin.component';
+import { SignupComponent } from './components/signup/signup.component';
 import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    SignupComponent,
-    LoginComponent,
     HomeComponent,
-    AddTutorialComponent
+    SignupComponent,
+    SigninComponent,
+    AddTutorialComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,10 +42,11 @@ import { AddTutorialComponent } from './components/add-tutorial/add-tutorial.com
     MatListModule,
     MatToolbarModule,
     ReactiveFormsModule,
-    NoopAnimationsModule,
     FormsModule,
     HttpClientModule,
     MatGridListModule,
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule,
   ],
   bootstrap: [AppComponent]
 })
