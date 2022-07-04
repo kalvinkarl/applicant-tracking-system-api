@@ -8,42 +8,6 @@ const jwt = require('jsonwebtoken');
 const Bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require('uuid');
 
-//roles:
-//su - super user
-//hr - admin
-//ev - evaluator
-//ap - applicant
-
-// Find a single user by Username
-exports.findByUsername = (req, res) => {
-	let username = req.params.username.trim();
-	User.findByUsername(username, (error, result) => {
-		if (!error) {
-			res.send(result);
-		} else {
-			if (error === "NOT_FOUND") {
-				res.status(404).send({ message: "A user not found with username of " + username });
-			} else {
-				res.status(500).send({ message: "Error retrieving a user in database", error });
-			}
-		}
-	})
-}
-// Find a single user by email
-exports.findByEmail = (req, res) => {
-	let email = req.params.email.trim();
-	User.findByEmail(email, (error, result) => {
-		if (!error) {
-			res.send(result);
-		} else {
-			if (error === "NOT_FOUND") {
-				res.status(404).send({ message: "A user not found with email of " + email });
-			} else {
-				res.status(500).send({ message: "Error retrieving a user in database", error });
-			}
-		}
-	})
-}
 // Send verification
 const sendVerification = (user,res) => {
 	//url to be used in email
@@ -137,13 +101,16 @@ const userLogin = (user, req, res, err) => {
 			if(!user.Verified){
 				res.status(403).send({message: "Email hasn't been verified yet."})
 			}else{
-				res.send({message: "Successfully login"})
-				// let token = jwt.sign({
-				// 	AccessionLevel: data.AccessionLevel,
-				// 	Username: data.Username,
-				// 	ID: data.ID
-				// },'secretfortoken',{expiresIn: '1h'});
-				// res.send({ token: token });
+				let token = jwt.sign({
+					id: user.ID
+				},config.secret,{expiresIn: 86400});
+				res.send({ 
+					id: user.ID,
+					username: user.Username,
+					email: user.Email,
+					role: user.AccessLevel,
+					token: token
+				});
 			}
 		}
 	} else {
@@ -231,6 +198,36 @@ exports.verify = (req,res) => {
 				res.status(404).send({ message: "User verification not found" })
 			}else{
 				res.status(500).send({ message:"Some error occured while finding user" })
+			}
+		}
+	})
+}
+// Find a single user by Username
+exports.findByUsername = (req, res) => {
+	let username = req.params.username.trim();
+	User.findByUsername(username, (error, result) => {
+		if (!error) {
+			res.send(result);
+		} else {
+			if (error === "NOT_FOUND") {
+				res.status(404).send({ message: "A user not found with username of " + username });
+			} else {
+				res.status(500).send({ message: "Error retrieving a user in database", error });
+			}
+		}
+	})
+}
+// Find a single user by email
+exports.findByEmail = (req, res) => {
+	let email = req.params.email.trim();
+	User.findByEmail(email, (error, result) => {
+		if (!error) {
+			res.send(result);
+		} else {
+			if (error === "NOT_FOUND") {
+				res.status(404).send({ message: "A user not found with email of " + email });
+			} else {
+				res.status(500).send({ message: "Error retrieving a user in database", error });
 			}
 		}
 	})

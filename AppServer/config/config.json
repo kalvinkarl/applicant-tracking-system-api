@@ -4,6 +4,7 @@
 	"user": "root",
 	"password": "Dikoalam",
 	"database": "posts",
+	"secret": "kalvin-secret-key",
 	"email":{
 		"AUTH_EMAIL": "kalvinkarl28@gmail.com",
 		"AUTH_PASS": "seoyebpsyvuzyvzg"

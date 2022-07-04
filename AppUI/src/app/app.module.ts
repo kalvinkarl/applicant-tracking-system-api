@@ -17,7 +17,6 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { NavigationComponent } from './components/navigation/navigation.component';
 import { HomeComponent } from './components/home/home.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -26,7 +25,6 @@ import { VerifyComponent } from './components/verify/verify.component';
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent,
     HomeComponent,
     SignupComponent,
     SigninComponent,

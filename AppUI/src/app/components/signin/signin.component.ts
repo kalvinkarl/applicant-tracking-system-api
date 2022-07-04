@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -15,13 +17,17 @@ export class SigninComponent implements OnInit {
   hidePass: boolean = true;
   unverified:boolean = false;
   customErrorStateMatcher = new CustomErrorStateMatcher;
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private authService: AuthService, private router: Router) {
     this.signinForm = new FormGroup({
       username: new FormControl('',Validators.required),
       password:  new FormControl('',Validators.required),
     });
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if (this.authService.getToken()) {
+      this.router.navigate([""])
+    }
+  }
   signin(): void {
     this.signinForm.controls['username'].markAsDirty();
     this.signinForm.controls['password'].markAsDirty();
@@ -30,9 +36,10 @@ export class SigninComponent implements OnInit {
       .subscribe({
         next: res => {
           console.log(res);
-          // localStorage.setItem("token",res.token);
-          // this.userService.isUserLoggedIn$.next(true);
+          this.authService.saveToken(res.token);
+          this.authService.saveUser(res);
           this.complete = true;
+          window.location.reload();
         },
         error: err => {
           if(err.status === 404){

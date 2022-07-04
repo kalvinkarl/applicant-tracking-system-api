@@ -1,4 +1,41 @@
-<app-navigation></app-navigation>
-<div class="container">
-  <router-outlet></router-outlet>
+<div id="app">
+	<mat-toolbar color="primary">
+		<span>
+			<a mat-button routerLink="/">
+				<mat-icon class="icon-display">
+					home
+				</mat-icon>
+				DENR-HR
+			</a>
+			<span *ngIf="showSuperUser">
+				<a mat-button routerLinkActive="active-link" routerLink="/manu">
+					Menu 1
+				</a>
+				<a mat-button routerLinkActive="active-link" routerLink="/msnu">
+					Menu 2
+				</a>
+			</span>
+		</span>
+		<span *ngIf="!isLoggedIn">
+			<a mat-button routerLinkActive="active-link" routerLink="/signin">
+				Signin
+			</a>
+			<a mat-button routerLinkActive="active-link" routerLink="/signup">
+				Signup
+			</a>
+		</span>
+		<span *ngIf="isLoggedIn">
+			<a mat-button routerLinkActive="active-link" routerLink="/profile">
+				{{username}}
+			</a>
+			<a mat-button routerLinkActive="active-link" (click)="logout()">
+				Log Out
+			</a>
+		</span>
+	</mat-toolbar>
+	<div class="container">
+		<router-outlet></router-outlet>
+	</div>
 </div>
+
+
