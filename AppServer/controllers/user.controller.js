@@ -45,7 +45,7 @@ exports.findByEmail = (req, res) => {
 	})
 }
 // Send verification
-const sendVerification = async (user,res) => {
+const sendVerification = (user,res) => {
 	//url to be used in email
 	const currentUrl = config.url;
 	const uniqueString = uuidv4();
@@ -57,7 +57,7 @@ const sendVerification = async (user,res) => {
 	}
 	let userVerification = new UserVerification({
 		userId: user.id,
-		uniqueString: await Bcrypt.hash(uniqueString, 12),
+		uniqueString: Bcrypt.hashSync(uniqueString, 12),
 		createdAt: new Date(Date.now()),
 		expiresAt: new Date(Date.now()+21600000)
 	})
@@ -86,7 +86,7 @@ exports.create = (req, res) => {
 	}
 	// Checking if user already exists
 	User.findByUsername(req.body.username, async (usernameError) => {
-		User.findByEmail(req.body.email, async (mailError) => {
+		User.findByEmail(req.body.email, (mailError) => {
 			if(!mailError && !usernameError){
 				res.status(409).send({
 					title: "Exist",
@@ -108,7 +108,7 @@ exports.create = (req, res) => {
 					let user = new User({
 							username: req.body.username,
 							email: req.body.email,
-							password: await Bcrypt.hash(req.body.password, 12),
+							password: Bcrypt.hashSync(req.body.password, 12),
 							accessLevel: req.body.accessLevel,
 					});
 					User.create(user, (error, result) => {
@@ -126,9 +126,9 @@ exports.create = (req, res) => {
 	})
 }
 // Login user
-const userLogin = async (user, req, res, err) => {
+const userLogin = (user, req, res, err) => {
 	if (!err) {
-		let passwordIsEqual = await Bcrypt.compare(req.body.password, user.Password);
+		let passwordIsEqual = Bcrypt.compareSync(req.body.password, user.Password);
 		if(!passwordIsEqual){
 			res.status(401).send({ 
 				message: "Incorrect password."
@@ -178,10 +178,11 @@ exports.login = (req, res) => {
 		})
 	}
 }
+// Verify email confimation
 exports.verify = (req,res) => {
 	let userId = req.params.id.trim();
 	let uniqueString = req.params.uniqueString.trim();
-	UserVerification.findById(userId, async (error,result)=>{
+	UserVerification.findById(userId, (error,result)=>{
 		if(!error){
 			if(result.ExpiresAt < Date.now()){
 				UserVerification.deleteById(userId,(err)=>{
@@ -202,7 +203,7 @@ exports.verify = (req,res) => {
 					}
 				})
 			}else{
-				equalString = await Bcrypt.compare(uniqueString,result.UniqueString);
+				equalString = Bcrypt.compareSync(uniqueString,result.UniqueString);
 				if(equalString){
 					User.updateVerified(userId, true, (err) => {
 						if(!err){
