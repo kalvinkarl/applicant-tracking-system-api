@@ -7,12 +7,19 @@
 				</mat-icon>
 				DENR-HR
 			</a>
-			<span *ngIf="showSuperUser">
-				<a mat-button routerLinkActive="active-link" routerLink="/manu">
-					Menu 1
+			<span *ngIf="showAdmin || showSuperUser">
+				<a mat-button routerLinkActive="active-link" routerLink="/admin">
+					Admin
 				</a>
-				<a mat-button routerLinkActive="active-link" routerLink="/msnu">
-					Menu 2
+			</span>
+			<span *ngIf="showApplicant || showSuperUser">
+				<a mat-button routerLinkActive="active-link" routerLink="/user">
+					Applicant
+				</a>
+			</span>
+			<span *ngIf="showEvaluator || showSuperUser">
+				<a mat-button routerLinkActive="active-link" routerLink="/evaluate">
+					Evaluator
 				</a>
 			</span>
 		</span>

@@ -12,10 +12,9 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SigninComponent implements OnInit {
   signinForm: FormGroup;
-  complete: boolean = false;
   progress: boolean = false;
   hidePass: boolean = true;
-  unverified:boolean = false;
+  unverified: boolean = false;
   customErrorStateMatcher = new CustomErrorStateMatcher;
   constructor(private userService: UserService, private authService: AuthService, private router: Router) {
     this.signinForm = new FormGroup({
@@ -23,11 +22,7 @@ export class SigninComponent implements OnInit {
       password:  new FormControl('',Validators.required),
     });
   }
-  ngOnInit(): void {
-    if (this.authService.getToken()) {
-      this.router.navigate([""])
-    }
-  }
+  ngOnInit(): void { }
   signin(): void {
     this.signinForm.controls['username'].markAsDirty();
     this.signinForm.controls['password'].markAsDirty();
@@ -38,7 +33,6 @@ export class SigninComponent implements OnInit {
           console.log(res);
           this.authService.saveToken(res.token);
           this.authService.saveUser(res);
-          this.complete = true;
           window.location.reload();
         },
         error: err => {

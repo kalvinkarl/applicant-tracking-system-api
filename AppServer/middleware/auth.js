@@ -2,10 +2,11 @@ const jwt = require('jsonwebtoken');
 const config = require("../config/config.json");
 
 exports.verifyToken = (req, res, next) => {
-	let token = req.headers["x-access-token"];
-	if (!token) {
+	let authHeader = req.get('Authorization');
+	if (!authHeader) {
 		res.status(403).send({ message: "No token provided!" });
 	}else{
+		let token = authHeader.split(' ')[1];
 		jwt.verify(token, config.secret, (err, decoded) => {
 			if (err) {
 				res.status(401).send({ message: "Unauthorized!" });

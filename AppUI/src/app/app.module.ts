@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { authInterceptorProviders } from './services/auth.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,10 @@ import { HomeComponent } from './components/home/home.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { VerifyComponent } from './components/verify/verify.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { ApplicantComponent } from './components/applicant/applicant.component';
+import { EvaluatorComponent } from './components/evaluator/evaluator.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +34,10 @@ import { VerifyComponent } from './components/verify/verify.component';
     SignupComponent,
     SigninComponent,
     VerifyComponent,
+    AdminComponent,
+    ApplicantComponent,
+    EvaluatorComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +55,7 @@ import { VerifyComponent } from './components/verify/verify.component';
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
   ],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

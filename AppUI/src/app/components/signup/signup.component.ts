@@ -28,11 +28,7 @@ export class SignupComponent implements OnInit  {
       accessLevel: new FormControl('hr')
     });
   }
-  ngOnInit(): void {
-    if (this.authService.getToken()) {
-      this.router.navigate([""])
-    }
-  }
+  ngOnInit(): void { }
 
   signup(): void {
     this.signupForm.controls['username'].markAsDirty();

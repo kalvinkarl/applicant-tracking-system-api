@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { apiUrl } from 'src/environments/environment';
 import { User } from '../models/user';
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -11,18 +14,17 @@ export class UserService {
   //To omit only 1 field
   //Omit<User,"Username">
   signup(data: any): Observable<User> {
-    return this.http.post<User>(`${apiUrl}/users/signup`, data);
+    return this.http.post<User>(`${apiUrl}/users/signup`, data, httpOptions);
   }
   signin(user: User): Observable<any> {
-    return this.http.post<User>(`${apiUrl}/users/signin`,user)
+    return this.http.post<User>(`${apiUrl}/users/signin`,user, httpOptions)
   }
   verify(hashEmail: any, uniqueString: any ): Observable<any> {
-    return this.http.get<User[]>(`${apiUrl}/users/verify/${hashEmail}/${uniqueString}`)
+    return this.http.get<User[]>(`${apiUrl}/users/verify/${hashEmail}/${uniqueString}`, httpOptions)
   }
-
-  // findByUsername(Username: any): Observable<User> {
-  //   return this.http.get(`${this.baseUrl}/${Username}`);
-  // }
+  findByUsername(Username: any): Observable<User> {
+    return this.http.get(`${apiUrl}/users/u/${Username}`, httpOptions);
+  }
   // findByUsername(Username: any): Observable<User[]> {
   //   return this.http.get<User[]>(`${baseUrl}?Username=${Username}`);
   // }
