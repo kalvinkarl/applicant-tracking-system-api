@@ -38,5 +38,27 @@ class User {
 			}
 		});
 	}
+	static deleteById(id, result) {
+		sql.query("DELETE FROM users WHERE ID = ?", id , (err, res) => {
+			if(err){
+				result(err)
+			}else if(res.affectedRows == 0){
+				result("NOT_FOUND");
+			}else{
+				result(null, res[0]);
+			}
+		}) 
+	}
+	static updateVerified(id, value, result) {
+		sql.query("UPDATE users SET Verified = ? WHERE ID = ?", [value, id], (err,res) => {
+			if(err){
+				result(err)
+			}else if(res.affectedRows == 0){
+				result("NOT_FOUND")
+			}else{
+				result(null,res)
+			}
+		})
+	}
 }
 module.exports = User;

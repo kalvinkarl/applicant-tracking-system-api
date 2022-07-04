@@ -53,13 +53,13 @@ const sendVerification = async (user,res) => {
 		from: config.email.AUTH_EMAIL,
 		to: user.email,
 		subject: "Verify your Email",
-		html: `<p>Verify your email address to complete the signup and login into your account.</p><p>This link <b>expires in 6 hours</b>.</p><p>Press <a href=${currentUrl+"user/verify/"+uniqueString}>here</a> to proceed.</p>`
+		html: `<p>Verify your email address to complete the signup and login into your account.</p><p>This link <b>expires in 6 hours</b>.</p><p>Press <a href=${currentUrl+"user/verify/"+user.id+"/"+uniqueString}>here</a> to proceed.</p>`
 	}
 	let userVerification = new UserVerification({
 		userId: user.id,
 		uniqueString: await Bcrypt.hash(uniqueString, 12),
-		createdAt: Date.now(),
-		expiresAt: Date.now()+2160000
+		createdAt: new Date(Date.now()),
+		expiresAt: new Date(Date.now()+21600000)
 	})
 	UserVerification.create(userVerification, (error,result) => {
 		if(!error){
@@ -134,15 +134,16 @@ const userLogin = async (user, req, res, err) => {
 				message: "Incorrect password."
 			});
 		}else{
-			if(!user.verified){
+			if(!user.Verified){
 				res.status(403).send({message: "Email hasn't been verified yet."})
 			}else{
-					// let token = jwt.sign({
-					// 	AccessionLevel: data.AccessionLevel,
-					// 	Username: data.Username,
-					// 	ID: data.ID
-					// },'secretfortoken',{expiresIn: '1h'});
-					// res.send({ token: token });
+				res.send({message: "Successfully login"})
+				// let token = jwt.sign({
+				// 	AccessionLevel: data.AccessionLevel,
+				// 	Username: data.Username,
+				// 	ID: data.ID
+				// },'secretfortoken',{expiresIn: '1h'});
+				// res.send({ token: token });
 			}
 		}
 	} else {
@@ -176,4 +177,60 @@ exports.login = (req, res) => {
 			userLogin(result, req, res, error)
 		})
 	}
+}
+exports.verify = (req,res) => {
+	let userId = req.params.id.trim();
+	let uniqueString = req.params.uniqueString.trim();
+	UserVerification.findById(userId, async (error,result)=>{
+		if(!error){
+			if(result.ExpiresAt < Date.now()){
+				UserVerification.deleteById(userId,(err)=>{
+					if(!err){
+						User.deleteById(userId,(er)=>{
+							if(!er){
+								res.status(401).send({ message: "Verification code expired. Please sign up again" })
+							}else if(er === "NOT_FOUND"){
+								res.status(404).send({ message: "User not found" })
+							}else{
+								res.status(500).send({ message:"Some error occured while deleting expired user by verification" })
+							}
+						})
+					}else if(err === "NOT_FOUND"){
+						res.status(404).send({ message: "Verification not found" })
+					}else{
+						res.status(500).send({ message:"Some error occured while deleting verification",err })
+					}
+				})
+			}else{
+				equalString = await Bcrypt.compare(uniqueString,result.UniqueString);
+				if(equalString){
+					User.updateVerified(userId, true, (err) => {
+						if(!err){
+							UserVerification.deleteById(userId,(er)=>{
+								if(!err){
+									res.send({ message: "Successfully verified!" })
+								}else if(er === "NOT_FOUND"){
+									res.status(404).send({ message: "Removing verification not found" })
+								}else{
+									res.status(500).send({ message:"Some error occured while removing verification",err })
+								}
+							})
+						}else if(err === "NOT_FOUND"){
+							res.status(404).send({ message: "Update a user not found" })
+						}else{
+							res.status(500).send({ message:"Some error occured while updating user",err })
+						}
+					})
+				}else{
+					res.status(401).send({ message: "Invalid verification details passed. Please check your inbox"})
+				}
+			}
+		} else {
+			if(error === "NOT_FOUND"){
+				res.status(404).send({ message: "User verification not found" })
+			}else{
+				res.status(500).send({ message:"Some error occured while finding user" })
+			}
+		}
+	})
 }

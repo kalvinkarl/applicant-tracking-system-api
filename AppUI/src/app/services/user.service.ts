@@ -17,9 +17,13 @@ export class UserService {
   signin(user: User): Observable<any> {
     return this.http.post<User>(`${this.baseUrl}/signin`,user)
   }
-  findByUsername(Username: any): Observable<User> {
-    return this.http.get(`${this.baseUrl}/${Username}`);
+  verify(hashEmail: any, uniqueString: any ): Observable<any> {
+    return this.http.get<User[]>(`${this.baseUrl}/verify/${hashEmail}/${uniqueString}`)
   }
+
+  // findByUsername(Username: any): Observable<User> {
+  //   return this.http.get(`${this.baseUrl}/${Username}`);
+  // }
   // findByUsername(Username: any): Observable<User[]> {
   //   return this.http.get<User[]>(`${baseUrl}?Username=${Username}`);
   // }

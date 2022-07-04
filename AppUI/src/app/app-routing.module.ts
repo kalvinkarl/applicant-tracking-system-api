@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'user/verify/:uniqueString', component: VerifyComponent },
+  { path: 'user/verify/:id/:uniqueString', component: VerifyComponent },
   { path: '**', redirectTo: '' },
 ];
 

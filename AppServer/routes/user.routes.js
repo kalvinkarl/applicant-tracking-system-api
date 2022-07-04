@@ -17,6 +17,9 @@ module.exports = app => {
 	// Login a user
 	router.post("/signin", users.login);
 
+	// User verification
+	router.get("/verify/:id/:uniqueString", users.verify)
+
 	// // Retrieve all published Users
 	// router.get("/published", users.findAllPublished);
 

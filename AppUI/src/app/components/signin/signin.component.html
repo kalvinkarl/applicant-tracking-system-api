@@ -29,10 +29,10 @@
 		</mat-form-field>
 	</form>
 	<mat-error *ngIf="signinForm.controls['username'].hasError('notFound')">
-		Click <strong><a href="/singup">here</a></strong> to register a new account
+		Click <strong><a routerLink="/signup">here</a></strong> to register a new account
 	</mat-error>
 	<mat-error *ngIf="unverified">
-		Please accept the confirmation in your email address, or request for <strong><a href="/singup">new</a></strong> confirmation.
+		Please accept the confirmation in your email address, or request for a <strong><a routerLink="/signup">new</a></strong> one.
 	</mat-error>
 	<mat-card-actions>
 			<!-- <mat-spinner *ngIf="progress"></mat-spinner> -->
