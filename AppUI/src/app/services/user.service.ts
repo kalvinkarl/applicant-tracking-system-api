@@ -10,6 +10,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class UserService {
+  isSignedIn = false;
   constructor(private http: HttpClient) { }
   //To omit only 1 field
   //Omit<User,"Username">

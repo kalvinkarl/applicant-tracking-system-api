@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -18,8 +19,7 @@ export class SignupComponent implements OnInit  {
   hideRe = true;
   emailDomain = "https://";
   customErrorStateMatcher = new CustomErrorStateMatcher;
-  authService: any;
-  constructor(private userService: UserService,private router: Router) {
+  constructor(private userService: UserService,private authService: AuthService,private router: Router) {
     this.signupForm = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.pattern('^[a-zA-Z0-9.]*$')]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -28,8 +28,11 @@ export class SignupComponent implements OnInit  {
       accessLevel: new FormControl('hr')
     });
   }
-  ngOnInit(): void { }
-
+  ngOnInit(): void {
+    if(this.authService.getToken()){
+      this.router.navigate([""])
+    }
+  }
   signup(): void {
     this.signupForm.controls['username'].markAsDirty();
     this.signupForm.controls['email'].markAsDirty();

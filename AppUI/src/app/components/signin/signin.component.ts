@@ -22,7 +22,11 @@ export class SigninComponent implements OnInit {
       password:  new FormControl('',Validators.required),
     });
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if(this.authService.getToken()){
+      this.router.navigate([""])
+    }
+  }
   signin(): void {
     this.signinForm.controls['username'].markAsDirty();
     this.signinForm.controls['password'].markAsDirty();

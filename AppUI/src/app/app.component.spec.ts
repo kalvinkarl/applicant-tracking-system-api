@@ -23,7 +23,7 @@ describe('AppComponent', () => {
   it(`should have as title 'appUI'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('appUI');
+    expect(app.title).toEqual('DENR-HR Applicant Management Web Application');
   });
 
   it('should render title', () => {

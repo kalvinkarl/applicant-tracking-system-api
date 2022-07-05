@@ -7,8 +7,9 @@ import { AuthService } from './services/auth.service';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+	title = "DENR-HR Applicant Management Web Application"
 	isLoggedIn = false;
-  username!: string;
+	username!: string;
 	showSuperUser!: boolean;
 	showAdmin!: boolean;
 	showApplicant!: boolean;

@@ -10,9 +10,10 @@ import { ApplicantComponent } from './components/applicant/applicant.component';
 import { EvaluatorComponent } from './components/evaluator/evaluator.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuard } from './services/auth.guard';
+import { RoleGuard } from './services/role.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'user/verify/:id/:uniqueString', component: VerifyComponent },
@@ -20,10 +21,10 @@ const routes: Routes = [
     children: [
       { path: "general", component: AdminComponent },
       { path: "sample", component: AdminComponent },
-    ], canActivate: [AuthGuard] },
-  { path: 'user', component: ApplicantComponent },
-  { path: 'evaluate', component: EvaluatorComponent },
-  { path: 'profile', component: ProfileComponent },
+    ], canActivate: [RoleGuard, AuthGuard] },
+  { path: 'user', component: ApplicantComponent, canActivate: [RoleGuard, AuthGuard] },
+  { path: 'evaluate', component: EvaluatorComponent, canActivate: [RoleGuard, AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]  },
   { path: '**', redirectTo: '' },
 ];
 

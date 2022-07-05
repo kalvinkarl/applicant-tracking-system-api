@@ -15,13 +15,11 @@ export class AdminComponent implements OnInit {
 		this.userService.findByUsername("kissmemor08")
 		.subscribe({
 			next: res =>{
-				console.log(res);
-				this.message = `${res.Username}\n${res.Email}\n${res.AccessLevel}\n${res.Password}\n`;
+				this.message = `${res.Username},${res.Email},${res.AccessLevel},${res.Password}`;
 			},
 			error: err => {
 				this.message = err.error.message
 			}
-		
 		})
 	}
 

@@ -12,7 +12,6 @@ exports.verifyToken = (req, res, next) => {
 				res.status(401).send({ message: "Unauthorized!" });
 			}else{
 				req.userId = decoded.id;
-				console.log("Request connection success to user id of " + req.userId);
 				next();
 			}
 		});
