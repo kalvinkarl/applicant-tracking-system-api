@@ -5,7 +5,7 @@
 				<mat-icon class="icon-display">
 					home
 				</mat-icon>
-				DENR-HR
+				JOBS-DENR
 			</a>
 			<span *ngIf="showAdmin || showSuperUser">
 				<a mat-button routerLinkActive="active-link" routerLink="/admin">
@@ -25,10 +25,10 @@
 		</span>
 		<span *ngIf="!isLoggedIn">
 			<a mat-button routerLinkActive="active-link" routerLink="/signin">
-				Signin
+				Login
 			</a>
 			<a mat-button routerLinkActive="active-link" routerLink="/signup">
-				Signup
+				Register
 			</a>
 		</span>
 		<span *ngIf="isLoggedIn">

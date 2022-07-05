@@ -12,7 +12,6 @@ module.exports = app => {
 	//----------------------------------------------------------------------SECURED!-------------------------------------------------------
 	// Retrieve a single user with their username
 	router.get("/u/:username",[auth.verifyToken], users.findByUsername);
-	
 	// Retrieve a single User with their email address
 	router.get("/e/:email",[auth.verifyToken], users.findByEmail);
 
