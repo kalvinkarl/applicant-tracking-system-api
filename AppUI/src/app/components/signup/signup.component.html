@@ -65,7 +65,7 @@
 		</mat-form-field>
 	</form>
 	<mat-error *ngIf="signupForm.controls['username'].hasError('duplicateBoth')">
-		It seems like you already registered registered, click <strong><a href="/signin">here</a></strong> to login.
+		It seems like you have already registered, click <strong><a href="/signin">here</a></strong> to login.
 	</mat-error>
 	<mat-card-actions>
 			<mat-spinner *ngIf="progress"></mat-spinner>

@@ -1,6 +1,6 @@
 const sql = require("../utils/database");
 
-const UserVerification = (userVerification) => {
+const UserVerification = function(userVerification){
 	this.userId = userVerification.userId;
 	this.uniqueString = userVerification.uniqueString;
 	this.createdAt = userVerification.createdAt;
