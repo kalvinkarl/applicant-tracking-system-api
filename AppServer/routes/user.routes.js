@@ -7,6 +7,8 @@ module.exports = app => {
 	router.post("/signup", users.create);
 	// Login a user
 	router.post("/signin", users.login);
+	// Request new verification
+	router.post("/verify", users.resendVerification);
 	// User verification
 	router.get("/verify/:id/:uniqueString", users.verify)
 	//----------------------------------------------------------------------SECURED!-------------------------------------------------------

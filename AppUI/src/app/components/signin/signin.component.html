@@ -1,43 +1,42 @@
-<div fxLayoutAlign="center center" fxFlexFill class="main-div">
-	<mat-card fxFlex="25">
-		<mat-card-title>
-			<h2>Signin</h2>
-		</mat-card-title>
-		<mat-divider></mat-divider>
-		<form [formGroup]="signinForm" novalidate>
-			<mat-form-field appearance="fill">
-				<mat-label>Username or Email</mat-label>
-				<input matInput formControlName="username" [errorStateMatcher]="customErrorStateMatcher" placeholder="Ex. Juandelacruz">
-				<mat-error *ngIf="signinForm.controls['username'].hasError('required')">
-					Username is <strong>required</strong>
-				</mat-error>
-				<mat-error *ngIf="signinForm.controls['username'].hasError('notFound')">
-					Cannot find a user <strong>{{ this.signinForm.value.username }}</strong>
-				</mat-error>
-			</mat-form-field>
-			<mat-form-field appearance="fill">
-				<mat-label>Password</mat-label>
-				<input matInput [type]="hidePass ? 'password' : 'text'" formControlName="password" [errorStateMatcher]="customErrorStateMatcher">
-				<button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass" >
-					<mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
-				</button>
-				<mat-error *ngIf="signinForm.controls['password'].hasError('required')">
-					Password is <strong>required</strong>
-				</mat-error>
-				<mat-error *ngIf="signinForm.controls['password'].hasError('incorrect')">
-					Password is <strong>incorrect</strong>
-				</mat-error>
-			</mat-form-field>
-		</form>
-		<mat-error *ngIf="signinForm.controls['username'].hasError('notFound')">
-			Click <strong><a routerLink="/signup">here</a></strong> to register a new account
-		</mat-error>
-		<mat-error *ngIf="unverified">
-			Please accept the confirmation in your email address, or request for a <strong><a routerLink="/signup">new</a></strong> one.
-		</mat-error>
-		<mat-card-actions>
-				<!-- <mat-spinner *ngIf="progress"></mat-spinner> -->
-				<button color="accent" mat-raised-button type="submit" (click)="signin()" [disabled]="progress">Signup</button>
-		</mat-card-actions>
-	</mat-card>
-</div>
+
+<mat-card fxFlex="25" class="mat-elevation-z8">
+	<mat-card-title>
+		<h2>Signin</h2>
+	</mat-card-title>
+	<mat-divider></mat-divider>
+	<form [formGroup]="signinForm" novalidate>
+		<mat-form-field appearance="fill">
+			<mat-label>Username or Email</mat-label>
+			<input matInput formControlName="username" [errorStateMatcher]="customErrorStateMatcher" placeholder="Ex. Juandelacruz">
+			<mat-error *ngIf="signinForm.controls['username'].hasError('required')">
+				Username is <strong>required</strong>
+			</mat-error>
+			<mat-error *ngIf="signinForm.controls['username'].hasError('notFound')">
+				Cannot find a user <strong>{{ this.signinForm.value.username }}</strong>
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field appearance="fill">
+			<mat-label>Password</mat-label>
+			<input matInput [type]="hidePass ? 'password' : 'text'" formControlName="password" [errorStateMatcher]="customErrorStateMatcher">
+			<button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass" >
+				<mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+			</button>
+			<mat-error *ngIf="signinForm.controls['password'].hasError('required')">
+				Password is <strong>required</strong>
+			</mat-error>
+			<mat-error *ngIf="signinForm.controls['password'].hasError('incorrect')">
+				Password is <strong>incorrect</strong>
+			</mat-error>
+		</mat-form-field>
+	</form>
+	<mat-error *ngIf="signinForm.controls['username'].hasError('notFound')">
+		Click <strong><a routerLink="/signup">here</a></strong> to register a new account
+	</mat-error>
+	<mat-error *ngIf="unverified">
+		Please accept the confirmation in your email address <strong><a [href]="'http://'+unverifiedEmail.split('@')[1]" target="_blank">{{unverifiedEmail}}</a></strong>, or request for a <strong><a (click)="resendVerification()">new</a></strong> one.
+	</mat-error>
+	<mat-card-actions>
+			<!-- <mat-spinner *ngIf="progress"></mat-spinner> -->
+			<button color="accent" mat-raised-button type="submit" (click)="signin()" [disabled]="progress">Signin</button>
+	</mat-card-actions>
+</mat-card>

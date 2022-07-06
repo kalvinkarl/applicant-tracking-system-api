@@ -15,7 +15,7 @@ export class AdminComponent implements OnInit {
 		this.userService.findByUsername("kissmemor08")
 		.subscribe({
 			next: res =>{
-				this.message = `${res.Username},${res.Email},${res.AccessLevel},${res.Password}`;
+				this.message = `${res.username},${res.email},${res.accessLevel},${res.password}`;
 			},
 			error: err => {
 				this.message = err.error.message

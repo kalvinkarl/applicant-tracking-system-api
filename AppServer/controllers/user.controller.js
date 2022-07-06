@@ -49,13 +49,14 @@ exports.create = (req, res) => {
 			});
 	}
 	// Checking if user already exists
-	User.findByUsername(req.body.username, async (usernameError) => {
-		User.findByEmail(req.body.email, (mailError) => {
-			if(!mailError && !usernameError){
+	User.findByUsername(req.body.username, async (usernameError,Udata) => {
+		User.findByEmail(req.body.email, (mailError,Edata) => {
+			if((!mailError && !usernameError) && (Udata.ID === Edata.ID)){
 				res.status(409).send({
 					title: "Exist",
 					message: "User is already exist, please login using your username " + req.body.username
 				});
+
 			} else if(!usernameError) {
 				res.status(409).send({
 					title: "Username",
@@ -92,23 +93,30 @@ exports.create = (req, res) => {
 // Login user
 const userLogin = (user, req, res, err) => {
 	if (!err) {
-		let passwordIsEqual = Bcrypt.compareSync(req.body.password, user.Password);
+		let passwordIsEqual = Bcrypt.compareSync(req.body.password, user.password);
 		if(!passwordIsEqual){
 			res.status(401).send({ 
 				message: "Incorrect password."
 			});
 		}else{
-			if(!user.Verified){
-				res.status(403).send({message: "Email hasn't been verified yet."})
+			if(!user.verified){
+				res.status(403).send({message: "Email hasn't been verified yet.", email: user.email})
 			}else{
+				console.log({ 
+					id: user.id,
+					username: user.username,
+					email: user.email,
+					role: user.accessLevel,
+					token: token
+				})
 				let token = jwt.sign({
-					id: user.ID
+					id: user.id
 				},config.secret,{expiresIn: 86400});
 				res.send({ 
-					id: user.ID,
-					username: user.Username,
-					email: user.Email,
-					role: user.AccessLevel,
+					id: user.id,
+					username: user.username,
+					email: user.email,
+					role: user.accessLevel,
 					token: token
 				});
 			}
@@ -145,13 +153,45 @@ exports.login = (req, res) => {
 		})
 	}
 }
+// Resend verification if verify is less than 5
+exports.resendVerification = (req, res) =>{
+	User.findByEmail(req.body.unverifiedEmail, (error, result)=>{
+		if(!error){
+			console.log(result);
+			UserVerification.findById(result.id, (errr,ress)=>{
+				if(!errr){
+					if(ress.length >= 5){
+						if(ress[0].ExpiresAt > Date.now()){
+							res.status(406).send({ message: "Too many email verification found. Please wait for the last one to expire and try come again." })
+						}
+					}
+					UserVerification.deleteById(result.id,(err) => {
+						if(!err){
+							sendVerification(result,res);
+						}else{
+							res.status(500).send({ message: "An error occured while deleting verification" })
+						}
+					})
+				}else if(errr === "NOT_FOUND"){
+					sendVerification(result,res);
+				}else{
+					res.status(500).send({ message: "An error occured while looking for verification" })
+				}
+			})
+		}else if (error === "NOT_FOUND"){
+			res.status(404).send({ message: "Failed sending verification, due to user email not found" })
+		}else{
+			res.status(500).send({ message: "An error occured during the search of user email" })
+		}
+	})
+}
 // Verify email confimation
 exports.verify = (req,res) => {
 	let userId = req.params.id.trim();
 	let uniqueString = req.params.uniqueString.trim();
 	UserVerification.findById(userId, (error,result)=>{
 		if(!error){
-			if(result.ExpiresAt < Date.now()){
+			if(result[0].expiresAt < Date.now()){
 				UserVerification.deleteById(userId,(err)=>{
 					if(!err){
 						User.deleteById(userId,(er)=>{
@@ -170,7 +210,7 @@ exports.verify = (req,res) => {
 					}
 				})
 			}else{
-				equalString = Bcrypt.compareSync(uniqueString,result.UniqueString);
+				equalString = Bcrypt.compareSync(uniqueString,result[0].uniqueString);
 				if(equalString){
 					User.updateVerified(userId, true, (err) => {
 						if(!err){

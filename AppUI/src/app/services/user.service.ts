@@ -15,14 +15,18 @@ export class UserService {
   //To omit only 1 field
   //Omit<User,"Username">
   signup(data: any): Observable<User> {
-    return this.http.post<User>(`${apiUrl}/users/signup`, data, httpOptions);
+    return this.http.post<User>(`${apiUrl}/users/signup`, data);
   }
   signin(user: User): Observable<any> {
-    return this.http.post<User>(`${apiUrl}/users/signin`,user, httpOptions)
+    return this.http.post<User>(`${apiUrl}/users/signin`,user)
   }
-  verify(hashEmail: any, uniqueString: any ): Observable<any> {
-    return this.http.get<User[]>(`${apiUrl}/users/verify/${hashEmail}/${uniqueString}`, httpOptions)
+  verify(userId: any, uniqueString: any ): Observable<any> {
+    return this.http.get<User[]>(`${apiUrl}/users/verify/${userId}/${uniqueString}`)
   }
+  resendVerification(email: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}/users/verify`, email)
+  }
+  //---------------------------------------SECURED--------------------------------------------------------
   findByUsername(Username: any): Observable<User> {
     return this.http.get(`${apiUrl}/users/u/${Username}`, httpOptions);
   }

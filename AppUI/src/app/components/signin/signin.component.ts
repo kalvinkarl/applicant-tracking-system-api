@@ -15,6 +15,7 @@ export class SigninComponent implements OnInit {
   progress: boolean = false;
   hidePass: boolean = true;
   unverified: boolean = false;
+  unverifiedEmail!: string;
   customErrorStateMatcher = new CustomErrorStateMatcher;
   constructor(private userService: UserService, private authService: AuthService, private router: Router) {
     this.signinForm = new FormGroup({
@@ -47,10 +48,24 @@ export class SigninComponent implements OnInit {
             this.signinForm.controls['password'].setErrors({incorrect:true});
           }
           if(err.status === 403){
+            this.unverifiedEmail=err.error.email;
             this.unverified=true;
           }
         }
       });
+    }
+  }
+  resendVerification():void {
+    if(this.unverified){
+      this.userService.resendVerification({unverifiedEmail: this.unverifiedEmail})
+      .subscribe({
+        next: res => {
+          console.log(res);
+        },
+        error: err => {
+          console.log(err);
+        }
+      })
     }
   }
 }

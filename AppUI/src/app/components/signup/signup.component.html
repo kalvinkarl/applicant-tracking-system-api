@@ -1,4 +1,4 @@
-<mat-card *ngIf="!confirming">
+<mat-card *ngIf="!confirming" class="mat-elevation-z8">
 	<mat-card-title>
 		<h2>Signup</h2>
 	</mat-card-title>
@@ -72,7 +72,7 @@
 			<button color="accent" mat-raised-button type="submit" (click)="signup()" [disabled]="progress">Signup</button>
 	</mat-card-actions>
 </mat-card>
-<mat-card *ngIf="confirming">
+<mat-card *ngIf="confirming" class="mat-elevation-z8">
 	<mat-card-title>
 		Successful
 	</mat-card-title>

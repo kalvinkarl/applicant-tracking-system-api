@@ -16,13 +16,13 @@ UserVerification.create = (newUserVerification, result) => {
 	})
 }
 UserVerification.findById = (id,result) => {
-	sql.query("SELECT * FROM userverification WHERE UserID = ?", id , (err,res)=>{
+	sql.query("SELECT * FROM userverification WHERE UserID = ? ORDER BY CreatedAt DESC", id , (err,res)=>{
 		if(err){
 			result(err)
 		} else if(!res.length) {
 			result("NOT_FOUND")
 		} else {
-			result(null, res[0])
+			result(null, res)
 		}
 	})
 }
