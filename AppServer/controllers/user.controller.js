@@ -149,29 +149,34 @@ exports.login = (req, res) => {
 exports.resendVerification = (req, res) =>{
 	User.findByEmail(req.body.unverifiedEmail, (error, result)=>{
 		if(!error){
-			UserVerification.findById(result.id, (errr,ress)=>{
-				if(!errr){
-					if(ress.length < 3){
+			if(!result.verified){
+				UserVerification.findById(result.id, (errr,ress)=>{
+					if(!errr){
+						if(ress.length < 3){
+							sendVerification(result,res);
+						}else{
+							if(ress[0].expiresAt < Date.now()){
+								UserVerification.deleteById(result.id,(err) => {
+									if(!err){
+										sendVerification(result,res);
+									}else{
+										res.status(500).send({ message: "An error occured while deleting verification" })
+									}
+								})
+							} else {
+								res.status(406).send({ message: "Too many email verification found. Please wait for the 6 hours and try come again." })
+							}
+						}
+					}else if(errr === "NOT_FOUND"){
 						sendVerification(result,res);
 					}else{
-						if(ress[0].expiresAt < Date.now()){
-							UserVerification.deleteById(result.id,(err) => {
-								if(!err){
-									sendVerification(result,res);
-								}else{
-									res.status(500).send({ message: "An error occured while deleting verification" })
-								}
-							})
-						} else {
-							res.status(406).send({ message: "Too many email verification found. Please wait for the 6 hours and try come again." })
-						}
+						res.status(500).send({ message: "An error occured while looking for verification" })
 					}
-				}else if(errr === "NOT_FOUND"){
-					sendVerification(result,res);
-				}else{
-					res.status(500).send({ message: "An error occured while looking for verification" })
-				}
-			})
+				})
+			}else{
+				res.status(409).send({message: "Your account is already validated. This error is not normal, We will inform the server for this report. thank you for understanding"})
+				console.log("User is trying to resend verification while it is already verified.")
+			}
 		}else if (error === "NOT_FOUND"){
 			res.status(404).send({ message: "Failed sending verification, due to user email not found" })
 		}else{
