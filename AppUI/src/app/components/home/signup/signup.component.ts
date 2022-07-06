@@ -30,7 +30,15 @@ export class SignupComponent implements OnInit  {
   }
   ngOnInit(): void {
     if(this.authService.getToken()){
-      this.router.navigate([""])
+			let user = this.authService.getUser();
+			let role = user.role;
+      if(role === 'su' || role === 'hr'){
+        this.router.navigate(["admin"]);
+      }else if(role === 'ap'){
+        this.router.navigate(["applicant"]);
+      }else if(role === 'ev'){
+        this.router.navigate(["evaluator"]);
+      }
     }
   }
   signup(): void {

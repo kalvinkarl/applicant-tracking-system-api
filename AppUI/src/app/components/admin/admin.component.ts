@@ -1,5 +1,9 @@
+import { BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-admin',
@@ -7,20 +11,23 @@ import { UserService } from 'src/app/services/user.service';
 	styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-
+	isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+		map(result => result.matches),
+		shareReplay()
+	);
+	username!: string;
 	message!: string;
-	constructor(private userService: UserService) { }
-
+	constructor(private breakpointObserver: BreakpointObserver,private userService: UserService,private authService: AuthService) { }
 	ngOnInit(): void {
-		this.userService.findByUsername("kissmemor08")
-		.subscribe({
-			next: res =>{
-				this.message = `${res.username},${res.email},${res.accessLevel},${res.password}`;
-			},
-			error: err => {
-				this.message = err.error.message
-			}
-		})
+		if(this.authService.getToken()){
+			let user = this.authService.getUser();
+			let role = user.role;
+			this.username = user.username.charAt(0).toUpperCase() + user.username.slice(1);
+		}
+	}
+	logout(): void {
+		this.authService.signOut();
+		window.location.reload();
 	}
 
 }

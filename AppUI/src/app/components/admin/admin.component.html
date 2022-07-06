@@ -1,2 +1,65 @@
-<p>admin works!</p>
-<p>{{message}}</p>
+<mat-sidenav-container class="sidenav-container">
+	<mat-sidenav
+	#drawer
+	class="sidenav mat-elevation-z5"
+	fixedInViewport="false"
+	[ngClass]="{hidden: !(isHandset$ | async)}"
+	[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+	[mode]="(isHandset$ | async) ? 'over' : 'side'"
+	[opened]="(isHandset$ | async) === false">
+		<mat-toolbar>Menu</mat-toolbar>
+		<mat-nav-list>
+			<a mat-list-item routerLink="/admin" (click)="drawer.toggle()">Home</a>
+			<a mat-list-item routerLink="/admin" (click)="drawer.toggle()">Admin</a>
+			<a mat-list-item routerLink="/user" (click)="drawer.toggle()">Applicant</a>
+			<a mat-list-item routerLink="/evaluate" (click)="drawer.toggle()">Evaluator</a>
+		</mat-nav-list>
+		<mat-divider></mat-divider>
+		<mat-nav-list>
+			<a mat-list-item routerLink="/profile" (click)="drawer.toggle()">Profile</a>
+			<a mat-list-item (click)="logout()">Log Out</a>
+		</mat-nav-list>
+	</mat-sidenav>
+	<mat-sidenav-content>
+		<mat-toolbar color="primary" class="mat-elevation-z5">
+			<button
+			type="button"
+			aria-label="Toggle sidenav"
+			mat-icon-button
+			(click)="drawer.toggle()"
+			*ngIf="isHandset$ | async">
+			<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+			</button>
+			<span class="toolbar-title" mat-button *ngIf="(isHandset$ | async)">
+				DENR JOBS
+			</span>
+			<span>
+				<a mat-button routerLink="/" *ngIf="!(isHandset$ | async)">
+					<mat-icon class="icon-display">
+						home
+					</mat-icon>
+					DENR JOBS 
+				</a>
+				<span *ngIf="!(isHandset$ | async)">
+					<a mat-button routerLinkActive="active-link" routerLink="/admin/applicants">
+						Applicants
+					</a>
+					<a mat-button routerLinkActive="active-link" routerLink="/admin/general">
+						General List
+					</a>
+				</span>
+			</span>
+			<span *ngIf="!(isHandset$ | async)">
+				<a mat-button routerLinkActive="active-link" routerLink="/profile">
+					{{username}}
+				</a>
+				<a mat-button routerLinkActive="active-link" (click)="logout()">
+					Log Out
+				</a>
+			</span>
+		</mat-toolbar>
+		<div class="container">
+			<router-outlet></router-outlet>
+		</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>

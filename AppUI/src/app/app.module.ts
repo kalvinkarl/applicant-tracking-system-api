@@ -17,15 +17,18 @@ import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { HomeComponent } from './components/home/home.component';
-import { SigninComponent } from './components/signin/signin.component';
-import { SignupComponent } from './components/signup/signup.component';
+import { SigninComponent } from './components/home/signin/signin.component';
+import { SignupComponent } from './components/home/signup/signup.component';
 import { VerifyComponent } from './components/verify/verify.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ApplicantComponent } from './components/applicant/applicant.component';
 import { EvaluatorComponent } from './components/evaluator/evaluator.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileComponent } from './components/admin/profile/profile.component';
+import { ApplicantsComponent } from './components/admin/applicants/applicants.component';
+import { GeneralComponent } from './components/admin/general/general.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     ApplicantComponent,
     EvaluatorComponent,
     ProfileComponent,
+    ApplicantsComponent,
+    GeneralComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +53,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     MatInputModule,
     MatListModule,
     MatToolbarModule,
+    MatSidenavModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
