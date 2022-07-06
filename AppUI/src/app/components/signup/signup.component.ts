@@ -17,7 +17,7 @@ export class SignupComponent implements OnInit  {
   progress = false;
   hidePa = true;
   hideRe = true;
-  emailDomain = "https://";
+  emailDomain!: string;
   customErrorStateMatcher = new CustomErrorStateMatcher;
   constructor(private userService: UserService,private authService: AuthService,private router: Router) {
     this.signupForm = new FormGroup({
@@ -25,7 +25,7 @@ export class SignupComponent implements OnInit  {
       email: new FormControl('', [Validators.required, Validators.email]),
       password:  new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
       passwordConfirm:  new FormControl('', [Validators.required, Validators.minLength(7)]),
-      accessLevel: new FormControl('hr')
+      accessLevel: new FormControl('ap')
     });
   }
   ngOnInit(): void {
@@ -58,7 +58,7 @@ export class SignupComponent implements OnInit  {
           }
         },
         next: (res) => {
-          this.emailDomain += this.signupForm.value.email.substring(this.signupForm.value.email.lastIndexOf("@") +1);
+          this.emailDomain = "https://" + this.signupForm.value.email.substring(this.signupForm.value.email.lastIndexOf("@") +1);
           this.confirming = true;
           this.progress = false;
         }

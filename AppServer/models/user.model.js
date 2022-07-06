@@ -16,7 +16,7 @@ User.create = (newUser, result) => {
 	});
 }
 User.findByUsername = (username, result) => {
-	sql.query("SELECT * FROM users WHERE Username = ?", username , (err, res) => {
+	sql.query("SELECT * FROM users WHERE username = ?", username , (err, res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {
@@ -27,7 +27,7 @@ User.findByUsername = (username, result) => {
 	});
 }
 User.findByEmail = (email, result) => {
-	sql.query("SELECT * FROM users WHERE Email = ?", email , (err, res) => {
+	sql.query("SELECT * FROM users WHERE email = ?", email , (err, res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {
@@ -38,7 +38,7 @@ User.findByEmail = (email, result) => {
 	});
 }
 User.deleteById = (id, result) => {
-	sql.query("DELETE FROM users WHERE ID = ?", id , (err, res) => {
+	sql.query("DELETE FROM users WHERE id = ?", id , (err, res) => {
 		if(err){
 			result(err)
 		}else if(res.affectedRows == 0){
@@ -49,7 +49,7 @@ User.deleteById = (id, result) => {
 	}) 
 }
 User.updateVerified = (id, value, result) => {
-	sql.query("UPDATE users SET Verified = ? WHERE ID = ?", [value, id], (err,res) => {
+	sql.query("UPDATE users SET verified = ? WHERE id = ?", [value, id], (err,res) => {
 		if(err){
 			result(err)
 		}else if(res.affectedRows == 0){

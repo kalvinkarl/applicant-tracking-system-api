@@ -12,10 +12,13 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SigninComponent implements OnInit {
   signinForm: FormGroup;
+  resend: boolean = false;
+  resendingFailed: boolean = false;
   progress: boolean = false;
   hidePass: boolean = true;
   unverified: boolean = false;
   unverifiedEmail!: string;
+  emailDomain!: string;
   customErrorStateMatcher = new CustomErrorStateMatcher;
   constructor(private userService: UserService, private authService: AuthService, private router: Router) {
     this.signinForm = new FormGroup({
@@ -35,7 +38,6 @@ export class SigninComponent implements OnInit {
       this.userService.signin(this.signinForm.value)
       .subscribe({
         next: res => {
-          console.log(res);
           this.authService.saveToken(res.token);
           this.authService.saveUser(res);
           window.location.reload();
@@ -48,7 +50,8 @@ export class SigninComponent implements OnInit {
             this.signinForm.controls['password'].setErrors({incorrect:true});
           }
           if(err.status === 403){
-            this.unverifiedEmail=err.error.email;
+            this.unverifiedEmail = err.error.email;
+            this.emailDomain = "https://" + this.unverifiedEmail.substring(this.unverifiedEmail.lastIndexOf("@") +1);
             this.unverified=true;
           }
         }
@@ -56,14 +59,21 @@ export class SigninComponent implements OnInit {
     }
   }
   resendVerification():void {
+    this.progress = true;
     if(this.unverified){
       this.userService.resendVerification({unverifiedEmail: this.unverifiedEmail})
       .subscribe({
         next: res => {
-          console.log(res);
+          this.emailDomain = "https://" + this.unverifiedEmail.substring(this.unverifiedEmail.lastIndexOf("@") +1);
+          this.resend = true;
+          this.progress = false;
         },
         error: err => {
-          console.log(err);
+          if(err.status === 406){
+            this.resendingFailed = true;
+            this.resend = true;
+            this.progress = false;
+          }
         }
       })
     }

@@ -49,14 +49,13 @@ exports.create = (req, res) => {
 			});
 	}
 	// Checking if user already exists
-	User.findByUsername(req.body.username, async (usernameError,Udata) => {
-		User.findByEmail(req.body.email, (mailError,Edata) => {
-			if((!mailError && !usernameError) && (Udata.ID === Edata.ID)){
+	User.findByUsername(req.body.username, async (usernameError,udata) => {
+		User.findByEmail(req.body.email, (mailError,edata) => {
+			if((!mailError && !usernameError) && (udata.id === edata.id)){
 				res.status(409).send({
 					title: "Exist",
 					message: "User is already exist, please login using your username " + req.body.username
 				});
-
 			} else if(!usernameError) {
 				res.status(409).send({
 					title: "Username",
@@ -102,13 +101,6 @@ const userLogin = (user, req, res, err) => {
 			if(!user.verified){
 				res.status(403).send({message: "Email hasn't been verified yet.", email: user.email})
 			}else{
-				console.log({ 
-					id: user.id,
-					username: user.username,
-					email: user.email,
-					role: user.accessLevel,
-					token: token
-				})
 				let token = jwt.sign({
 					id: user.id
 				},config.secret,{expiresIn: 86400});
@@ -141,37 +133,39 @@ exports.login = (req, res) => {
 			message: "Content can not be empty!"
 		})
 	}
-	if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.username)) {
-		// Login using username
-		User.findByUsername(req.body.username.trim(), (error, result) => {
-			userLogin(result, req, res, error)
-		})
-    } else {
+	if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.username)) {
 		// Login using email address
 		User.findByEmail(req.body.username.trim(), (error, result) => {
 			userLogin(result, req, res, error)
 		})
+    } else {
+		// Login using username
+		User.findByUsername(req.body.username.trim(), (error, result) => {
+			userLogin(result, req, res, error)
+		})
 	}
 }
-// Resend verification if verify is less than 5
+// Resend verification if verify is less than 3
 exports.resendVerification = (req, res) =>{
 	User.findByEmail(req.body.unverifiedEmail, (error, result)=>{
 		if(!error){
-			console.log(result);
 			UserVerification.findById(result.id, (errr,ress)=>{
 				if(!errr){
-					if(ress.length >= 5){
-						if(ress[0].ExpiresAt > Date.now()){
-							res.status(406).send({ message: "Too many email verification found. Please wait for the last one to expire and try come again." })
+					if(ress.length < 3){
+						sendVerification(result,res);
+					}else{
+						if(ress[0].expiresAt < Date.now()){
+							UserVerification.deleteById(result.id,(err) => {
+								if(!err){
+									sendVerification(result,res);
+								}else{
+									res.status(500).send({ message: "An error occured while deleting verification" })
+								}
+							})
+						} else {
+							res.status(406).send({ message: "Too many email verification found. Please wait for the 6 hours and try come again." })
 						}
 					}
-					UserVerification.deleteById(result.id,(err) => {
-						if(!err){
-							sendVerification(result,res);
-						}else{
-							res.status(500).send({ message: "An error occured while deleting verification" })
-						}
-					})
 				}else if(errr === "NOT_FOUND"){
 					sendVerification(result,res);
 				}else{

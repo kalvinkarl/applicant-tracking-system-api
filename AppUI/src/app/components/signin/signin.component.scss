@@ -3,8 +3,24 @@ form {
     flex-direction: column;
     padding-top: 22px;
 }
+div{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    cursor: pointer;
+}
 mat-form-field{
     width: 100%;
+}
+mat-card-content{
+    p {
+        display: flex;
+        flex-direction: column;
+        padding-top: 22px;
+    }
 }
 mat-card-actions{
     display: flex;
@@ -15,10 +31,4 @@ mat-card-actions{
         width: 200px;
         float: right;
     }
-}
-a{
-    text-decoration: none;
-}
-a:hover{
-    cursor: pointer;
 }

@@ -8,7 +8,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./verify.component.scss']
 })
 export class VerifyComponent implements OnInit {
-  verifyMessage: String = new String()
+  verifyMessage!: String;
   constructor( private userService: UserService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -16,14 +16,14 @@ export class VerifyComponent implements OnInit {
     const uniqueString = this.route.snapshot.paramMap.get('uniqueString');
     this.userService.verify(userId,uniqueString).subscribe({
       next: res => {
-        console.log(res)
         this.verifyMessage = res.message;
       },
       error: err => {
         if(err.status === 401){
           this.verifyMessage = err.error.message;
-        }
-        else{
+        }else if(err.status === 404){
+          this.verifyMessage = err.error.message;
+        }else{
           this.router.navigate(['']);
         }
       }
