@@ -10,6 +10,7 @@ AppServer/config/*
 
 # Node
 /AppServer/node_modules
+/AppUI/node_modules
 npm-debug.log
 yarn-error.log
 
