@@ -9,7 +9,7 @@ AppServer/config/*
 /bazel-out
 
 # Node
-/node_modules
+/AppServer/node_modules
 npm-debug.log
 yarn-error.log
 
