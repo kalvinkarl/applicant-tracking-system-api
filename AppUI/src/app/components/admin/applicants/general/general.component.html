@@ -1,27 +1,28 @@
-<mat-card>
+<mat-card class="mat-elevation-z8">
 	<mat-card-header>
-		<mat-card-title> Applicants </mat-card-title>
-	</mat-card-header>
-	<mat-divider></mat-divider>
+		<mat-card-title> General list </mat-card-title>
+	</mat-card-header>	
 	<mat-card-content>
 		<div class="search-div">
 			<mat-form-field appearance="standard">
 				<mat-label>Search</mat-label>
-				<!-- (keyup)="applyFilter($event)" -->
 				<input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
 				<button mat-button matSuffix mat-icon-button aria-label="Clear">
 					<mat-icon>close</mat-icon>
 				</button>
 			</mat-form-field>
+			<button mat-raised-button>
+				<mat-icon>add</mat-icon>Export
+			</button>
 		</div>
-		<div class="mat-elevation-z8">
+		<div class="mat-elevation-z3">
 			<table mat-table [dataSource]="dataSource" matSort>
 				<!-- Name Column -->
 				<ng-container matColumnDef="Name">
 					<th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
 					<td mat-cell *matCellDef="let row"> {{row.firstname+" "+row.middlename[0]+". "+row.lastname}} </td>
 				</ng-container>
-			
+
 				<!-- Gender Column -->
 				<ng-container matColumnDef="Gender">
 					<th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
@@ -43,9 +44,9 @@
 				<!-- actions -->
 				<ng-container matColumnDef="actions">
 					<th mat-header-cell *matHeaderCellDef></th>
-					<td mat-cell *matCellDef="let row" >
+					<td mat-cell *matCellDef="let row">
 						<div class="actions">
-							<button mat-icon-button (click)="onEdit(row)"><mat-icon>launch</mat-icon></button>
+							<button mat-icon-button  (click)="onManage(row)"><mat-icon>launch</mat-icon></button>
 							<button mat-icon-button color="warm" (click)="onDelete(row)"><mat-icon>delete_outline</mat-icon></button>
 						</div>
 					</td>

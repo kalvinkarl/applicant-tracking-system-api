@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require("../config/config.json");
-
+const User = require("../models/user.model");
 exports.verifyToken = (req, res, next) => {
 	let authHeader = req.get('Authorization');
 	if (!authHeader) {
@@ -11,25 +11,73 @@ exports.verifyToken = (req, res, next) => {
 			if (err) {
 				res.status(401).send({ message: "Unauthorized!" });
 			}else{
-				req.userId = decoded.id;
+				req.id = decoded.id;
 				next();
 			}
 		});
 	}
 }
-// exports.isAdmin = (req, res, next) => {
-// 	User.findByPk(req.userId).then(user => {
-// 	  user.getRoles().then(roles => {
-// 		for (let i = 0; i < roles.length; i++) {
-// 			if (roles[i].name === "admin") {
-// 			next();
-// 			return;
-// 			}
-// 		}
-// 		res.status(403).send({
-// 		  	message: "Require Admin Role!"
-// 		});
-// 			return;
-// 	  	});
-// 	});
-// };
+exports.isSuperUser = (req, res, next) => {
+	User.findById(req.id, (err,user)=>{
+		if(!err){
+			if (user.accessLevel === "su") {
+				next();
+			}else{
+				res.status(403).send({
+					message:"Contact Kalvin Karl C. Nonato",
+					number: "+639984283333",
+					facebook: "https://facebook.com/kalvinkarl28"
+				});
+			}
+		}else if("NOT_FOUND"){
+			res.status(404).send({ message: "User not found" });
+		}else{
+			res.status(500).send({ message: "Error retrieving user in database" });
+		}
+	})
+};
+exports.isAdmin = (req, res, next) => {
+	User.findById(req.id, (err,user)=>{
+		if(!err){
+			if (user.accessLevel === "hr" || user.accessLevel === "su") {
+				next();
+			}else{
+				res.status(403).send({ message: "Require Admin Role!" });
+			}
+		}else if("NOT_FOUND"){
+			res.status(404).send({ message: "User not found" });
+		}else{
+			res.status(500).send({ message: "Error retrieving user in database" });
+		}
+	})
+};
+exports.isApplicant = (req, res, next) => {
+	User.findById(req.id, (err,user)=>{
+		if(!err){
+			if (user.accessLevel === "ap" || user.accessLevel === "su") {
+				next();
+			}else{
+				res.status(403).send({ message: "Requires Applicant Role!" });
+			}
+		}else if("NOT_FOUND"){
+			res.status(404).send({ message: "User not found" });
+		}else{
+			res.status(500).send({ message: "Error retrieving user in database" });
+		}
+	})
+};
+exports.isEvaluator = (req, res, next) => {
+	User.findById(req.id, (err,user)=>{
+		if(!err){
+			if (user.accessLevel === "ev" || user.accessLevel === "su") {
+				next();
+			}else{
+				res.status(403).send({ message: "Requires Evaluator Role!" });
+			}
+		}else if("NOT_FOUND"){
+			res.status(404).send({ message: "User not found" });
+		}else{
+			res.status(500).send({ message: "Error retrieving user in database" });
+		}
+	})
+};

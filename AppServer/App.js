@@ -15,8 +15,13 @@ app.use( (req, res, next) => {
   next();
 })
 app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
+
+
 //Users
-require("./routes/user.routes.js")(app);
+require("./routes/user.routes")(app);
+//Admin
+require("./routes/admin/applicant.routes")(app);
+
 
 app.get("*", (req, res) => res.json({ error: "page not found" }));
 

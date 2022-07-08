@@ -15,6 +15,17 @@ User.create = (newUser, result) => {
 		}
 	});
 }
+User.findById = (id, result) => {
+	sql.query("SELECT * FROM users WHERE id = ?", id , (err, res) => {
+		if (err) {
+			result(err);
+		} else if(!res.length) {
+			result("NOT_FOUND");
+		} else {
+			result(null, res[0]);
+		}
+	});
+}
 User.findByUsername = (username, result) => {
 	sql.query("SELECT * FROM users WHERE username = ?", username , (err, res) => {
 		if (err) {

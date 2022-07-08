@@ -8,6 +8,5 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 	title = "DENR-HR Applicant Management Web Application"
 	constructor(){ }
-	ngOnInit(): void {
-	}
+	ngOnInit(): void { }
 }

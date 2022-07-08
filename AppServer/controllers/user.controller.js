@@ -1,13 +1,27 @@
 const User = require("../models/user.model");
 const UserVerification = require("../models/user.verification.model");
-
 const config = require("../config/config.json");
-const transporter = require("../utils/mailer");
-
 const jwt = require('jsonwebtoken');
 const Bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require('uuid');
 
+const nodemailer = require('nodemailer');
+// Create transporter to nodemailer
+const transporter = nodemailer.createTransport({
+	service: "gmail",
+	auth: {
+		user: config.email.AUTH_EMAIL,
+		pass: config.email.AUTH_PASS
+	}
+})
+// Verify the transporter
+transporter.verify((error,success) => {
+	if(error){
+		console.log(error);
+	}else{
+		console.log("Nodemailer email status:"+success);
+	}
+})
 // Send verification
 const sendVerification = (user,res) => {
 	//url to be used in email

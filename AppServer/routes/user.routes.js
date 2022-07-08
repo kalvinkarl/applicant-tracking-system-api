@@ -16,20 +16,6 @@ module.exports = app => {
 	router.get("/u/:username",[auth.verifyToken], users.findByUsername);
 	// Retrieve a single User with their email address
 	router.get("/e/:email",[auth.verifyToken], users.findByEmail);
-
-	// Retrieve all Users
-	// router.get("/", users.findAll);
-
-	// // Retrieve all published Users
-	// router.get("/published", users.findAllPublished);
-
-	// // Update a User with id
-	// router.put("/:ID", users.update);
-
-	// // Delete a User with id
-	// router.delete("/:ID", users.delete);
-
-	// // Delete all Users
-	// router.delete("/", users.deleteAll);
+	
 	app.use('/api/users', router);
 };

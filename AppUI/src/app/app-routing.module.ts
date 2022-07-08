@@ -10,7 +10,7 @@ import { ApplicantComponent } from './components/applicant/applicant.component';
 import { EvaluatorComponent } from './components/evaluator/evaluator.component';
 import { ProfileComponent } from './components/admin/profile/profile.component';
 import { ApplicantsComponent } from './components/admin/applicants/applicants.component';
-import { GeneralComponent } from './components/admin/general/general.component';
+import { GeneralComponent } from './components/admin/applicants/general/general.component';
 import { AuthGuard } from './services/auth.guard';
 import { RoleGuard } from './services/role.guard';
 
@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent, 
     children: [
       { path: "applicants", component: ApplicantsComponent },
-      { path: "general", component: GeneralComponent },
+      { path: "applicants/general", component: GeneralComponent },
       { path: 'profile', component: ProfileComponent},
     ], canActivate: [RoleGuard, AuthGuard] },
   { path: 'user', component: ApplicantComponent, canActivate: [RoleGuard, AuthGuard] },

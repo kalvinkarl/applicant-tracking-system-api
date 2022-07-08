@@ -20,6 +20,13 @@
 	top: 0;
 	z-index: 1;
 }
+.app-title{
+	h1{
+		background: #3f51b5;
+		color: white;
+		padding: 25px;
+	}
+}
 mat-toolbar{
 	display: flex;
 	justify-content: space-between;
