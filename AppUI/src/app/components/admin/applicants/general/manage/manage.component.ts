@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Applicants } from 'src/app/models/admin/applicants';
@@ -11,9 +11,9 @@ import { Applicants } from 'src/app/models/admin/applicants';
 export class ManageComponent implements OnInit {
   applicantForm!: FormGroup;
   applicant!: Applicants;
-  constructor(private dialogRef:MatDialogRef<ManageComponent>) {
-    this.applicant = new FormGroup({
-      applicantId: new FormControl('',Validators.required),
+  constructor(private dialogRef: MatDialogRef<ManageComponent>) {
+    this.applicantForm = new FormGroup({
+      applicantId: new FormControl('1',Validators.required),
       eligibility: new FormControl('',Validators.required),
       salaryGrade: new FormControl('',Validators.required),
       placeOfAssignment: new FormControl('',Validators.required),
@@ -28,7 +28,8 @@ export class ManageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onClose(){
-    this.dialogRef.close()
+  saveClick(){
+    console.log("saved");
+    this.dialogRef.close();
   }
 }

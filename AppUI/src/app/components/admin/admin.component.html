@@ -33,7 +33,7 @@
 				DENR JOBS
 			</span>
 			<span>
-				<a mat-button routerLink="/" *ngIf="!(isHandset$ | async)">
+				<a mat-button routerLink="/admin" *ngIf="!(isHandset$ | async)">
 					<mat-icon class="icon-display">
 						home
 					</mat-icon>
@@ -56,11 +56,6 @@
 				</a>
 			</span>
 		</mat-toolbar>
-		<div class="app-title">
-			<h1> Home </h1>
-		</div>
-		<div class="container">
-			<router-outlet></router-outlet>
-		</div>
+		<router-outlet></router-outlet>
 	</mat-sidenav-content>
 </mat-sidenav-container>

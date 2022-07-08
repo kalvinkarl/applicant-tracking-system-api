@@ -34,6 +34,18 @@ Applicant.findGeneral = (result) => {
 		}
 	})
 }
+
+Applicant.findById = (id, result) => {
+	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicant WHERE applicant_id = ?", id, (err,res) => {
+		if (err) {
+			result(err);
+		} else if(!res.length) {
+			result("NOT_FOUND");
+		} else {
+			result(null, res[0]);
+		}
+	})
+}
 module.exports = Applicant;
 // User.findByEmail = (email, result) => {
 // 	sql.query("SELECT * FROM users WHERE email = ?", email , (err, res) => {

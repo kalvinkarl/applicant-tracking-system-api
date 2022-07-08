@@ -1,4 +1,7 @@
 const applicant = require("../../controllers/admin/applicant.controller");
+const training = require("../../controllers/admin/training.controller");
+const experience = require("../../controllers/admin/experience.controller");
+const generalEvaluation = require("../../controllers/admin/generalEvaluation.controller");
 const auth = require("../../middleware/auth");
 const express = require("express");
 const router = express.Router();
@@ -9,6 +12,14 @@ module.exports = app => {
 	// Retrieve all applicants
 	router.get("/general",[auth.verifyToken, auth.isAdmin], applicant.findGeneral);
 
+	// Create new training
+	router.post("/general/evaluation/training",[auth.verifyToken, auth.isAdmin], training.create);
+
+	// Create new experience
+	router.post("/general/evaluation/experience",[auth.verifyToken, auth.isAdmin], experience.create);
+	
+	// Create new general evaluation
+	router.post("/general/evaluation",[auth.verifyToken, auth.isAdmin], generalEvaluation.create);
 	// // Create a new user
 	// router.post("/signup", users.create);
 	// // Login a user

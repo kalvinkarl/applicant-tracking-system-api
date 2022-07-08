@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -21,7 +21,7 @@ export class GeneralComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private applicantsService: ApplicantsService) {
+  constructor(public dialog: MatDialog, private applicantsService: ApplicantsService) {
     this.applicantsService.findGeneral().subscribe({
       next: res => {
         this.applicants = res;
@@ -29,18 +29,34 @@ export class GeneralComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },error: err => {
-
+        console.log(err)
       }
     })
   }
   ngOnInit(): void { }
 
   onManage(applicant: Applicants){
-    
-    this.dialog.open(ManageComponent);
-    // const dialogRef = this.dialog.open(ManageComponent);
+    // this.dialog.open(ManageComponent);
+    const dialogRef = this.dialog.open(ManageComponent,{
+      width: '90vw', //sets width of dialog
+      // height:'70vh', //sets width of dialog
+      maxWidth: '100vw', //overrides default width of dialog
+      // maxHeight: '100vh', //overrides default height of dialog
+      disableClose: true //disables closing on clicking outside box. You will need to make a dedicated button to close
+    });
+    // dialogRef.componentInstance.onSave.subscribe((res)=>{
+    //   if(res){
+    //     console.log(res);
+    //     dialogRef.close();
+    //   }else{
+    //     dialogRef.close();
+    //   }
+    // });
+    dialogRef.componentInstance.applicant = applicant;
     // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(`Dialog result: ${result}`);
+    //   if(result){
+    //     console.log(result);
+    //   }
     // });
   }
 

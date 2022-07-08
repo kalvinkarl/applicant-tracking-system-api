@@ -7,7 +7,7 @@ const UserVerification = function(userVerification){
 	this.expiresAt = userVerification.expiresAt;
 }
 UserVerification.create = (newUserVerification, result) => {
-	sql.query("INSERT INTO userverification SET ?", newUserVerification, (err, res) => {
+	sql.query("INSERT INTO userverifications SET ?", newUserVerification, (err, res) => {
 		if (err) {
 			result(err)
 		} else {
@@ -16,7 +16,7 @@ UserVerification.create = (newUserVerification, result) => {
 	})
 }
 UserVerification.findById = (id,result) => {
-	sql.query("SELECT * FROM userverification WHERE userId = ? ORDER BY createdAt DESC", id , (err,res)=>{
+	sql.query("SELECT * FROM userverifications WHERE userId = ? ORDER BY createdAt DESC", id , (err,res)=>{
 		if(err){
 			result(err)
 		} else if(!res.length) {
@@ -27,7 +27,7 @@ UserVerification.findById = (id,result) => {
 	})
 }
 UserVerification.deleteById = (id,result) => {
-	sql.query("DELETE FROM userverification WHERE userID = ?", id , (err, res) => {
+	sql.query("DELETE FROM userverifications WHERE userID = ?", id , (err, res) => {
 		if(err){
 			result(err)
 		} else if (res.affectedRows == 0){
