@@ -17,16 +17,14 @@ export class HomeComponent implements OnInit {
 	);
 	constructor(private breakpointObserver: BreakpointObserver,private authService: AuthService, private router: Router) { }
 	ngOnInit(): void {
-		
 		if(this.authService.getToken()){
 			let user = this.authService.getUser();
-			let role = user.role;
-			if(role === 'su' || role === 'hr'){
+			if(user.role === 'su' || user.role === 'hr'){
 				this.router.navigate(["admin"]);
-			}else if(role === 'ap'){
-				this.router.navigate(["applicant"]);
-			}else if(role === 'ev'){
-				this.router.navigate(["evaluator"]);
+			}else if(user.role === 'ap'){
+				this.router.navigate(["user"]);
+			}else if(user.role === 'ev'){
+				this.router.navigate(["evaluate"]);
 			}
     	}
 	}

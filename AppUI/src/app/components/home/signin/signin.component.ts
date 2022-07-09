@@ -33,9 +33,9 @@ export class SigninComponent implements OnInit {
       if(role === 'su' || role === 'hr'){
         this.router.navigate(["admin"]);
       }else if(role === 'ap'){
-        this.router.navigate(["applicant"]);
+        this.router.navigate(["user"]);
       }else if(role === 'ev'){
-        this.router.navigate(["evaluator"]);
+        this.router.navigate(["evaluate"]);
       }
     }
   }
