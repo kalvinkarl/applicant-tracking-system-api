@@ -7,83 +7,73 @@
 			<mat-grid-tile>
 				<mat-form-field appearance="fill">
 					<mat-label>Salary grade</mat-label>
-						<input matInput formControlName="eligibility" placeholder="Placeholder">
-					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-						Username is <strong>required</strong>
+						<input matInput formControlName="salaryGrade">
+					<mat-error *ngIf="applicantForm.controls['salaryGrade'].hasError('required')">
+						Salary grade is <strong>required</strong>
 					</mat-error>
 				</mat-form-field>
 			</mat-grid-tile>
 			<mat-grid-tile>
 				<mat-form-field appearance="fill">
 					<mat-label>Place of assignment</mat-label>
-						<input matInput formControlName="eligibility" placeholder="Placeholder">
-					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-						Username is <strong>required</strong>
+						<input matInput formControlName="placeOfAssignment">
+					<mat-error *ngIf="applicantForm.controls['placeOfAssignment'].hasError('required')">
+						Place of assignment is <strong>required</strong>
 					</mat-error>
 				</mat-form-field>
 			</mat-grid-tile>
 			<mat-grid-tile>
 				<mat-form-field appearance="fill">
 					<mat-label>Status of appointment</mat-label>
-						<input matInput formControlName="eligibility" placeholder="Placeholder">
-					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-						Username is <strong>required</strong>
+						<input matInput formControlName="statusOfAppointment">
+					<mat-error *ngIf="applicantForm.controls['statusOfAppointment'].hasError('required')">
+						Status of appointment is <strong>required</strong>
 					</mat-error>
 				</mat-form-field>
 			</mat-grid-tile>
-		</mat-grid-list>
-
-		<mat-grid-list cols="3" rowHeight="150px" gutterSize="10px">
 			<mat-grid-tile>
-				<div>
-					<mat-form-field appearance="fill" class="date-of-promotion">
-						<mat-label>Date of last promotion</mat-label>
-							<input matInput formControlName="eligibility" placeholder="Placeholder">
-						<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-							Username is <strong>required</strong>
-						</mat-error>
-					</mat-form-field>
-				</div>
-				<div>
-					<mat-form-field appearance="fill" class="" class="latest-ipcr">
-						<mat-label>Latest IPCR rating</mat-label>
-							<input matInput formControlName="eligibility" placeholder="Placeholder">
-						<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-							Username is <strong>required</strong>
-						</mat-error>
-					</mat-form-field>	
-				</div>
+				<mat-form-field appearance="fill">
+					<mat-label>Date of last promotion</mat-label>
+					<input matInput [matDatepicker]="picker" formControlName="dateOfLastPromotion">
+					<mat-hint>MM/DD/YYYY</mat-hint>
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+					<mat-error *ngIf="applicantForm.controls['dateOfLastPromotion'].hasError('required')">
+						Date of last promotion is <strong>required</strong>
+					</mat-error>
+				</mat-form-field>
 			</mat-grid-tile>
-			<mat-grid-tile>
-
+			<mat-grid-tile rowspan="2">
 				<mat-form-field appearance="fill">
 					<mat-label>Eligibility</mat-label>
 					<textarea matInput formControlName="eligibility"></textarea>
 					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-						Username is <strong>required</strong>
+						Eligibility is <strong>required</strong>
 					</mat-error>
 				</mat-form-field>
-
 			</mat-grid-tile>
-			<mat-grid-tile>
-
+			<mat-grid-tile rowspan="2">
 				<mat-form-field appearance="fill">
 					<mat-label>Educational attainment</mat-label>
-					<textarea matInput formControlName="eligibility"></textarea>
-					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-						Username is <strong>required</strong>
+					<textarea matInput formControlName="educationalAttainment"></textarea>
+					<mat-error *ngIf="applicantForm.controls['educationalAttainment'].hasError('required')">
+						Educational attainment is <strong>required</strong>
 					</mat-error>
 				</mat-form-field>
-
+			</mat-grid-tile>
+			<mat-grid-tile>
+				<mat-form-field appearance="fill">
+					<mat-label>Latest IPCR rating</mat-label>
+						<input matInput formControlName="latestIpcrRating">
+					<mat-error *ngIf="applicantForm.controls['latestIpcrRating'].hasError('required')">
+						Latest IPCR rating is <strong>required</strong>
+					</mat-error>
+				</mat-form-field>
 			</mat-grid-tile>
 		</mat-grid-list>
-
-
-
-
-
-
+		
  	</form>
+
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
