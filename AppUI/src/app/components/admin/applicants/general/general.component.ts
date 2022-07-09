@@ -38,10 +38,10 @@ export class GeneralComponent implements OnInit {
   onManage(applicant: Applicants){
     // this.dialog.open(ManageComponent);
     const dialogRef = this.dialog.open(ManageComponent,{
-      width: '90vw', //sets width of dialog
-      // height:'70vh', //sets width of dialog
+      width: '95vw', //sets width of dialog
+      height:'95vh', //sets width of dialog
       maxWidth: '100vw', //overrides default width of dialog
-      // maxHeight: '100vh', //overrides default height of dialog
+      maxHeight: '100vh', //overrides default height of dialog
       disableClose: true //disables closing on clicking outside box. You will need to make a dedicated button to close
     });
     // dialogRef.componentInstance.onSave.subscribe((res)=>{

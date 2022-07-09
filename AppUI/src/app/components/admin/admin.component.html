@@ -40,9 +40,9 @@
 					DENR JOBS 
 				</a>
 				<span *ngIf="!(isHandset$ | async)">
-					<a mat-button [matMenuTriggerFor]="menu"> Applicants </a>
+					<a mat-button [matMenuTriggerFor]="menu"> Menu </a>
 					<mat-menu #menu="matMenu">
-						<button mat-menu-item routerLink="/admin/applicants" >All</button>
+						<button mat-menu-item routerLink="/admin/applicants" >Applicants</button>
 						<button mat-menu-item routerLink="/admin/applicants/general">General List</button>
 					</mat-menu>
 				</span>
@@ -56,6 +56,11 @@
 				</a>
 			</span>
 		</mat-toolbar>
-		<router-outlet></router-outlet>
+		<div class="app-title">
+			<h1>{{title[0].toUpperCase() + title.substr(1) }}</h1>
+		</div>
+		<div class="container">
+			<router-outlet></router-outlet>
+		</div>
 	</mat-sidenav-content>
 </mat-sidenav-container>

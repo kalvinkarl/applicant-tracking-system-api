@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {A11yModule} from '@angular/cdk/a11y';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {ClipboardModule} from '@angular/cdk/clipboard';
@@ -44,14 +44,17 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { authInterceptorProviders } from './services/auth.interceptor';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+import { authInterceptorProviders } from './services/auth.interceptor';
 
 import { HomeComponent } from './components/home/home.component';
 import { SigninComponent } from './components/home/signin/signin.component';
@@ -125,9 +128,6 @@ import { EvaluatorComponent } from './components/evaluator/evaluator.component';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    OverlayModule,
-    PortalModule,
-    ScrollingModule,
     
     MatButtonModule,
     MatCardModule,
@@ -138,6 +138,10 @@ import { EvaluatorComponent } from './components/evaluator/evaluator.component';
     MatSidenavModule,
     MatTableModule,
     MatPaginatorModule,
+    OverlayModule,
+    
+    PortalModule,
+    ScrollingModule,
 
     BrowserModule,
     AppRoutingModule,

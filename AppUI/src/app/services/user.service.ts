@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { apiUrl } from 'src/environments/environment';
 import { User } from '../models/user';
 
@@ -11,7 +11,6 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class UserService {
-  isSignedIn = false;
   constructor(private http: HttpClient) { }
   //To omit only 1 field
   //Omit<User,"Username">
@@ -19,13 +18,13 @@ export class UserService {
     return this.http.post<User>(`${apiUrl}/users/signup`, data);
   }
   signin(user: User): Observable<any> {
-    return this.http.post<User>(`${apiUrl}/users/signin`,user)
-  }
-  verify(userId: any, uniqueString: any ): Observable<any> {
-    return this.http.get<User[]>(`${apiUrl}/users/verify/${userId}/${uniqueString}`)
+    return this.http.post<User>(`${apiUrl}/users/signin`,user);
   }
   resendVerification(email: any): Observable<any> {
-    return this.http.post<any>(`${apiUrl}/users/verify`, email)
+    return this.http.post<any>(`${apiUrl}/users/verify`, email);
+  }
+  verify(userId: any, uniqueString: any ): Observable<any> {
+    return this.http.get<User[]>(`${apiUrl}/users/verify/${userId}/${uniqueString}`);
   }
   //---------------------------------------SECURED--------------------------------------------------------
   findByUsername(Username: any): Observable<User> {

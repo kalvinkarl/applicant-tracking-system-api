@@ -14,13 +14,16 @@ export class ManageComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<ManageComponent>) {
     this.applicantForm = new FormGroup({
       applicantId: new FormControl('1',Validators.required),
-      eligibility: new FormControl('',Validators.required),
+
       salaryGrade: new FormControl('',Validators.required),
       placeOfAssignment: new FormControl('',Validators.required),
       statusOfAppointment: new FormControl('',Validators.required),
-      educationalAttainment: new FormControl('',Validators.required),
-      dateOfLastPromotion: new FormControl('',Validators.required),
+
       latestIpcrRating: new FormControl('',Validators.required),
+      dateOfLastPromotion: new FormControl('',Validators.required),
+      eligibility: new FormControl('',Validators.required),
+      educationalAttainment: new FormControl('',Validators.required),
+
       remarks: new FormControl('',Validators.required),
     })
   }

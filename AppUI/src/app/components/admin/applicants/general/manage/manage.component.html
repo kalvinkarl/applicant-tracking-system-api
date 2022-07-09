@@ -1,21 +1,89 @@
 <!-- <h2 mat-dialog-title>{{ applicant.firstname + " " + applicant.middlename + ". " + applicant.lastname }}</h2> -->
-<h2 mat-dialog-title>asd</h2>
+<h2 mat-dialog-title>Evaluate</h2>
+<div> name, email, age, gender </div>
 <mat-dialog-content>
+	<form [formGroup]="applicantForm" novalidate>
+		<mat-grid-list cols="3" rowHeight="80px" gutterSize="10px">
+			<mat-grid-tile>
+				<mat-form-field appearance="fill">
+					<mat-label>Salary grade</mat-label>
+						<input matInput formControlName="eligibility" placeholder="Placeholder">
+					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
+						Username is <strong>required</strong>
+					</mat-error>
+				</mat-form-field>
+			</mat-grid-tile>
+			<mat-grid-tile>
+				<mat-form-field appearance="fill">
+					<mat-label>Place of assignment</mat-label>
+						<input matInput formControlName="eligibility" placeholder="Placeholder">
+					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
+						Username is <strong>required</strong>
+					</mat-error>
+				</mat-form-field>
+			</mat-grid-tile>
+			<mat-grid-tile>
+				<mat-form-field appearance="fill">
+					<mat-label>Status of appointment</mat-label>
+						<input matInput formControlName="eligibility" placeholder="Placeholder">
+					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
+						Username is <strong>required</strong>
+					</mat-error>
+				</mat-form-field>
+			</mat-grid-tile>
+		</mat-grid-list>
+
+		<mat-grid-list cols="3" rowHeight="150px" gutterSize="10px">
+			<mat-grid-tile>
+				<div>
+					<mat-form-field appearance="fill" class="date-of-promotion">
+						<mat-label>Date of last promotion</mat-label>
+							<input matInput formControlName="eligibility" placeholder="Placeholder">
+						<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
+							Username is <strong>required</strong>
+						</mat-error>
+					</mat-form-field>
+				</div>
+				<div>
+					<mat-form-field appearance="fill" class="" class="latest-ipcr">
+						<mat-label>Latest IPCR rating</mat-label>
+							<input matInput formControlName="eligibility" placeholder="Placeholder">
+						<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
+							Username is <strong>required</strong>
+						</mat-error>
+					</mat-form-field>	
+				</div>
+			</mat-grid-tile>
+			<mat-grid-tile>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Eligibility</mat-label>
+					<textarea matInput formControlName="eligibility"></textarea>
+					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
+						Username is <strong>required</strong>
+					</mat-error>
+				</mat-form-field>
+
+			</mat-grid-tile>
+			<mat-grid-tile>
+
+				<mat-form-field appearance="fill">
+					<mat-label>Educational attainment</mat-label>
+					<textarea matInput formControlName="eligibility"></textarea>
+					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
+						Username is <strong>required</strong>
+					</mat-error>
+				</mat-form-field>
+
+			</mat-grid-tile>
+		</mat-grid-list>
 
 
-  <form [formGroup]="applicantForm" novalidate>
-		<mat-form-field appearance="fill">
-			<mat-label>Eligibility</mat-label>
-      <input matInput formControlName="eligibility" placeholder="Placeholder">
-			<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-				Username is <strong>required</strong>
-			</mat-error>
-			<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('notFound')">
-				Cannot find a user <strong>{{ this.applicantForm.value.eligibility }}</strong>
-			</mat-error>
-		</mat-form-field>
-  </form>
 
+
+
+
+ 	</form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

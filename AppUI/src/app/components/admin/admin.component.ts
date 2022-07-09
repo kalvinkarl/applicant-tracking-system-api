@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
 	selector: 'app-admin',
@@ -15,8 +16,14 @@ export class AdminComponent implements OnInit {
 		shareReplay()
 	);
 	username!: string;
-	message!: string;
-	constructor(private breakpointObserver: BreakpointObserver,private authService: AuthService) { }
+	title!: string;
+	constructor(private breakpointObserver: BreakpointObserver,private authService: AuthService, private router: Router) {
+		this.router.events.subscribe( (event) => {
+			if(event instanceof NavigationEnd){
+				this.title = event.url.split('/')[ event.url.split('/').length - 1];
+			}
+		})
+	}
 	ngOnInit(): void {
 		if(this.authService.getToken()){
 			let user = this.authService.getUser();
@@ -25,7 +32,7 @@ export class AdminComponent implements OnInit {
 	}
 	logout(): void {
 		this.authService.signOut();
-		window.location.reload();
+		this.router.navigate([""]);
 	}
-
 }
+

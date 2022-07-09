@@ -9,7 +9,7 @@ exports.verifyToken = (req, res, next) => {
 		let token = authHeader.split(' ')[1];
 		jwt.verify(token, config.secret, (err, decoded) => {
 			if (err) {
-				res.status(401).send({ message: "Unauthorized!" });
+				res.status(401).send({ message: "Unauthorized!", err });
 			}else{
 				req.id = decoded.id;
 				next();
@@ -23,11 +23,7 @@ exports.isSuperUser = (req, res, next) => {
 			if (user.accessLevel === "su") {
 				next();
 			}else{
-				res.status(403).send({
-					message:"Contact Kalvin Karl C. Nonato",
-					number: "+639984283333",
-					facebook: "https://facebook.com/kalvinkarl28"
-				});
+				res.status(403).send({ message: "Requires Super User Role!", owner:"Contact Kalvin Karl C. Nonato", number: "+639984283333", facebook: "https://facebook.com/kalvinkarl28" });
 			}
 		}else if("NOT_FOUND"){
 			res.status(404).send({ message: "User not found" });

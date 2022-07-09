@@ -12,7 +12,6 @@ import { ProfileComponent } from './components/admin/profile/profile.component';
 import { ApplicantsComponent } from './components/admin/applicants/applicants.component';
 import { GeneralComponent } from './components/admin/applicants/general/general.component';
 import { AuthGuard } from './services/auth.guard';
-import { RoleGuard } from './services/role.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent,
@@ -25,9 +24,9 @@ const routes: Routes = [
       { path: "applicants", component: ApplicantsComponent },
       { path: "applicants/general", component: GeneralComponent },
       { path: 'profile', component: ProfileComponent},
-    ], canActivate: [RoleGuard, AuthGuard] },
-  { path: 'user', component: ApplicantComponent, canActivate: [RoleGuard, AuthGuard] },
-  { path: 'evaluate', component: EvaluatorComponent, canActivate: [RoleGuard, AuthGuard] },
+    ], canActivate: [ AuthGuard ] },
+  { path: 'user', component: ApplicantComponent, canActivate: [ AuthGuard ] },
+  { path: 'evaluate', component: EvaluatorComponent, canActivate: [ AuthGuard ] },
   { path: 'user/verify/:id/:uniqueString', component: VerifyComponent },
   { path: '**', redirectTo: '' },
 ];
