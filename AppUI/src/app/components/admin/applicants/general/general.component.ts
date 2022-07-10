@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageComponent } from './manage/manage.component';
 import { ApplicantsService } from 'src/app/services/admin/applicants.service';
-import { Applicants } from 'src/app/models/admin/applicants';
+import { Applicant } from 'src/app/models/admin/applicant';
 
 @Component({
   selector: 'app-general',
@@ -14,9 +14,9 @@ import { Applicants } from 'src/app/models/admin/applicants';
 })
 export class GeneralComponent implements OnInit {
   displayedColumns: string[] = ['Name', 'Gender', 'Age', 'Contact', 'actions'];
-  dataSource!: MatTableDataSource<Applicants>;
+  dataSource!: MatTableDataSource<Applicant>;
   applicants!: any;
-  applicant!: Applicants;
+  applicant!: Applicant;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -35,29 +35,15 @@ export class GeneralComponent implements OnInit {
   }
   ngOnInit(): void { }
 
-  onManage(applicant: Applicants){
-    // this.dialog.open(ManageComponent);
+  onManage(applicant: Applicant){
     const dialogRef = this.dialog.open(ManageComponent,{
       width: '95vw', //sets width of dialog
-      height:'95vh', //sets width of dialog
+      // height:'95vh', //sets width of dialog
       maxWidth: '100vw', //overrides default width of dialog
-      maxHeight: '100vh', //overrides default height of dialog
+      // maxHeight: '100vh', //overrides default height of dialog
       disableClose: true //disables closing on clicking outside box. You will need to make a dedicated button to close
     });
-    // dialogRef.componentInstance.onSave.subscribe((res)=>{
-    //   if(res){
-    //     console.log(res);
-    //     dialogRef.close();
-    //   }else{
-    //     dialogRef.close();
-    //   }
-    // });
     dialogRef.componentInstance.applicant = applicant;
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if(result){
-    //     console.log(result);
-    //   }
-    // });
   }
 
   onEdit(user: any){

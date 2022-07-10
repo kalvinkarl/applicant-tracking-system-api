@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { apiUrl } from 'src/environments/environment';
-import { Applicants } from 'src/app/models/admin/applicants';
+import { Applicant } from 'src/app/models/admin/applicant';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,10 +13,10 @@ const httpOptions = {
 })
 export class ApplicantsService {
   constructor(private http: HttpClient) { }
-  findAll(): Observable<Applicants> {
+  findAll(): Observable<Applicant> {
     return this.http.get(`${apiUrl}/admin/applicants`, httpOptions);
   }
-  findGeneral(): Observable<Applicants> {
+  findGeneral(): Observable<Applicant> {
     return this.http.get(`${apiUrl}/admin/applicants/General`, httpOptions);
   }
 }

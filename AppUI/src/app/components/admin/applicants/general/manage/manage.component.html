@@ -1,83 +1,277 @@
-<!-- <h2 mat-dialog-title>{{ applicant.firstname + " " + applicant.middlename + ". " + applicant.lastname }}</h2> -->
-<h2 mat-dialog-title>Evaluate</h2>
-<div> name, email, age, gender </div>
+<div class="mat-dialog-header">
+	<h2 mat-dialog-title>{{ applicant.firstname + " " + applicant.middlename + " " + applicant.lastname }}</h2>
+</div>
 <mat-dialog-content>
-	<form [formGroup]="applicantForm" novalidate>
-		<mat-grid-list cols="3" rowHeight="80px" gutterSize="10px">
-			<mat-grid-tile>
-				<mat-form-field appearance="fill">
-					<mat-label>Salary grade</mat-label>
-						<input matInput formControlName="salaryGrade">
-					<mat-error *ngIf="applicantForm.controls['salaryGrade'].hasError('required')">
-						Salary grade is <strong>required</strong>
-					</mat-error>
-				</mat-form-field>
-			</mat-grid-tile>
-			<mat-grid-tile>
-				<mat-form-field appearance="fill">
-					<mat-label>Place of assignment</mat-label>
-						<input matInput formControlName="placeOfAssignment">
-					<mat-error *ngIf="applicantForm.controls['placeOfAssignment'].hasError('required')">
-						Place of assignment is <strong>required</strong>
-					</mat-error>
-				</mat-form-field>
-			</mat-grid-tile>
-			<mat-grid-tile>
-				<mat-form-field appearance="fill">
-					<mat-label>Status of appointment</mat-label>
-						<input matInput formControlName="statusOfAppointment">
-					<mat-error *ngIf="applicantForm.controls['statusOfAppointment'].hasError('required')">
-						Status of appointment is <strong>required</strong>
-					</mat-error>
-				</mat-form-field>
-			</mat-grid-tile>
-			<mat-grid-tile>
-				<mat-form-field appearance="fill">
-					<mat-label>Date of last promotion</mat-label>
-					<input matInput [matDatepicker]="picker" formControlName="dateOfLastPromotion">
-					<mat-hint>MM/DD/YYYY</mat-hint>
-					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-					<mat-datepicker #picker></mat-datepicker>
-					<mat-error *ngIf="applicantForm.controls['dateOfLastPromotion'].hasError('required')">
-						Date of last promotion is <strong>required</strong>
-					</mat-error>
-				</mat-form-field>
-			</mat-grid-tile>
-			<mat-grid-tile rowspan="2">
-				<mat-form-field appearance="fill">
-					<mat-label>Eligibility</mat-label>
-					<textarea matInput formControlName="eligibility"></textarea>
-					<mat-error *ngIf="applicantForm.controls['eligibility'].hasError('required')">
-						Eligibility is <strong>required</strong>
-					</mat-error>
-				</mat-form-field>
-			</mat-grid-tile>
-			<mat-grid-tile rowspan="2">
-				<mat-form-field appearance="fill">
-					<mat-label>Educational attainment</mat-label>
-					<textarea matInput formControlName="educationalAttainment"></textarea>
-					<mat-error *ngIf="applicantForm.controls['educationalAttainment'].hasError('required')">
-						Educational attainment is <strong>required</strong>
-					</mat-error>
-				</mat-form-field>
-			</mat-grid-tile>
-			<mat-grid-tile>
-				<mat-form-field appearance="fill">
-					<mat-label>Latest IPCR rating</mat-label>
-						<input matInput formControlName="latestIpcrRating">
-					<mat-error *ngIf="applicantForm.controls['latestIpcrRating'].hasError('required')">
-						Latest IPCR rating is <strong>required</strong>
-					</mat-error>
-				</mat-form-field>
-			</mat-grid-tile>
-		</mat-grid-list>
+	<mat-accordion>
+		<mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+			<mat-expansion-panel-header>
+				<mat-panel-title> Personal data </mat-panel-title>
+			</mat-expansion-panel-header>
+			<form [formGroup]="generalEvaluationForm" novalidate>
+				<mat-grid-list cols="3" rowHeight="70px" gutterSize="10px">
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Email address</mat-label>
+							<input matInput [value]="applicant.email" readonly>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Contact number</mat-label>
+							<input matInput [value]="applicant.contactNumber" readonly>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Age</mat-label>
+							<input matInput [value]="applicant.age" readonly>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Salary grade</mat-label>
+								<input matInput formControlName="salaryGrade">
+							<mat-error *ngIf="generalEvaluationForm.controls['salaryGrade'].hasError('required')">
+								Salary grade is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Place of assignment</mat-label>
+								<input matInput formControlName="placeOfAssignment">
+							<mat-error *ngIf="generalEvaluationForm.controls['placeOfAssignment'].hasError('required')">
+								Place of assignment is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Status of appointment</mat-label>
+								<input matInput formControlName="statusOfAppointment">
+							<mat-error *ngIf="generalEvaluationForm.controls['statusOfAppointment'].hasError('required')">
+								Status of appointment is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Date of last promotion</mat-label>
+							<input matInput [matDatepicker]="picker" formControlName="dateOfLastPromotion">
+							<mat-hint>MM/DD/YYYY</mat-hint>
+							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+							<mat-datepicker #picker></mat-datepicker>
+							<mat-error *ngIf="generalEvaluationForm.controls['dateOfLastPromotion'].hasError('required')">
+								Date of last promotion is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile colspan="2">
+						<mat-form-field appearance="fill">
+							<mat-label>Eligibility</mat-label>
+							<mat-chip-list #eligibilityChipList aria-label="Eligibility Selection">
+								<mat-chip *ngFor="let eligibility of eligibilities" (removed)="removeEligibility(eligibility)">
+								  {{eligibility.name}}
+								  <button matChipRemove>
+									<mat-icon>cancel</mat-icon>
+								  </button>
+								</mat-chip>
+								<input formControlName="eligibility" [matChipInputFor]="eligibilityChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addEligibility($event)">
+							</mat-chip-list>							
+							<mat-error *ngIf="generalEvaluationForm.controls['eligibility'].hasError('required')">
+								Eligibility is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Latest IPCR rating</mat-label>
+							<input type="number" matInput formControlName="latestIpcrRating">
+							<mat-error *ngIf="generalEvaluationForm.controls['latestIpcrRating'].hasError('required')">
+								Latest IPCR rating is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile colspan="2">
+						<mat-form-field appearance="fill">
+							<mat-label>Educational attainment</mat-label>
+							<mat-chip-list #educationChipList aria-label="Educational Attainment Selection">
+								<mat-chip *ngFor="let education of educationalAttainments" (removed)="removeEducation(education)">
+								  {{education.name}}
+								  <button matChipRemove>
+									<mat-icon>cancel</mat-icon>
+								  </button>
+								</mat-chip>
+								<input formControlName="educationalAttainment" [matChipInputFor]="educationChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addEducation($event)">
+							</mat-chip-list>
+							<mat-error *ngIf="generalEvaluationForm.controls['educationalAttainment'].hasError('required')">
+								Educational attainment is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+				</mat-grid-list>
+			</form>
+			<mat-action-row>
+				<button mat-button color="primary" (click)="nextStep()">Next</button>
+			</mat-action-row>
+		</mat-expansion-panel>
 		
- 	</form>
+		<mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+			<mat-expansion-panel-header> 
+				<mat-panel-title> Professional / Work Experience </mat-panel-title>
+			</mat-expansion-panel-header>
+			<form [formGroup]="experiencesForm" (ngSubmit)="appendExperience()" novalidate>
+				<mat-grid-list cols="3" rowHeight="70px" gutterSize="10px">
+					<mat-grid-tile colspan="2">
+						<mat-form-field appearance="fill">
+							<mat-label>Position / Designation</mat-label>
+								<input matInput formControlName="positionDesignation">
+							<mat-error *ngIf="experiencesForm.controls['positionDesignation'].hasError('required')">
+								Position / Designation is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
 
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Choose a date From start To end</mat-label>
+							<mat-date-range-input [rangePicker]="expicker">
+								<input matStartDate placeholder="Start date" formControlName="from">
+								<input matEndDate placeholder="End date" formControlName="to">
+							</mat-date-range-input>
+							<mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+							<mat-datepicker-toggle matSuffix [for]="expicker"></mat-datepicker-toggle>
+							<mat-date-range-picker touchUi #expicker></mat-date-range-picker>
+						  </mat-form-field>
+					</mat-grid-tile>
+				</mat-grid-list>
+				<mat-dialog-actions align="end">
+					<button mat-flat-button color="primary" > Append </button>
+				</mat-dialog-actions>
+			</form>
+			<table mat-table [dataSource]="experiences" class="tables">
+				<ng-container matColumnDef="positionDesignation">
+					<th mat-header-cell *matHeaderCellDef>Positin / Designation</th>
+					<td mat-cell *matCellDef="let experience">{{experience.positionDesignation}}</td>
+				</ng-container>
+					<ng-container matColumnDef="from">
+					<th mat-header-cell *matHeaderCellDef>From</th>
+					<td mat-cell *matCellDef="let experience">{{experience.from | date:'MM/dd/yyyy'}}</td>
+				</ng-container>
+				<ng-container matColumnDef="to">
+					<th mat-header-cell *matHeaderCellDef>To</th>
+					<td mat-cell *matCellDef="let experience">{{experience.to | date:'MM/dd/yyyy'}}</td>
+				</ng-container>	
+				<ng-container matColumnDef="remove">
+					<th mat-header-cell *matHeaderCellDef></th>
+					<td mat-cell *matCellDef="let experience, let i = index">
+						<button mat-icon-button color="warm" (click)="removeExperience(i)"><mat-icon>delete_outline</mat-icon></button>
+					</td>
+				</ng-container>	
+				<tr mat-header-row *matHeaderRowDef="experiencesColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: experiencesColumns;"></tr>
+			</table>
+			<mat-action-row>
+				<button mat-button color="warn" (click)="prevStep()">Previous</button>
+				<button mat-button color="primary" (click)="nextStep()">Next</button>
+			</mat-action-row>
+		</mat-expansion-panel>
+		
+		<mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+			<mat-expansion-panel-header>
+				<mat-panel-title> Training Programs Attended </mat-panel-title>
+			</mat-expansion-panel-header>
+
+			<form [formGroup]="trainingsForm" (ngSubmit)="appendTraining()" novalidate>
+				<mat-grid-list cols="3" rowHeight="70px" gutterSize="10px">
+					<mat-grid-tile colspan="2">
+						<mat-form-field appearance="fill">
+							<mat-label>Title</mat-label>
+								<input matInput formControlName="title">
+							<mat-error *ngIf="trainingsForm.controls['title'].hasError('required')">
+								Title is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Provider / Organizer</mat-label>
+								<input matInput formControlName="providerOrganizer">
+							<mat-error *ngIf="trainingsForm.controls['providerOrganizer'].hasError('required')">
+								Provider / Organizer is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Choose a date From start To end</mat-label>
+							<mat-date-range-input [rangePicker]="edpicker">
+								<input matStartDate placeholder="Start date" formControlName="from">
+								<input matEndDate placeholder="End date" formControlName="to">
+							</mat-date-range-input>
+							<mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+							<mat-datepicker-toggle matSuffix [for]="edpicker"></mat-datepicker-toggle>
+							<mat-date-range-picker touchUi #edpicker></mat-date-range-picker>
+						  </mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Hour(s)</mat-label>
+							<input matInput type="number" formControlName="hours">
+							<span matSuffix>hours</span>
+							<mat-error *ngIf="trainingsForm.controls['hours'].hasError('required')">
+								Hour(s) is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<mat-form-field appearance="fill">
+							<mat-label>Type of LD</mat-label>
+								<input matInput formControlName="typeOfLD">
+							<mat-error *ngIf="trainingsForm.controls['typeOfLD'].hasError('required')">
+								Type of LD is <strong>required</strong>
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+				</mat-grid-list>
+				<mat-dialog-actions align="end">
+					<button mat-flat-button color="primary" > Append </button>
+				</mat-dialog-actions>
+			</form>
+			<table mat-table [dataSource]="trainings" class="tables">
+				<ng-container matColumnDef="providerOrganizer">
+					<th mat-header-cell *matHeaderCellDef>Provider / Organizer</th>
+					<td mat-cell *matCellDef="let training">{{training.providerOrganizer}}</td>
+				</ng-container>
+					<ng-container matColumnDef="from">
+					<th mat-header-cell *matHeaderCellDef>From</th>
+					<td mat-cell *matCellDef="let training">{{training.from | date:'MM/dd/yyyy'}}</td>
+				</ng-container>
+				<ng-container matColumnDef="to">
+					<th mat-header-cell *matHeaderCellDef>To</th>
+					<td mat-cell *matCellDef="let training">{{training.to | date:'MM/dd/yyyy'}}</td>
+				</ng-container>	
+				<ng-container matColumnDef="remove">
+					<th mat-header-cell *matHeaderCellDef></th>
+					<td mat-cell *matCellDef="let training, let i = index">
+						<button mat-icon-button color="warm" (click)="removeTraining(i)"><mat-icon>delete_outline</mat-icon></button>
+					</td>
+				</ng-container>	
+				<tr mat-header-row *matHeaderRowDef="trainingsColumns"></tr>
+				<tr mat-row *matRowDef="let training; columns: trainingsColumns;"></tr>
+			</table>
+			
+			<mat-action-row>
+				<button mat-button color="warn" (click)="prevStep()">Previous</button>
+				<button mat-button color="primary" (click)="nextStep()">End</button>
+			</mat-action-row>
+		</mat-expansion-panel>
+		
+	</mat-accordion>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="saveClick()" cdkFocusInitial>Save</button>
+  <button mat-button (click)="onSave()" cdkFocusInitial>Save</button>
   <!-- <button (click)="onClose()">close</button> -->
 </mat-dialog-actions>
 	

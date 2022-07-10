@@ -1,13 +1,10 @@
-form {
-    display: flex;
-    flex-direction: column;
-    padding-top: 15px;
-}
 mat-form-field{
     width: 100%;
     display: block;
 }
-textarea {
-    height: 107px;
-    resize: none;
+mat-dialog-content{
+    padding: 5px 25px;
+}
+.tables{
+    width: 100%;
 }

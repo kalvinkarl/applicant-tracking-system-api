@@ -1,7 +1,7 @@
 export class User{
-    id?: number;
-    username?: string;
-    email?: string;
-    password?: string;
-    accessLevel?: string;
+    id?: Number;
+    username?: String;
+    email?: String;
+    password?: String;
+    accessLevel?: String;
 }

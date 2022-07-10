@@ -10,10 +10,12 @@ exports.create = (req,res) => {
 		if(!error){
 			let training = new Traning({
 				applicantId: req.body.applicantId,
+				title: req.body.title,
 				providerOrganizer: req.body.providerOrganizer,
 				from: req.body.from,
 				to: req.body.to,
-				hours: req.body.hours
+				hours: req.body.hours,
+				typeOfLD: req.body.typeOfLD
 			})
 			Traning.create(training, (err, app) => {
 				if(!err){

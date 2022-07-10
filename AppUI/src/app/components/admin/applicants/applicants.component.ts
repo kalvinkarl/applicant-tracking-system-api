@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Applicants } from 'src/app/models/admin/applicants';
+import { Applicant } from 'src/app/models/admin/applicant';
 import { ApplicantsService } from 'src/app/services/admin/applicants.service';
 
 @Component({
@@ -12,8 +12,9 @@ import { ApplicantsService } from 'src/app/services/admin/applicants.service';
 })
 export class ApplicantsComponent implements OnInit  {
 	displayedColumns: string[] = ['Name', 'Gender', 'Age', 'Contact', 'actions'];
-	dataSource!: MatTableDataSource<Applicants>;
+	dataSource!: MatTableDataSource<Applicant>;
 	applicants!: any;
+	
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
