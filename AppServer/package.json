@@ -1,11 +1,11 @@
 {
-  "name": "applibrary",
+  "name": "ApplicantTrackingSystem",
   "version": "1.0.0",
   "description": "This is the server",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "node app.js",
-    "start": "node app.js"
+    "test": "node index.js",
+    "start": "node index.js"
   },
   "author": "Kalvin Karl Nonato",
   "license": "ISC",
