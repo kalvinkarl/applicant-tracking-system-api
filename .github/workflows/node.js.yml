@@ -29,6 +29,5 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
     - run: cd AppServer && npm ci
-    - run: npm run build --if-present
     - run: zip -r publish.zip ./AppServer/*
     - run: aws lambda update-function-code --function-name=express-ApplicantTrackingSystemFunction-f6iNo4qsK2Cz --zip-file=fileb://publish.zip
