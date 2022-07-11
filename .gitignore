@@ -4,18 +4,15 @@ AppServer/config/*
 AppServer/.env
 
 # Compiled output
-AppUI/dist
-AppUI/tmp
-AppUI/out-tsc
-AppUI/bazel-out
+AppServer/node_modules
+AppServer/dist
+AppServer/tmp
+AppServer/out-tsc
+AppServer/bazel-out
 
 # logs
-AppServer/node_modules
 AppServer/npm-debug.log
 AppServer/yarn-error.log
-AppUI/node_modules
-AppUI/npm-debug.log
-AppUI/yarn-error.log
 
 # IDEs and editors
 .idea/
