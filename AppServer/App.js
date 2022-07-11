@@ -22,5 +22,5 @@ app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource w
 // //Admin
 // require("./routes/admin/applicant.routes")(app);
 app.get("*", (req, res) => res.json({ error: "page not found" }));
-app.listen(3000, () => console.log("Server is running on port:"+PORT));
+app.listen(3000, () => console.log("Server is running on port:"));
 module.exports.handler = serverless(app);
