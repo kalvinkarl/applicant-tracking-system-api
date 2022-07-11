@@ -16,11 +16,11 @@ const app = express();
 // 	res.setHeader("Access-Control-Allow-Headers",process.env.HEADERS);
 // 	next();
 // });
-app.get("/api", (req, res) => res.json("hello world"));
+app.get("/api", (req, res) => res.send("hello world"));
 // //Users
 // require("./routes/user.routes")(app);
 // //Admin
 // require("./routes/admin/applicant.routes")(app);
-app.get("*", (req, res) => res.json("error"));
+app.get("*", (req, res) => res.send("error"));
 app.listen(3000, () => console.log("Server is running on port:"));
 exports.handler = serverless(app);
