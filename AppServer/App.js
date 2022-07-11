@@ -16,7 +16,7 @@ const app = express();
 // 	res.setHeader("Access-Control-Allow-Headers",process.env.HEADERS);
 // 	next();
 // });
-app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
+app.get("/api", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
 // //Users
 // require("./routes/user.routes")(app);
 // //Admin
