@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   vin-app
-  Sample Template for vin-app
+  Sample SAM Template for vin-app
 Globals:
   Function:
     Timeout: 10
@@ -27,7 +27,7 @@ Resources:
 Outputs:
   ApplicantTrackingSystemApi:
     Description: "API Gateway endpoint URL for Prod stage for Applicant Tracking System website application"
-    Value: !Sub "https://${ServerlessRestApi}.api.${AWS::Region}.amazonaws.com/ApplicantTrackingSystem/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
   ApplicantTrackingSystemFunction:
     Description: "This website application will track and manage applicants of DENR"
     Value: !GetAtt ApplicantTrackingSystemFunction.Arn
