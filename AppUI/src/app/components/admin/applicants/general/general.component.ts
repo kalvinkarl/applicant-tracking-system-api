@@ -37,6 +37,7 @@ export class GeneralComponent implements OnInit {
 
   onManage(applicant: Applicant){
     const dialogRef = this.dialog.open(ManageComponent,{
+      autoFocus: false,
       width: '95vw', //sets width of dialog
       // height:'95vh', //sets width of dialog
       maxWidth: '100vw', //overrides default width of dialog

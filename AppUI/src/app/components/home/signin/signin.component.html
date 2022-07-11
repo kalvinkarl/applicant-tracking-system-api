@@ -1,5 +1,5 @@
 
-<mat-card *ngIf="!resend" class="mat-elevation-z8">
+<mat-card *ngIf="!resend && !manyFailed" class="mat-elevation-z8">
 	<mat-card-title>
 		<h2>Signin</h2>
 	</mat-card-title>
@@ -53,3 +53,7 @@
 	</mat-card-actions>
 </mat-card>
 <div *ngIf="resendingFailed">Too many email verification found. Please wait for six(6) hours and come again.</div>
+<div *ngIf="manyFailed">
+	<P>Too many password failed, Please try again after a minute.</P>
+	<P>This is temporary, for security measurements. Please contact the administration for you account verification. or any compaints againt our policy. Please avoid sharing of your credentials to others for your own security. admin is not yet responsible for any lost accounts.</P>
+</div>

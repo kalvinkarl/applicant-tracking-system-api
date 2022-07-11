@@ -1,18 +1,21 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 # Private Config
 AppServer/config/*
+AppServer/.env
 
 # Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+AppUI/dist
+AppUI/tmp
+AppUI/out-tsc
+AppUI/bazel-out
 
-# Node
-/AppServer/node_modules
-/AppUI/node_modules
-npm-debug.log
-yarn-error.log
+# logs
+AppServer/node_modules
+AppServer/npm-debug.log
+AppServer/yarn-error.log
+AppUI/node_modules
+AppUI/npm-debug.log
+AppUI/yarn-error.log
 
 # IDEs and editors
 .idea/

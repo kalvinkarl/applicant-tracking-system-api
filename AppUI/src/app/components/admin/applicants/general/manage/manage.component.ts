@@ -7,7 +7,7 @@ import { Applicant } from 'src/app/models/admin/applicant';
 import { GeneralEvaluation } from 'src/app/models/admin/generalEvaluation';
 import { Experience } from 'src/app/models/admin/experience';
 import { Training } from 'src/app/models/admin/training';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatChipInputEvent, MatChipList } from '@angular/material/chips';
 
 export interface Eligibility{ name: string; }
 export interface Education{ name: string; }
@@ -24,29 +24,30 @@ export class ManageComponent implements OnInit {
 	experiencesForm!: FormGroup;
 	trainingsForm!: FormGroup;
 	applicant!: Applicant;
-	eligibilities: Eligibility[] = [];
-	educationalAttainments: Education[] = [];
+	eligibilities: Eligibility[] = new Array<Eligibility>;
+	educationalAttainments: Education[] = new Array<Education>;
 
 	generalEvaluation!: GeneralEvaluation;
-	experiences: Experience[] = [];
-	trainings: Training[] = [];
+	experiences: Experience[]= new Array<Experience>;
+	trainings: Training[] = new Array<Training>;
 	
 	experiencesColumns: string[] = ['positionDesignation', 'from', 'to', 'remove'];
-	trainingsColumns: string[] = ['providerOrganizer', 'from', 'to', 'remove'];
+	trainingsColumns: string[] = ['title','providerOrganizer', 'from', 'to','hours','typeOfLD', 'remove'];
 
-	@ViewChild(MatTable) experiencesTable!: MatTable<Experience>;
-	@ViewChild(MatTable) trainingsTable!: MatTable<Training>;
+	@ViewChild('eligibilityChipList') eligibilityChipList!:MatChipList;
+	@ViewChild('educationChipList') educationChipList!:MatChipList;
+	@ViewChild('experiencesTable') experiencesTable!: MatTable<Experience>;
+	@ViewChild('trainingsTable') trainingsTable!: MatTable<Training>;
 
 	constructor(private dialogRef: MatDialogRef<ManageComponent>) {
 		this.generalEvaluationForm = new FormGroup({
-			salaryGrade: new FormControl('',Validators.required),
-			placeOfAssignment: new FormControl('',Validators.required),
-			statusOfAppointment: new FormControl('',Validators.required),
-			dateOfLastPromotion: new FormControl('',Validators.required),
-			latestIpcrRating: new FormControl('',Validators.required),
+			salaryGrade: new FormControl(''),
+			placeOfAssignment: new FormControl(''),
+			statusOfAppointment: new FormControl(''),
+			dateOfLastPromotion: new FormControl(''),
+			latestIpcrRating: new FormControl(''),
 			eligibility: new FormControl('',Validators.required),
-			educationalAttainment: new FormControl('',Validators.required),
-			remarks: new FormControl('',Validators.required)
+			educationalAttainment: new FormControl('',Validators.required)
 		});
 		this.experiencesForm = new FormGroup({
 			positionDesignation: new FormControl('',Validators.required),
@@ -67,17 +68,19 @@ export class ManageComponent implements OnInit {
 
 	onSave(){
 		console.log("saved");
+		console.log(this.generalEvaluationForm.value);
+		console.log(this.eligibilities);
+		console.log(this.educationalAttainments);
+		console.log(this.experiences);
+		console.log(this.trainings);
 		this.dialogRef.close();
 	}
+	//Eligibiiligy button events
 	addEligibility(event: MatChipInputEvent): void {
 		const value = (event.value || '').trim();
-
-		// Add our fruit
 		if (value) {
 		  this.eligibilities.push({name: value});
 		}
-
-		// Clear the input value
 		event.chipInput!.clear();
 	}
 	removeEligibility(eligibility: Eligibility): void {
@@ -86,16 +89,12 @@ export class ManageComponent implements OnInit {
 			this.eligibilities.splice(index, 1);
 		}
 	}
-
+	//Education button events
 	addEducation(event: MatChipInputEvent): void {
 		const value = (event.value || '').trim();
-
-		// Add our fruit
 		if (value) {
 		  this.educationalAttainments.push({name: value});
 		}
-
-		// Clear the input value
 		event.chipInput!.clear();
 	}
 	removeEducation(education: Education): void {
@@ -104,7 +103,7 @@ export class ManageComponent implements OnInit {
 			this.educationalAttainments.splice(index, 1);
 		}
 	}
-	
+	//Experience button events
 	appendExperience() {
 		if(this.experiencesForm.valid){
 			this.experiences.push({
@@ -122,10 +121,9 @@ export class ManageComponent implements OnInit {
 			this.experiencesTable.renderRows();
 		}
 	}
-	
+	//Training button events
 	appendTraining() {
 		if(this.trainingsForm.valid){
-
 			this.trainings.push({
 				applicantId: this.applicant.id,
 				title: this.trainingsForm.value.title,
@@ -135,7 +133,6 @@ export class ManageComponent implements OnInit {
 				hours: this.trainingsForm.value.hours,
 				typeOfLD: this.trainingsForm.value.typeOfLD,
 			});
-			console.log(this.trainings);
 			this.trainingsTable.renderRows();
 		}
 	}
@@ -145,15 +142,25 @@ export class ManageComponent implements OnInit {
 			this.trainingsTable.renderRows();
 		}
 	}
-
+	//Expansion panel steps
 	setStep(index: number) {
 		this.step = index;
 	}
-
 	nextStep() {
-		this.step++;
+		if(this.step === 0){
+			this.eligibilityChipList.errorState = !this.eligibilities.length;
+			this.educationChipList.errorState = !this.educationalAttainments.length;
+			if(this.generalEvaluationForm.valid){
+				this.step++;
+			}
+		}else if(this.step === 2){
+			this.onSave();
+		}
+		else{
+			this.step++;
+		}
+		
 	}
-
 	prevStep() {
 		this.step--;
 	}

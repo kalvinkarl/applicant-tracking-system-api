@@ -19,6 +19,7 @@ export class SigninComponent implements OnInit {
   unverified: boolean = false;
   unverifiedEmail!: string;
   emailDomain!: string;
+  manyFailed!: Boolean;
   customErrorStateMatcher = new CustomErrorStateMatcher;
   constructor(private userService: UserService, private authService: AuthService, private router: Router) {
     this.signinForm = new FormGroup({
@@ -51,6 +52,9 @@ export class SigninComponent implements OnInit {
           window.location.reload();
         },
         error: err => {
+          if(err.status === 429){
+            this.manyFailed = true;
+          }
           if(err.status === 404){
             this.signinForm.controls['username'].setErrors({notFound:true});
           }

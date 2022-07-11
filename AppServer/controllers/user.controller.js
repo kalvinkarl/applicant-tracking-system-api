@@ -1,10 +1,9 @@
-const User = require("../models/user.model");
 const UserVerification = require("../models/user.verification.model");
+const User = require("../models/user.model");
 const config = require("../config/config.json");
 const jwt = require('jsonwebtoken');
 const Bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require('uuid');
-
 const nodemailer = require('nodemailer');
 // Create transporter to nodemailer
 const transporter = nodemailer.createTransport({
@@ -13,7 +12,7 @@ const transporter = nodemailer.createTransport({
 		user: config.email.AUTH_EMAIL,
 		pass: config.email.AUTH_PASS
 	}
-})
+});
 // Verify the transporter
 transporter.verify((error,success) => {
 	if(error){
@@ -21,7 +20,72 @@ transporter.verify((error,success) => {
 	}else{
 		console.log("Nodemailer email status:"+success);
 	}
-})
+});
+// Check login username or email
+exports.loginMethod = (req, res, next) => {
+	// Validate Request
+	if (!req.body) {
+		res.status(400).send({
+			message: "Content can not be empty!"
+		})
+	}
+	if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.username)) {
+		// Login using email address
+		User.findByEmail(req.body.username.trim(), (error, result) => {
+			req.err = error;
+			if(result){
+				req.res = result;
+			}
+			next();
+		})
+    } else {
+		// Login using username
+		User.findByUsername(req.body.username.trim(), (error, result) => {
+			req.err = error;
+			if(result){
+				req.res = result;
+			}
+			next();
+		})
+	}
+}
+// Login user
+exports.userLogin = (req, res, next) => {
+	if(!req.err){
+		let passwordIsEqual = Bcrypt.compareSync(req.body.password, req.res.password);
+		if(passwordIsEqual){
+			if(!req.res.verified){
+				res.status(403).send({message: "Email hasn't been verified yet.", email: req.res.email})
+			}else{
+				let token = jwt.sign({
+					id: req.res.id
+				},config.secret,{expiresIn: 86400});
+				res.status(200).send({ 
+					id: req.res.id,
+					username: req.res.username,
+					email: req.res.email,
+					role: req.res.accessLevel,
+					token: token
+				});
+			}
+		}else{
+			next();
+		}
+	}else{
+		next();
+	}
+}
+// Failed to login
+exports.userLoginFailed = (req,res) => {
+	if(req.err === "NOT_FOUND"){
+		res.status(404).send({ message: "User not found" });
+	}else if(req.err){
+		res.status(500).send({ message: "Error retrieving User " });
+	}else{
+		res.status(401).send({ message: "Incorrect password!" });
+	}
+}
+
 // Send verification
 const sendVerification = (user,res) => {
 	//url to be used in email
@@ -102,62 +166,6 @@ exports.create = (req, res) => {
 			}
 		})
 	})
-}
-// Login user
-const userLogin = (user, req, res, err) => {
-	if (!err) {
-		let passwordIsEqual = Bcrypt.compareSync(req.body.password, user.password);
-		if(!passwordIsEqual){
-			res.status(401).send({ 
-				message: "Incorrect password."
-			});
-		}else{
-			if(!user.verified){
-				res.status(403).send({message: "Email hasn't been verified yet.", email: user.email})
-			}else{
-				let token = jwt.sign({
-					id: user.id
-				},config.secret,{expiresIn: 86400});
-				res.send({ 
-					id: user.id,
-					username: user.username,
-					email: user.email,
-					role: user.accessLevel,
-					token: token
-				});
-			}
-		}
-	} else {
-		if (err === "NOT_FOUND") {
-			res.status(404).send({
-				message: "User not found"
-			})
-		} else {
-			res.status(500).send({
-				message: "Error retrieving User "
-			})
-		}
-	}
-}
-// Check login username or email
-exports.login = (req, res) => {
-	// Validate Request
-	if (!req.body) {
-		res.status(400).send({
-			message: "Content can not be empty!"
-		})
-	}
-	if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.username)) {
-		// Login using email address
-		User.findByEmail(req.body.username.trim(), (error, result) => {
-			userLogin(result, req, res, error)
-		})
-    } else {
-		// Login using username
-		User.findByUsername(req.body.username.trim(), (error, result) => {
-			userLogin(result, req, res, error)
-		})
-	}
 }
 // Resend verification if verify is less than 3
 exports.resendVerification = (req, res) =>{
