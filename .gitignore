@@ -1,9 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Private Config
-AppServer/config/*
-AppServer/.env
-
 # Compiled output
 AppUI
 AppServer/node_modules

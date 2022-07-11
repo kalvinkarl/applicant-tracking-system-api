@@ -1,0 +1,13 @@
+{
+	"url" : "http://localhost/",
+	"port": 8080,
+	"host": "localhost",
+	"user": "root",
+	"password": "Dikoalam",
+	"database": "denr",
+	"secret": "kalvin-secret-key",
+	"email":{
+		"AUTH_EMAIL": "kalvinkarl28@gmail.com",
+		"AUTH_PASS": "jdanvwmoaksusvzx"
+	}
+}
