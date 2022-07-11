@@ -23,4 +23,4 @@ app.get("/api", (req, res) => res.send("hello world"));
 // require("./routes/admin/applicant.routes")(app);
 app.get("*", (req, res) => res.send("error"));
 app.listen(3000, () => console.log("Server is running on port:"));
-exports.handler = serverless(app);
+module.exports.handler = serverless(app);
