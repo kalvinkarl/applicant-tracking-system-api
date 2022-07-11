@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Headers",process.env.HEADERS);
 	next();
 });
-app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
+app.get("/home", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
 //Users
 require("./routes/user.routes")(app);
 //Admin
