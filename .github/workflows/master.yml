@@ -15,10 +15,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    
-    - name: Install dependencies
-    - run: cd AppServer && npm ci        
-    
     - name: serverless deploy
     - uses: serverless/github-action@master
       with:
