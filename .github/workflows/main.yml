@@ -16,12 +16,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd AppServer && npm ci
-    - name: serverless deploy
-      uses: serverless/github-action@v2
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        args: -c "cd ./AppServer && serverless deploy"
-        entrypoint: /bin/sh
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+    - run: cd AppServer && npm ci
+    - run: cd AppServer; zip -r ../publish.zip *
+    - run: aws lambda update-function-code --function-name=express-ApplicantTrackingSystemFunction-izrrLTvJV5pT --zip-file=fileb://publish.zip
