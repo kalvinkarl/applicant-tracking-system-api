@@ -5,6 +5,12 @@ AppServer/config/*
 AppServer/.env
 
 # Compiled output
+AppUI/node_modules
+AppUI/node_modules
+AppUI/dist
+AppUI/tmp
+AppUI/out-tsc
+AppUI/bazel-out
 AppServer/node_modules
 AppServer/dist
 AppServer/tmp
