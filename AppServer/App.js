@@ -1,4 +1,5 @@
 require('dotenv').config();
+const serverless = require("serverless-http");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -22,3 +23,4 @@ require("./routes/user.routes")(app);
 require("./routes/admin/applicant.routes")(app);
 app.get("*", (req, res) => res.json({ error: "page not found" }));
 app.listen(PORT, () => console.log("Server is running on port:"+PORT));
+module.exports.handler = serverless(app);
