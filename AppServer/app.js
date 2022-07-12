@@ -6,7 +6,7 @@ const app = express();
 const PORT = config.env.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.get("/api", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
+app.get("/home", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
 //User
 require("./routes/user.routes")(app);
 //Admin

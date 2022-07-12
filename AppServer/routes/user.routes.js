@@ -31,5 +31,5 @@ module.exports = app => {
 	router.get("/e/:email",[auth.verifyToken], users.findByEmail);
 	
 
-	app.use('/api/users', router);
+	app.use('/users', router);
 };
