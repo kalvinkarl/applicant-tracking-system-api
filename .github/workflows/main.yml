@@ -24,4 +24,4 @@ jobs:
         aws-region: ca-central-1
     - run: cd AppServer && npm ci
     - run: cd AppServer; zip -r ../publish.zip *
-    - run: aws lambda update-function-code --function-name=sample-api --zip-file=fileb://publish.zip
+    - run: aws lambda update-function-code --function-name=ApplicantTrackingSystem --zip-file=fileb://publish.zip
