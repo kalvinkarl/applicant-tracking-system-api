@@ -1,7 +1,6 @@
 const config = require("./config/config.json");
 const serverless = require("serverless-http");
 const express = require("express");
-const cors = require("cors");
 const app = express();
 const PORT = config.env.PORT;
 app.use(express.json());
