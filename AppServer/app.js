@@ -6,9 +6,9 @@ const PORT = config.env.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get("/home", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
-//User
+//Users
 require("./routes/user.routes")(app);
-//Admin
+//Admins
 require("./routes/admin/applicant.routes")(app);
 app.get("*", (req, res) => res.json({ error: "page not found" }));
 app.listen(PORT, () => console.log("Server is running on port:"+PORT));
