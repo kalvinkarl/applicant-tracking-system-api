@@ -85,8 +85,6 @@ exports.userLoginFailed = (req,res) => {
 		res.status(401).send({ message: "Incorrect password!" });
 	}
 }
-
-
 // Send verification
 const sendVerification = (user,res) => {
 	//url to be used in email
