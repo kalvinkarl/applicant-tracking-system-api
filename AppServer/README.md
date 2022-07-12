@@ -83,7 +83,7 @@ The SAM CLI reads the application template to determine the API's routes and the
         HelloWorld:
           Type: Api
           Properties:
-            Path: /hello
+            Path: /api
             Method: get
 ```
 
