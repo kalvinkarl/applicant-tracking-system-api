@@ -80,11 +80,12 @@ exports.userLoginFailed = (req,res) => {
 	if(req.err === "NOT_FOUND"){
 		res.status(404).send({ message: "User not found" });
 	}else if(req.err){
-		res.status(500).send({ message: "Error retrieving User " });
+		res.status(500).send({ message: "Error retrieving User", error: req.err });
 	}else{
 		res.status(401).send({ message: "Incorrect password!" });
 	}
 }
+
 
 // Send verification
 const sendVerification = (user,res) => {
