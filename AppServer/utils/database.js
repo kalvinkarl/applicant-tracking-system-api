@@ -7,7 +7,6 @@ const connection = mysql.createConnection({
 	password: config.password,
 	database: config.database,
 	port: config.port,
-    timeout: 60000,
 });
 // Open the MySQL connection
 connection.connect(error => {
