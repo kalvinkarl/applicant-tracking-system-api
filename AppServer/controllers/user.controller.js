@@ -104,7 +104,7 @@ const sendVerification = (user,res) => {
 		from: config.email.AUTH_EMAIL,
 		to: user.email,
 		subject: "Verify your Email",
-		html: `<p>Verify your email address to complete the signup and login into your account.</p><p>This link <b>expires in 6 hours</b>.</p><p>Press <a href=${currentUrl+"user/verify/"+user.id+"/"+uniqueString}>here</a> to proceed.</p>`
+		html: `<p>Verify your email address to complete the signup and login into your account.</p><p>This link <b>expires in 6 hours</b>.</p><p>Press <a href=${currentUrl+"/user/verify/"+user.id+"/"+uniqueString}>here</a> to proceed.</p>`
 	}
 	let userVerification = new UserVerification({
 		userId: user.id,
