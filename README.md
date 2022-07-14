@@ -1,5 +1,5 @@
 # Applicant Tracking System
-- [DENR-HR](https://vcylcnlvog.execute-api.ca-central-1.amazonaws.com/applicant-tracking-api/home)
+- [DENR-HR](https://vcylcnlvog.execute-api.ca-central-1.amazonaws.com/applicant-tracking-api)
 - And this will connect to their main website: [DENR region 2](https://r2.denr.gov.ph/)
 - This application will monitor and serve application process of clients of DENR Region 2.
 
