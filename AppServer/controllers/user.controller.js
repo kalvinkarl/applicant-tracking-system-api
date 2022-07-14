@@ -52,25 +52,35 @@ exports.loginMethod = (req, res, next) => {
 // Login user
 exports.userLogin = (req, res, next) => {
 	if(!req.err){
-		let passwordIsEqual = Bcrypt.compareSync(req.body.password, req.res.password);
-		if(passwordIsEqual){
-			if(!req.res.verified){
-				res.status(403).send({message: "Email hasn't been verified yet.", email: req.res.email})
-			}else{
-				let token = jwt.sign({
-					id: req.res.id
-				},config.secret,{expiresIn: 86400});
-				res.status(200).send({ 
-					id: req.res.id,
-					username: req.res.username,
-					email: req.res.email,
-					role: req.res.accessLevel,
-					token: token
-				});
-			}
-		}else{
-			next();
-		}
+		let token = jwt.sign({
+			id: req.res.id
+		},config.secret,{expiresIn: 86400});
+		res.status(200).send({ 
+			id: req.res.id,
+			username: req.res.username,
+			email: req.res.email,
+			role: req.res.accessLevel,
+			token: token
+		});
+		// let passwordIsEqual = Bcrypt.compareSync(req.body.password, req.res.password);
+		// if(passwordIsEqual){
+		// 	if(!req.res.verified){
+		// 		res.status(403).send({message: "Email hasn't been verified yet.", email: req.res.email})
+		// 	}else{
+		// 		let token = jwt.sign({
+		// 			id: req.res.id
+		// 		},config.secret,{expiresIn: 86400});
+		// 		res.status(200).send({ 
+		// 			id: req.res.id,
+		// 			username: req.res.username,
+		// 			email: req.res.email,
+		// 			role: req.res.accessLevel,
+		// 			token: token
+		// 		});
+		// 	}
+		// }else{
+		// 	next();
+		// }
 	}else{
 		next();
 	}
