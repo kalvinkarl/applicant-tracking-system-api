@@ -18,7 +18,6 @@ require("./routes/admin/applicant.routes")(app);
 app.get("*", (req, res) => res.json({ error: "page not found" }));
 app.listen(PORT, () => console.log("Server is running on port:"+PORT));
 const handler = serverless(app);
-
 module.exports.handler = async (event, context) => {
   // you can do other things here
   const result = await handler(event, context);

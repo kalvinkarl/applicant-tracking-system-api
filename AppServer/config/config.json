@@ -1,5 +1,5 @@
 {
-	"url" : "https://vcylcnlvog.execute-api.ca-central-1.amazonaws.com/applicant-tracking-api",
+	"url" : "http://denr-hr.ml",
 	"host": "database-1.cjzhzfegfja3.ca-central-1.rds.amazonaws.com",
 	"user": "root",
 	"password": "Dikoalam",
