@@ -11,7 +11,7 @@
 		"AUTH_PASS": "jdanvwmoaksusvzx"
 	},
 	"env":{
-		"PORT": 3000,
+		"PORT": 3001,
 		"ORIGIN": "*",
 		"METHODS": "GET, POST, PUT, DELETE",
 		"HEADERS": "Content-Type, Authorization"
