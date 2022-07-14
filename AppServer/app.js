@@ -1,3 +1,4 @@
+const serverless = require("serverless-http");
 const config = require("./config/config.json");
 const express = require("express");
 const cors = require("cors");
@@ -16,3 +17,10 @@ require("./routes/user.routes")(app);
 require("./routes/admin/applicant.routes")(app);
 app.get("*", (req, res) => res.json({ error: "page not found" }));
 app.listen(PORT, () => console.log("Server is running on port:"+PORT));
+const handler = serverless(app);
+module.exports.handler = async (event, context) => {
+  // you can do other things here
+  const result = await handler(event, context);
+  // and here
+  return result;
+}
