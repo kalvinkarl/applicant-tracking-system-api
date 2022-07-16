@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 const PORT = config.env.PORT;
 var corsOptions = {
-  origin: "*"
+  origin: config.env.ORIGIN
 };
 app.use(cors(corsOptions));
 app.use(express.json());
