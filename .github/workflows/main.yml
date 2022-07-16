@@ -1,4 +1,4 @@
-name: Applicant Tracking System
+name: applicant-tracking-system
 on:
   push:
     branches:
