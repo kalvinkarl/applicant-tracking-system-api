@@ -5,7 +5,7 @@
   "main": "AppServer/app.js",
   "scripts": {
     "test": "node ./AppServer/app.js",
-    "start": "node ./AppServer/app.js"
+    "start": "nodemon ./AppServer/app.js"
   },
   "repository": {
     "type": "git",
