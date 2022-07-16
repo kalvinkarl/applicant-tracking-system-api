@@ -1,7 +1,7 @@
 {
 	"url" : "http://denr-hr.ml",
-	"_host": "database-1.cjzhzfegfja3.ca-central-1.rds.amazonaws.com",
-	"host": "localhost",
+	"host": "database-1.cjzhzfegfja3.ca-central-1.rds.amazonaws.com",
+	"_host": "localhost",
 	"user": "root",
 	"password": "Dikoalam",
 	"database": "denr",
