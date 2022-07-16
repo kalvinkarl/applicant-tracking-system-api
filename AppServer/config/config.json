@@ -1,6 +1,7 @@
 {
 	"url" : "http://denr-hr.ml",
-	"host": "database-1.cjzhzfegfja3.ca-central-1.rds.amazonaws.com",
+	"_host": "database-1.cjzhzfegfja3.ca-central-1.rds.amazonaws.com",
+	"host": "localhost",
 	"user": "root",
 	"password": "Dikoalam",
 	"database": "denr",
@@ -13,7 +14,7 @@
 	"env":{
 		"PORT": 3001,
 		"ORIGIN": "*",
-		"METHODS": "GET, POST, PUT, DELETE",
-		"HEADERS": "Content-Type, Authorization"
+		"_METHODS": "GET, POST, PUT, DELETE",
+		"_HEADERS": "Content-Type, Authorization"
 	}
 }
