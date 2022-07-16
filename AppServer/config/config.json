@@ -12,7 +12,7 @@
 	},
 	"env":{
 		"PORT": 3001,
-		"ORIGIN": "49.151.82.9",
+		"ORIGIN": "*",
 		"METHODS": "GET, POST, PUT, DELETE",
 		"HEADERS": "Content-Type, Authorization"
 	}
