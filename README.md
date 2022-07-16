@@ -11,7 +11,7 @@
 ### Position Management
 ### Vacant Position Management
 ### Pending Applicants
-### General List and Report
+### General List and Report *
 ### Candidate Evaluation and Report
 ### Long List Management and Report
 ### Interview Rating Dashboard for Raters
