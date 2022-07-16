@@ -21,80 +21,6 @@ transporter.verify((error,success) => {
 		console.log("Nodemailer email status:"+success);
 	}
 });
-// Check login username or email
-exports.loginMethod = (req, res, next) => {
-	// Validate Request
-	if (!req.body) {
-		res.status(400).send({
-			message: "Content can not be empty!"
-		})
-	}
-	if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.username)) {
-		// Login using email address
-		User.findByEmail(req.body.username.trim(), (error, result) => {
-			req.err = error;
-			if(result){
-				req.res = result;
-			}
-			next();
-		})
-    } else {
-		// Login using username
-		User.findByUsername(req.body.username.trim(), (error, result) => {
-			req.err = error;
-			if(result){
-				req.res = result;
-			}
-			next();
-		})
-	}
-}
-// Login user
-exports.userLogin = (req, res, next) => {
-	if(!req.err){
-		let token = jwt.sign({
-			id: req.res.id
-		},config.secret,{expiresIn: 86400});
-		res.status(200).send({ 
-			id: req.res.id,
-			username: req.res.username,
-			email: req.res.email,
-			role: req.res.accessLevel,
-			token: token
-		});
-		// let passwordIsEqual = Bcrypt.compareSync(req.body.password, req.res.password);
-		// if(passwordIsEqual){
-		// 	if(!req.res.verified){
-		// 		res.status(403).send({message: "Email hasn't been verified yet.", email: req.res.email})
-		// 	}else{
-		// 		let token = jwt.sign({
-		// 			id: req.res.id
-		// 		},config.secret,{expiresIn: 86400});
-		// 		res.status(200).send({ 
-		// 			id: req.res.id,
-		// 			username: req.res.username,
-		// 			email: req.res.email,
-		// 			role: req.res.accessLevel,
-		// 			token: token
-		// 		});
-		// 	}
-		// }else{
-		// 	next();
-		// }
-	}else{
-		next();
-	}
-}
-// Failed to login
-exports.userLoginFailed = (req,res) => {
-	if(req.err === "NOT_FOUND"){
-		res.status(404).send({ message: "User not found" });
-	}else if(req.err){
-		res.status(500).send({ message: "Error retrieving User", error: req.err });
-	}else{
-		res.status(401).send({ message: "Incorrect password!" });
-	}
-}
 // Send verification
 const sendVerification = (user,res) => {
 	//url to be used in email
@@ -127,8 +53,68 @@ const sendVerification = (user,res) => {
 		}
 	})
 }
+// Check login username or email
+const checkUsernameEmail = (user, result) => {
+	if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(user)) {
+		// Login using email address
+		User.findByEmail(user.trim(), (err, res) => {
+			result(err, res);
+		})
+    } else {
+		// Login using username
+		User.findByUsername(user.trim(), (err, res) => {
+			result(err, res);
+		})
+	}
+}
+// User login
+exports.signin = (req, res, next) => {
+	// Validate Request
+	if (!req.body) {
+		res.status(400).send({
+			message: "Content can not be empty!"
+		})
+	}
+	checkUsernameEmail(req.body.username, (error,result) => {
+		if(error === 'NOT_FOUND'){
+			req.currentStatus = 404;
+			req.message = { message: "User not found" };
+			next();
+		}else if(error){
+			req.currentStatus = 500;
+			req.message = { message: "Error retrieving User", error: error };
+			next();
+		}else{
+			let passwordIsEqual = Bcrypt.compareSync(req.body.password, result.password);
+			if(passwordIsEqual){
+				if(!result.verified){
+					res.status(403).send({message: "Email hasn't been verified yet.", email: result.email})
+				}else{
+					let token = jwt.sign({
+						id: result.id
+					},config.secret,{expiresIn: 86400});
+					res.status(200).send({ 
+						id:result.id,
+						username: result.username,
+						email: result.email,
+						role: result.accessLevel,
+						token: token
+					});
+				}
+			}else{
+				req.currentStatus = 401;
+				req.message = { message: "Incorrect password!" };
+				next();
+			}
+		}
+	})
+}
+// Failed to login
+exports.signinFailed = (req, res, next) => {
+	res.status(req.currentStatus).send(req.message);
+}
 // Create and Save a new User
-exports.create = (req, res) => {
+exports.signup = (req, res) => {
 	// Validate request
 	if (!req.body) {
 			res.status(400).send({
