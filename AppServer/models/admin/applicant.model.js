@@ -24,7 +24,7 @@ Applicant.findAll = (result) => {
 	})
 }
 Applicant.findGeneral = (result) => {
-	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicant WHERE status = 'documents completed'", null, (err,res) => {
+	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicant WHERE status = 'documents completed' AND applicant_id NOT IN (SELECT applicantId FROM generalevaluations)", null, (err,res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {
