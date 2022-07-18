@@ -13,7 +13,7 @@
 	},
 	"env":{
 		"PORT": 3001,
-		"ORIGIN": "*",
+		"ORIGIN": "https://jobs.ro2denr.ml",
 		"_METHODS": "GET, POST, PUT, DELETE",
 		"_HEADERS": "Content-Type, Authorization"
 	}
