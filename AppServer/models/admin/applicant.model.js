@@ -13,7 +13,18 @@ const Applicant = function(applicant){
 	this.status = applicant.status;
 }
 Applicant.findAll = (result) => {
-	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicant", null, (err,res) => {
+	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicants", null, (err,res) => {
+		if (err) {
+			result(err);
+		} else if(!res.length) {
+			result("NOT_FOUND");
+		} else {
+			result(null, res);
+		}
+	})
+}
+Applicant.findApplicants = (result) => {
+	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicants WHERE applicant_id IN (SELECT DISTINCT(applicantId) FROM jobapplicants)", null, (err,res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {
@@ -24,7 +35,7 @@ Applicant.findAll = (result) => {
 	})
 }
 Applicant.findGeneral = (result) => {
-	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicant WHERE status = 'documents completed' AND applicant_id NOT IN (SELECT applicantId FROM generalevaluations)", null, (err,res) => {
+	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicants WHERE status = 'documents completed' AND applicant_id NOT IN (SELECT applicantId FROM generalevaluations)", null, (err,res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {
@@ -36,7 +47,7 @@ Applicant.findGeneral = (result) => {
 }
 
 Applicant.findById = (id, result) => {
-	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicant WHERE applicant_id = ?", id, (err,res) => {
+	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicants WHERE applicant_id = ?", id, (err,res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {
@@ -47,14 +58,3 @@ Applicant.findById = (id, result) => {
 	})
 }
 module.exports = Applicant;
-// User.findByEmail = (email, result) => {
-// 	sql.query("SELECT * FROM users WHERE email = ?", email , (err, res) => {
-// 		if (err) {
-// 			result(err);
-// 		} else if(!res.length) {
-// 			result("NOT_FOUND");
-// 		} else {
-// 			result(null, res[0]);
-// 		}
-// 	});
-// }

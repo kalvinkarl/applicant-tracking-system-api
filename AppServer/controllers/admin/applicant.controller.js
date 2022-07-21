@@ -8,7 +8,20 @@ exports.findAll = (req,res) => {
 			if (error === "NOT_FOUND") {
 				res.status(404).send({ message: "There is nothing in here!" });
 			} else {
-				res.status(500).send({ message: "Error retrieving a applicants in database", error });
+				res.status(500).send({ message: "Error retrieving registered applicants in database", error });
+			}
+		}
+	})
+}
+exports.findApplicants = (req,res) => {
+	Applicant.findApplicants((error,result) => {
+		if(!error){
+			res.send(result);
+		}else{
+			if (error === "NOT_FOUND") {
+				res.status(404).send({ message: "There is nothing in here!" });
+			} else {
+				res.status(500).send({ message: "Error retrieving all applicants in database", error });
 			}
 		}
 	})

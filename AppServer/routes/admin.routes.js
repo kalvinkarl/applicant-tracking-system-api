@@ -1,13 +1,14 @@
-const applicant = require("../../controllers/admin/applicant.controller");
-const training = require("../../controllers/admin/training.controller");
-const experience = require("../../controllers/admin/experience.controller");
-const generalEvaluation = require("../../controllers/admin/generalEvaluation.controller");
-const auth = require("../../middleware/auth");
+const applicant = require("../controllers/admin/applicant.controller");
+const training = require("../controllers/admin/training.controller");
+const experience = require("../controllers/admin/experience.controller");
+const generalEvaluation = require("../controllers/admin/general-evaluation.controller");
+const jobApplicant = require("../controllers/admin/job-applicant.controller");
+const auth = require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
 module.exports = app => {
 	// Retrieve all applicants
-	router.get("",[auth.verifyToken, auth.isAdmin], applicant.findAll);
+	router.get("",[auth.verifyToken, auth.isAdmin], applicant.findApplicants);
 	
 	// Retrieve all applicants
 	router.get("/general",[auth.verifyToken, auth.isAdmin], applicant.findGeneral);
@@ -20,6 +21,10 @@ module.exports = app => {
 	
 	// Create new general evaluation
 	router.post("/general/evaluation",[auth.verifyToken, auth.isAdmin], generalEvaluation.create);
+
+	// Retrieve all positions by applicants who have applied for jobs
+	router.get("/jobs",[auth.verifyToken, auth.isAdmin], jobApplicant.findByPosition);
+
 	// // Create a new user
 	// router.post("/signup", users.create);
 	// // Login a user

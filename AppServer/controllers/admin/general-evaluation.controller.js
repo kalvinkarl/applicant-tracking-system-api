@@ -1,4 +1,4 @@
-const GeneralEvaluation = require("../../models/admin/generalEvaluation.model");
+const GeneralEvaluation = require("../../models/admin/general-evaluation.model");
 const Applicant = require("../../models/admin/applicant.model");
 exports.create = (req,res) => {
 	// Validate request
@@ -40,6 +40,4 @@ exports.create = (req,res) => {
 			res.status(500).send({ message: "Error finding for existing general evaluation in database", err });
 		}
 	})
-
-
 }

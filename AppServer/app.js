@@ -11,10 +11,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource website api." }));
-//Users
+//User routes
 require("./routes/user.routes")(app);
-//Admins
-require("./routes/admin/applicant.routes")(app);
+//Admin routes
+require("./routes/admin.routes")(app);
 app.get("*", (req, res) => res.json({ error: "page not found" }));
 app.listen(PORT, () => console.log("Server is running on port:"+PORT));
 const handler = serverless(app);
