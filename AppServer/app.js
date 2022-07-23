@@ -3,9 +3,9 @@ const config = require("./config/config.json");
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const PORT = config.env.PORT;
+const PORT = config.PORT;
 var corsOptions = {
-  origin: config.env.ORIGIN
+  origin: config.ORIGIN
 };
 app.use(cors(corsOptions));
 app.use(express.json());
