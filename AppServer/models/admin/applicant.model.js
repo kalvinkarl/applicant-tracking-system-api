@@ -10,50 +10,37 @@ const Applicant = function(applicant){
 	this.gender = applicant.gender;
 	this.age = applicant.age;
 	this.birthday = applicant.birthday;
-	this.status = applicant.status;
 }
-Applicant.findAll = (result) => {
-	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicants", null, (err,res) => {
-		if (err) {
-			result(err);
-		} else if(!res.length) {
-			result("NOT_FOUND");
-		} else {
-			result(null, res);
-		}
-	})
-}
-Applicant.findApplicants = (result) => {
-	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicants WHERE applicant_id IN (SELECT DISTINCT(applicantId) FROM jobapplicants)", null, (err,res) => {
-		if (err) {
-			result(err);
-		} else if(!res.length) {
-			result("NOT_FOUND");
-		} else {
-			result(null, res);
-		}
-	})
-}
-Applicant.findGeneral = (result) => {
-	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicants WHERE status = 'documents completed' AND applicant_id NOT IN (SELECT applicantId FROM generalevaluations)", null, (err,res) => {
-		if (err) {
-			result(err);
-		} else if(!res.length) {
-			result("NOT_FOUND");
-		} else {
-			result(null, res);
-		}
-	})
-}
-
 Applicant.findById = (id, result) => {
-	sql.query("SELECT applicant_id as id,firstname,middlename,lastname,email,contact_number as contactNumber,gender,age,birthday,status FROM applicants WHERE applicant_id = ?", id, (err,res) => {
+	sql.query("SELECT * FROM applicants WHERE id = ?", id, (err,res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {
 			result("NOT_FOUND");
 		} else {
 			result(null, res[0]);
+		}
+	})
+}
+Applicant.findAllApplicants = (result) => {
+	sql.query("SELECT * FROM applicants", null, (err,res) => {
+		if (err) {
+			result(err);
+		} else if(!res.length) {
+			result("NOT_FOUND");
+		} else {
+			result(null, res);
+		}
+	})
+}
+Applicant.findApplicantsByJobApplicant = (result) => {
+	sql.query("SELECT * FROM applicants WHERE id IN (SELECT DISTINCT(applicantId) FROM jobapplicants)", null, (err,res) => {
+		if (err) {
+			result(err);
+		} else if(!res.length) {
+			result("NOT_FOUND");
+		} else {
+			result(null, res);
 		}
 	})
 }

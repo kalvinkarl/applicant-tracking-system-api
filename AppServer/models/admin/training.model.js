@@ -1,12 +1,13 @@
 const sql = require("../../utils/database");
 const Traning = function(traning){
-	this.applicantId = traning.applicantId,
-	this.title = traning.title,
-	this.providerOrganizer = traning.providerOrganizer,
-	this.from = traning.from,
-	this.to = traning.to,
-	this.hours = traning.hours,
-	this.typeOfLD = traning.typeOfLD
+	this.id = traning.id;
+	this.applicantId = traning.applicantId;
+	this.title = traning.title;
+	this.providerOrganizer = traning.providerOrganizer;
+	this.from = traning.from;
+	this.to = traning.to;
+	this.hours = traning.hours;
+	this.typeOfLD = traning.typeOfLD;
 }
 Traning.create = (newTraining, result) => {
 	sql.query("INSERT INTO trainings SET ?", newTraining, (err, res) => {

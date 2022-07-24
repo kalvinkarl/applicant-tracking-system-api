@@ -1,29 +1,29 @@
-const applicant = require("../controllers/admin/applicant.controller");
-const training = require("../controllers/admin/training.controller");
-const experience = require("../controllers/admin/experience.controller");
-const generalEvaluation = require("../controllers/admin/general-evaluation.controller");
-const jobApplicant = require("../controllers/admin/job-applicant.controller");
+const admin = require("../controllers/admin.controller");
 const auth = require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
 module.exports = app => {
-	// Retrieve all applicants
-	router.get("",[auth.verifyToken, auth.isAdmin], applicant.findApplicants);
+	// Retrieve all applicants who applied for jobs
+	router.get("/applicants", [auth.verifyToken, auth.isAdmin], admin.findApplicantsByJobApplicant);
+	// Retrieve all registered applicants
+	router.get("/applicants/all", [auth.verifyToken, auth.isAdmin], admin.findAllApplicants);
+	// Retrieve all positions applied by applicants
+	router.get("/applicants/jobs",[auth.verifyToken, auth.isAdmin], admin.findPositionsByApplicant);
 	
-	// Retrieve all applicants
-	router.get("/general",[auth.verifyToken, auth.isAdmin], applicant.findGeneral);
 
+	// Create new applicant achievement
+	router.post("/applicants/achievement",[auth.verifyToken, auth.isAdmin], admin.createAchievement);
 	// Create new training
-	router.post("/general/evaluation/training",[auth.verifyToken, auth.isAdmin], training.create);
-
+	router.post("/applicants/achievement/training",[auth.verifyToken, auth.isAdmin], admin.createTraining);
 	// Create new experience
-	router.post("/general/evaluation/experience",[auth.verifyToken, auth.isAdmin], experience.create);
+	router.post("/applicants/achievement/experience",[auth.verifyToken, auth.isAdmin], admin.createExperience);
 	
-	// Create new general evaluation
-	router.post("/general/evaluation",[auth.verifyToken, auth.isAdmin], generalEvaluation.create);
 
-	// Retrieve all positions by applicants who have applied for jobs
-	router.get("/jobs",[auth.verifyToken, auth.isAdmin], jobApplicant.findByPosition);
+
+
+
+
+
 
 	// // Create a new user
 	// router.post("/signup", users.create);
@@ -51,5 +51,5 @@ module.exports = app => {
 
 	// // Delete all Users
 	// router.delete("/", users.deleteAll);
-	app.use("/admin/applicants", router);
+	app.use("/admin", router);
 };

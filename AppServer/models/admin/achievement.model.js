@@ -1,0 +1,35 @@
+const sql = require("../../utils/database");
+
+const Achievement = function(achievement){
+	this.applicantId = achievement.applicantId;
+	this.eligibility = achievement.eligibility;
+	this.salaryGrade = achievement.salaryGrade;
+	this.placeOfAssignment = achievement.placeOfAssignment;
+	this.statusOfAppointment = achievement.statusOfAppointment;
+	this.educationalAttainment = achievement.educationalAttainment;
+	this.dateOfLastPromotion = achievement.dateOfLastPromotion;
+	this.latestIpcrRating = achievement.latestIpcrRating;
+}
+
+Achievement.create = (newGeneralEvaluation, result) => {
+	sql.query("INSERT INTO achievements SET ?", newGeneralEvaluation, (err, res) => {
+		if (err) {
+			result(err);
+		} else {
+			result(null, { applicantId: res.insertId, ...newGeneralEvaluation });
+		}
+	});
+}
+Achievement.findById = (id, result) => {
+	sql.query("SELECT * FROM achievements WHERE applicantId = ?", id , (err, res) => {
+		if (err) {
+			result(err);
+		} else if(!res.length) {
+			result("NOT_FOUND");
+		} else {
+			result(null, res[0]);
+		}
+	});
+}
+
+module.exports = Achievement;

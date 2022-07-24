@@ -20,7 +20,7 @@ exports.verifyToken = (req, res, next) => {
 exports.isSuperUser = (req, res, next) => {
 	User.findById(req.id, (err,user)=>{
 		if(!err){
-			if (user.accessLevel === "su") {
+			if (user.role === "su") {
 				next();
 			}else{
 				res.status(403).send({ message: "Requires Super User Role!", owner:"Contact Kalvin Karl C. Nonato", number: "+639984283333", facebook: "https://facebook.com/kalvinkarl28" });
@@ -35,7 +35,7 @@ exports.isSuperUser = (req, res, next) => {
 exports.isAdmin = (req, res, next) => {
 	User.findById(req.id, (err,user)=>{
 		if(!err){
-			if (user.accessLevel === "hr" || user.accessLevel === "su") {
+			if (user.role === "hr" || user.role === "su") {
 				next();
 			}else{
 				res.status(403).send({ message: "Require Admin Role!" });
@@ -50,7 +50,7 @@ exports.isAdmin = (req, res, next) => {
 exports.isApplicant = (req, res, next) => {
 	User.findById(req.id, (err,user)=>{
 		if(!err){
-			if (user.accessLevel === "ap" || user.accessLevel === "su") {
+			if (user.role === "ap" || user.role === "su") {
 				next();
 			}else{
 				res.status(403).send({ message: "Requires Applicant Role!" });
@@ -65,7 +65,7 @@ exports.isApplicant = (req, res, next) => {
 exports.isEvaluator = (req, res, next) => {
 	User.findById(req.id, (err,user)=>{
 		if(!err){
-			if (user.accessLevel === "ev" || user.accessLevel === "su") {
+			if (user.role === "ev" || user.role === "su") {
 				next();
 			}else{
 				res.status(403).send({ message: "Requires Evaluator Role!" });

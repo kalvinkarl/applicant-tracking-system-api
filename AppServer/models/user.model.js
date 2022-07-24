@@ -4,7 +4,7 @@ const User = function(user){
 	this.username = user.username;
 	this.email = user.email;
 	this.password = user.password;
-	this.accessLevel = user.accessLevel;
+	this.role = user.role;
 }
 User.create = (newUser, result) => {
 	sql.query("INSERT INTO users SET ?", newUser, (err, res) => {

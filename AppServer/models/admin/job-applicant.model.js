@@ -1,12 +1,11 @@
 const sql = require("../../utils/database");
 
 const JobApplicant = function(jobApplicant){
-	this.applicantId = jobApplicant.applicantId,
-	this.positionId = jobApplicant.positionId,
-	this.status = jobApplicant.status
+	this.applicantId = jobApplicant.applicantId;
+	this.positionId = jobApplicant.positionId;
 }
 JobApplicant.findAll = (result) => {
-	sql.query("SELECT applicants.applicant_id as id,applicants.firstname,applicants.middlename,applicants.lastname,applicants.email,applicants.contact_number as contactNumber,applicants.gender,applicants.age,applicants.birthday,applicants.status,positions.*,jobapplicants.status FROM denr.jobapplicants INNER JOIN applicants ON applicants.applicant_id = jobapplicants.positionId INNER JOIN positions ON positions.positionId = jobapplicants.positionId;", null, (err,res) => {
+	sql.query("SELECT applicants.*,positions.* FROM jobapplicants INNER JOIN applicants ON applicants.id = jobapplicants.applicantId INNER JOIN positions ON positions.id = jobapplicants.positionId;", null, (err,res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {
@@ -16,8 +15,30 @@ JobApplicant.findAll = (result) => {
 		}
 	})
 }
-JobApplicant.findByPosition = (result) => {
-	sql.query("SELECT applicants.applicant_id as applicantId,positions.*,jobapplicants.status FROM denr.jobapplicants INNER JOIN applicants ON applicants.applicant_id = jobapplicants.positionId INNER JOIN positions ON positions.positionId = jobapplicants.positionId;", null, (err,res) => {
+JobApplicant.findPositionsByApplicant = (result) => {
+	sql.query(`SELECT
+		applicants.id as applicantId,
+		positions.id as positionId,
+		positions.positionTitle,
+		positions.plantillaItemNo,
+		positions.officeName,
+		positions.province,
+		positions.salaryGrade,
+		positions.educationalRequirement,
+		positions.trainingRequirement,
+		positions.experienceRequirement,
+		positions.trainingCount,
+		positions.experienceCount,
+		positions.vice,
+		positions.dutiesAndResponsibilities,
+		positions.eligibilityRequirement,
+		positions.competency,
+		positions.statusOfAppointment
+		FROM denr.jobapplicants
+		INNER JOIN applicants
+		ON applicants.id = jobapplicants.applicantId
+		INNER JOIN positions
+		ON positions.id = jobapplicants.positionId`, null, (err,res) => {
 		if (err) {
 			result(err);
 		} else if(!res.length) {

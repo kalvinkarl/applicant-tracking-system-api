@@ -17,17 +17,17 @@ const signupLimitter = limitter({
 });
 module.exports = app => {
 	// Login a user
-	router.post("/signin", users.signin, [signinLimitter,users.signinFailed]);
+	router.post("/signin", [signinLimitter], users.signin);
 	// Create a new user
-	router.post("/signup", users.signup);
+	router.post("/signup", [signupLimitter], users.signup);
 	// Request new verification
 	router.post("/verify" , users.resendVerification);
 	// User verification
 	router.get("/verify/:id/:uniqueString" , users.verify)
 	//----------------------------------------------------------------------SECURED!-------------------------------------------------------
 	// Retrieve a single user with their username
-	router.get("/u/:username",[auth.verifyToken], users.findByUsername);
+	router.get("/u/:username", [auth.verifyToken], users.findByUsername);
 	// Retrieve a single User with their email address
-	router.get("/e/:email",[auth.verifyToken], users.findByEmail);
+	router.get("/e/:email", [auth.verifyToken], users.findByEmail);
 	app.use('/users', router);
 };

@@ -68,7 +68,7 @@ const checkUsernameEmail = (user, result) => {
 	}
 }
 // User login
-exports.signin = (req, res, next) => {
+exports.signin = (req, res) => {
 	// Validate Request
 	if (!req.body) {
 		res.status(400).send({
@@ -77,13 +77,9 @@ exports.signin = (req, res, next) => {
 	}
 	checkUsernameEmail(req.body.username, (error,result) => {
 		if(error === 'NOT_FOUND'){
-			req.currentStatus = 404;
-			req.message = { message: "User not found" };
-			next();
+			res.status(404).send({ message: "User not found" });
 		}else if(error){
-			req.currentStatus = 500;
-			req.message = { message: "Error retrieving User", error: error };
-			next();
+			res.status(500).send({ message: "Error retrieving User", error: error });
 		}else{
 			let passwordIsEqual = Bcrypt.compareSync(req.body.password, result.password);
 			if(passwordIsEqual){
@@ -97,21 +93,15 @@ exports.signin = (req, res, next) => {
 						id:result.id,
 						username: result.username,
 						email: result.email,
-						role: result.accessLevel,
+						role: result.role,
 						token: token
 					});
 				}
 			}else{
-				req.currentStatus = 401;
-				req.message = { message: "Incorrect password!" };
-				next();
+				res.status(401).send({ message: "Incorrect password!" });
 			}
 		}
 	})
-}
-// Failed to login
-exports.signinFailed = (req, res, next) => {
-	res.status(req.currentStatus).send(req.message);
 }
 // Create and Save a new User
 exports.signup = (req, res) => {
@@ -146,7 +136,7 @@ exports.signup = (req, res) => {
 							username: req.body.username,
 							email: req.body.email,
 							password: Bcrypt.hashSync(req.body.password, 12),
-							accessLevel: req.body.accessLevel,
+							role: req.body.role,
 					});
 					User.create(user, (error, result) => {
 							if (!error){

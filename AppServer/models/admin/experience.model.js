@@ -1,6 +1,7 @@
 const sql = require("../../utils/database");
 
 const Experience = function(experience){
+	this.id = experience.id;
 	this.applicantId = experience.applicantId;
 	this.positionDesignation = experience.positionDesignation;
 	this.from = experience.from;
