@@ -3,6 +3,10 @@ const JobApplicant = require("../models/admin/job-applicant.model");
 const Achievement = require("../models/admin/achievement.model");
 const Training = require("../models/admin/training.model");
 const Experience = require("../models/admin/experience.model");
+// date validator
+function dateIsValid(date) {
+	return date instanceof Date && !isNaN(date);
+}
 //all registered applicants
 exports.findAllApplicants = (req,res) => {
 	Applicant.findAllApplicants((error,result) => {
@@ -89,43 +93,47 @@ exports.findAchievementsByApplicantId = (req,res) => {
 //insert new achievement
 exports.createAchievement = (req,res) => {
 	// Validate request
-	if (!req.body) {
-		res.status(400).send({ message: "Content can not be empty!" });
+	if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
+	// Validate date request
+	else if (!dateIsValid(new Date(req.body.dateOfLastPromotion))) { res.status(400).send({ message: "Invalide date format" }); }
+	else if (req.body.latestIpcrRating < 0 || req.body.latestIpcrRating > 5) { res.status(400).send({ message: "Invalide IPCR rating" }); }
+	else{
+		// check if applicant exist
+		Applicant.findById(req.body.applicantId,(error)=>{
+			if(!error){
+				// check if duplicate achievements
+				Achievement.findByApplicantId(req.body.applicantId,(err)=>{
+					if(!err){
+						res.status(409).send({ message: "Error, duplicate record found." });
+					}else if ("NOT_FOUND"){
+						let achievement = new Achievement({
+							applicantId: req.body.applicantId,
+							eligibility: req.body.eligibility,
+							salaryGrade: req.body.salaryGrade,
+							placeOfAssignment: req.body.placeOfAssignment,
+							statusOfAppointment: req.body.statusOfAppointment,
+							educationalAttainment: req.body.educationalAttainment,
+							dateOfLastPromotion: new Date(req.body.dateOfLastPromotion),
+							latestIpcrRating: req.body.latestIpcrRating
+						});
+						Achievement.create(achievement, (er, app) => {
+							if(!er){
+								res.send(app);
+							}else{
+								res.status(500).send({ message: "Error inserting a general evaluation in database", er });
+							}
+						});
+					}else{
+						res.status(500).send({ message: "Error finding for existing general evaluation in database", err });
+					}
+				})
+			}else if ("NOT_FOUND"){
+				res.status(404).send({ message: "Can't proceed with unexisting applicant" });
+			}else{
+				res.status(500).send({ message: "Error finding for existing general evaluation in database", err });
+			}
+		});
 	}
-	// check if applicant exist
-	Applicant.findById(req.body.applicantId,(error)=>{
-		if(!error){
-			Achievement.findByApplicantId(req.body.applicantId,(err)=>{
-				if(!err){
-					res.status(409).send({ message: "Error, duplicate record found." });
-				}else if ("NOT_FOUND"){
-					let achievement = new Achievement({
-						applicantId: req.body.applicantId,
-						eligibility: req.body.eligibility,
-						salaryGrade: req.body.salaryGrade,
-						placeOfAssignment: req.body.placeOfAssignment,
-						statusOfAppointment: req.body.statusOfAppointment,
-						educationalAttainment: req.body.educationalAttainment,
-						dateOfLastPromotion: new Date(req.body.dateOfLastPromotion),
-						latestIpcrRating: req.body.latestIpcrRating
-					})
-					Achievement.create(achievement, (er, app) => {
-						if(!er){
-							res.send(app);
-						}else{
-							res.status(500).send({ message: "Error inserting a general evaluation in database", er });
-						}
-					})
-				}else{
-					res.status(500).send({ message: "Error finding for existing general evaluation in database", err });
-				}
-			})
-		}else if ("NOT_FOUND"){
-			res.status(404).send({ message: "Can't proceed with unexisting applicant" });
-		}else{
-			res.status(500).send({ message: "Error finding for existing general evaluation in database", err });
-		}
-	});
 }
 //insert new training
 exports.createTraining = (req,res) => {

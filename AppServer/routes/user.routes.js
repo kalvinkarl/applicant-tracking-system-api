@@ -17,9 +17,9 @@ const signupLimitter = limitter({
 });
 module.exports = app => {
 	// Login a user
-	router.post("/signin", [signinLimitter], users.signin);
+	router.post("/signin", users.signin , [signinLimitter]);
 	// Create a new user
-	router.post("/signup", [signupLimitter], users.signup);
+	router.post("/signup", users.signup , [signupLimitter, users.register]);
 	// Request new verification
 	router.post("/verify" , users.resendVerification);
 	// User verification

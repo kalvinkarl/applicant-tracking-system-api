@@ -103,8 +103,8 @@ exports.signin = (req, res) => {
 		}
 	})
 }
-// Create and Save a new User
-exports.signup = (req, res) => {
+// User signup
+exports.signup = (req, res, next) => {
 	// Validate request
 	if (!req.body) {
 			res.status(400).send({
@@ -131,26 +131,30 @@ exports.signup = (req, res) => {
 				});
 			}else{
 				if (usernameError === "NOT_FOUND" && mailError === "NOT_FOUND") {
-					// Create a User
-					let user = new User({
-							username: req.body.username,
-							email: req.body.email,
-							password: Bcrypt.hashSync(req.body.password, 12),
-							role: req.body.role,
-					});
-					User.create(user, (error, result) => {
-							if (!error){
-								sendVerification(result,res);
-							} else {
-								res.status(500).send({ message: "Some error occurred while creating the User.", error });
-							}
-					});
+					next();
 				} else {
 					res.status(500).send({ message: "Error checking for existing user in database", mailError });
 				}
 			}
 		})
 	})
+}
+// User success for rate limit middleman
+exports.register = (req,res) => {
+	// Create a User
+	let user = new User({
+			username: req.body.username,
+			email: req.body.email,
+			password: Bcrypt.hashSync(req.body.password, 12),
+			role: 'ap',
+	});
+	User.create(user, (error, result) => {
+			if (!error){
+				sendVerification(result,res);
+			} else {
+				res.status(500).send({ message: "Some error occurred while creating the User.", error });
+			}
+	});
 }
 // Resend verification if verify is less than 3
 exports.resendVerification = (req, res) =>{
