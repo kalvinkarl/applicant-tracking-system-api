@@ -11,16 +11,7 @@ const Achievement = function(achievement){
 	this.latestIpcrRating = achievement.latestIpcrRating;
 }
 
-Achievement.create = (newGeneralEvaluation, result) => {
-	sql.query("INSERT INTO achievements SET ?", newGeneralEvaluation, (err, res) => {
-		if (err) {
-			result(err);
-		} else {
-			result(null, { applicantId: res.insertId, ...newGeneralEvaluation });
-		}
-	});
-}
-Achievement.findById = (id, result) => {
+Achievement.findByApplicantId = (id, result) => {
 	sql.query("SELECT * FROM achievements WHERE applicantId = ?", id , (err, res) => {
 		if (err) {
 			result(err);
@@ -31,5 +22,13 @@ Achievement.findById = (id, result) => {
 		}
 	});
 }
-
+Achievement.create = (newGeneralEvaluation, result) => {
+	sql.query("INSERT INTO achievements SET ?", newGeneralEvaluation, (err, res) => {
+		if (err) {
+			result(err);
+		} else {
+			result(null, { applicantId: res.insertId, ...newGeneralEvaluation });
+		}
+	});
+}
 module.exports = Achievement;

@@ -17,7 +17,7 @@ JobApplicant.findAll = (result) => {
 }
 JobApplicant.findPositionsByApplicant = (result) => {
 	sql.query(`SELECT
-		applicants.id as applicantId,
+		applicantId,
 		positions.id as positionId,
 		positions.positionTitle,
 		positions.plantillaItemNo,
@@ -35,8 +35,6 @@ JobApplicant.findPositionsByApplicant = (result) => {
 		positions.competency,
 		positions.statusOfAppointment
 		FROM denr.jobapplicants
-		INNER JOIN applicants
-		ON applicants.id = jobapplicants.applicantId
 		INNER JOIN positions
 		ON positions.id = jobapplicants.positionId`, null, (err,res) => {
 		if (err) {

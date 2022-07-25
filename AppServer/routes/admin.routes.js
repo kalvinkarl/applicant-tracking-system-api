@@ -4,13 +4,15 @@ const express = require("express");
 const router = express.Router();
 module.exports = app => {
 	// Retrieve all applicants who applied for jobs
-	router.get("/applicants", [auth.verifyToken, auth.isAdmin], admin.findApplicantsByJobApplicant);
+	router.get("/applicants", [auth.verifyToken, auth.isAdmin], admin.findApplicantsByJobApplicantWithAchievement);
 	// Retrieve all registered applicants
 	router.get("/applicants/all", [auth.verifyToken, auth.isAdmin], admin.findAllApplicants);
 	// Retrieve all positions applied by applicants
 	router.get("/applicants/jobs",[auth.verifyToken, auth.isAdmin], admin.findPositionsByApplicant);
-	
 
+	// Retrieve applicant achievements
+	router.get("/applicants/achievements/:id",[auth.verifyToken, auth.isAdmin], admin.findAchievementsByApplicantId);
+	
 	// Create new applicant achievement
 	router.post("/applicants/achievement",[auth.verifyToken, auth.isAdmin], admin.createAchievement);
 	// Create new training
@@ -18,13 +20,6 @@ module.exports = app => {
 	// Create new experience
 	router.post("/applicants/achievement/experience",[auth.verifyToken, auth.isAdmin], admin.createExperience);
 	
-
-
-
-
-
-
-
 	// // Create a new user
 	// router.post("/signup", users.create);
 	// // Login a user

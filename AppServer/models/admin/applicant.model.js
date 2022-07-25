@@ -44,4 +44,15 @@ Applicant.findApplicantsByJobApplicant = (result) => {
 		}
 	})
 }
+Applicant.findApplicantsByJobApplicantWithAchievement = (result) => {
+	sql.query("SELECT ap.*,ac.applicantId as achievement FROM applicants as ap LEFT JOIN achievements as ac ON ac.applicantId = ap.id WHERE id IN (SELECT DISTINCT(applicantId) FROM jobapplicants)", null, (err,res) => {
+		if (err) {
+			result(err);
+		} else if(!res.length) {
+			result("NOT_FOUND");
+		} else {
+			result(null, res);
+		}
+	})
+}
 module.exports = Applicant;

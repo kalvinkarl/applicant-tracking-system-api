@@ -1,7 +1,7 @@
 const Applicant = require("../models/admin/applicant.model");
 const JobApplicant = require("../models/admin/job-applicant.model");
 const Achievement = require("../models/admin/achievement.model");
-const Traning = require("../models/admin/training.model");
+const Training = require("../models/admin/training.model");
 const Experience = require("../models/admin/experience.model");
 //all registered applicants
 exports.findAllApplicants = (req,res) => {
@@ -31,6 +31,20 @@ exports.findApplicantsByJobApplicant = (req,res) => {
 		}
 	})
 }
+//all applicants who applied for jobs with achievements
+exports.findApplicantsByJobApplicantWithAchievement = (req,res) => {
+	Applicant.findApplicantsByJobApplicantWithAchievement((error,result) => {
+		if(!error){
+			res.send(result);
+		}else{
+			if (error === "NOT_FOUND") {
+				res.status(404).send({ message: "There is nothing in here!" });
+			} else {
+				res.status(500).send({ message: "Error retrieving registered applicants in database", error });
+			}
+		}
+	})
+}
 //all positions applied by applicants
 exports.findPositionsByApplicant = (req, res) => {
 	JobApplicant.findPositionsByApplicant((error, result)=>{
@@ -45,7 +59,34 @@ exports.findPositionsByApplicant = (req, res) => {
 		}
 	});
 }
-// insert new achievement
+//applicant achievements
+exports.findAchievementsByApplicantId = (req,res) => {
+	const applicantId = req.params.id.trim();
+	Achievement.findByApplicantId(applicantId, (error,achievement) => {
+		if(!error){
+			Experience.findByApplicantId(applicantId, (error,experience) => {
+				if(!error || error === 'NOT_FOUND'){
+					Training.findByApplicantId(applicantId, (error,training) => {
+						if(!error || error === 'NOT_FOUND'){
+							res.send({achievement: achievement, experiences: experience, trainings: training});
+						}else{
+							res.status(500).send({ message: "Error retrieving all training in database", error });
+						}
+					});
+				}else{
+					res.status(500).send({ message: "Error retrieving all experience in database", error });
+				}
+			});
+		}else{
+			if (error === "NOT_FOUND") {
+				res.status(404).send({ message: "No achievement was found!" });
+			} else {
+				res.status(500).send({ message: "Error retrieving all achievement in database", error });
+			}
+		}
+	});
+}
+//insert new achievement
 exports.createAchievement = (req,res) => {
 	// Validate request
 	if (!req.body) {
@@ -54,7 +95,7 @@ exports.createAchievement = (req,res) => {
 	// check if applicant exist
 	Applicant.findById(req.body.applicantId,(error)=>{
 		if(!error){
-			Achievement.findById(req.body.applicantId,(err)=>{
+			Achievement.findByApplicantId(req.body.applicantId,(err)=>{
 				if(!err){
 					res.status(409).send({ message: "Error, duplicate record found." });
 				}else if ("NOT_FOUND"){
@@ -65,7 +106,7 @@ exports.createAchievement = (req,res) => {
 						placeOfAssignment: req.body.placeOfAssignment,
 						statusOfAppointment: req.body.statusOfAppointment,
 						educationalAttainment: req.body.educationalAttainment,
-						dateOfLastPromotion: req.body.dateOfLastPromotion,
+						dateOfLastPromotion: new Date(req.body.dateOfLastPromotion),
 						latestIpcrRating: req.body.latestIpcrRating
 					})
 					Achievement.create(achievement, (er, app) => {
@@ -84,9 +125,9 @@ exports.createAchievement = (req,res) => {
 		}else{
 			res.status(500).send({ message: "Error finding for existing general evaluation in database", err });
 		}
-	})
+	});
 }
-// insert new training
+//insert new training
 exports.createTraining = (req,res) => {
 	// Validate request
 	if (!req.body) {
@@ -95,16 +136,16 @@ exports.createTraining = (req,res) => {
 	// check if applicant exist
 	Applicant.findById(req.body.applicantId,(error)=>{
 		if(!error){
-			let training = new Traning({
+			let training = new Training({
 				applicantId: req.body.applicantId,
 				title: req.body.title,
 				providerOrganizer: req.body.providerOrganizer,
-				from: req.body.from,
-				to: req.body.to,
+				from: new Date(req.body.from),
+				to: new Date(req.body.to),
 				hours: req.body.hours,
 				typeOfLD: req.body.typeOfLD
 			})
-			Traning.create(training, (err, app) => {
+			Training.create(training, (err, app) => {
 				if(!err){
 					res.send(app);
 				}else{
@@ -116,12 +157,12 @@ exports.createTraining = (req,res) => {
 		}else{
 			res.status(500).send({ message: "Error finding for existing applicant in database", err });
 		}
-	})
+	});
 
 
 
 }
-// insert new experience
+//insert new experience
 exports.createExperience = (req,res) => {
 	// Validate request
 	if (!req.body) {
@@ -133,8 +174,8 @@ exports.createExperience = (req,res) => {
 			let experience = new Experience({
 				applicantId: req.body.applicantId,
 				positionDesignation: req.body.positionDesignation,
-				from: req.body.from,
-				to: req.body.to
+				from: new Date(req.body.from),
+				to: new Date(req.body.to)
 			})
 			Experience.create(experience, (err, app) => {
 				if(!err){
@@ -148,5 +189,5 @@ exports.createExperience = (req,res) => {
 		}else{
 			res.status(500).send({ message: "Error finding for existing experience in database", err });
 		}
-	})
+	});
 }

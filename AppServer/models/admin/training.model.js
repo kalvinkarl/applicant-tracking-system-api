@@ -1,15 +1,26 @@
 const sql = require("../../utils/database");
-const Traning = function(traning){
-	this.id = traning.id;
-	this.applicantId = traning.applicantId;
-	this.title = traning.title;
-	this.providerOrganizer = traning.providerOrganizer;
-	this.from = traning.from;
-	this.to = traning.to;
-	this.hours = traning.hours;
-	this.typeOfLD = traning.typeOfLD;
+const Training = function(training){
+	this.id = training.id;
+	this.applicantId = training.applicantId;
+	this.title = training.title;
+	this.providerOrganizer = training.providerOrganizer;
+	this.from = training.from;
+	this.to = training.to;
+	this.hours = training.hours;
+	this.typeOfLD = training.typeOfLD;
 }
-Traning.create = (newTraining, result) => {
+Training.findByApplicantId = (id, result) => {
+	sql.query("SELECT * FROM trainings WHERE applicantId = ?", id , (err, res) => {
+		if (err) {
+			result(err);
+		} else if(!res.length) {
+			result("NOT_FOUND");
+		} else {
+			result(null, res);
+		}
+	});
+}
+Training.create = (newTraining, result) => {
 	sql.query("INSERT INTO trainings SET ?", newTraining, (err, res) => {
 		if (err) {
 			result(err);
@@ -18,4 +29,4 @@ Traning.create = (newTraining, result) => {
 		}
 	});
 }
-module.exports = Traning;
+module.exports = Training;
