@@ -29,4 +29,13 @@ Training.create = (newTraining, result) => {
 		}
 	});
 }
+Training.removeTrainingsByApplicant = (applicantId, result) => {
+	sql.query("DELETE FROM trainings WHERE applicantId = ?", applicantId, (err,res) => {
+		if(err){
+			result(err);
+		} else {
+			result(null, res);
+		}
+	});
+}
 module.exports = Training;

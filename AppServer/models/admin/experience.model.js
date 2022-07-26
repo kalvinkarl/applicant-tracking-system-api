@@ -27,5 +27,13 @@ Experience.create = (newExperience, result) => {
 		}
 	});
 }
-
+Experience.removeExperiencesByApplicant = (applicantId, result) => {
+	sql.query("DELETE FROM experiences WHERE applicantId = ?", applicantId, (err,res) => {
+		if(err){
+			result(err);
+		} else {
+			result(null, res);
+		}
+	});
+}
 module.exports = Experience;

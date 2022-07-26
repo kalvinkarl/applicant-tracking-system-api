@@ -63,6 +63,7 @@ exports.findPositionsByApplicant = (req, res) => {
 		}
 	});
 }
+
 //applicant achievements
 exports.findAchievementsByApplicantId = (req,res) => {
 	const applicantId = req.params.id.trim();
@@ -90,7 +91,6 @@ exports.findAchievementsByApplicantId = (req,res) => {
 		}
 	});
 }
-//insert new achievement
 exports.createAchievement = (req,res) => {
 	// Validate request
 	if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
@@ -135,7 +135,6 @@ exports.createAchievement = (req,res) => {
 		});
 	}
 }
-//insert new training
 exports.createTraining = (req,res) => {
 	// Validate request
 	if (!req.body) {
@@ -170,7 +169,6 @@ exports.createTraining = (req,res) => {
 
 
 }
-//insert new experience
 exports.createExperience = (req,res) => {
 	// Validate request
 	if (!req.body) {
@@ -196,6 +194,68 @@ exports.createExperience = (req,res) => {
 			res.status(404).send({ message: "Can't proceed with unexisting applicant" });
 		}else{
 			res.status(500).send({ message: "Error finding for existing experience in database", err });
+		}
+	});
+}
+exports.updateAchievement = (req,res) => {
+	// Validate request
+	if (!req.body) { res.status(400).send({ message: "Content can not be empty!" }); }
+	// Validate date request
+	else if (!dateIsValid(new Date(req.body.dateOfLastPromotion))) { res.status(400).send({ message: "Invalide date format" }); }
+	else if (req.body.latestIpcrRating < 0 || req.body.latestIpcrRating > 5) { res.status(400).send({ message: "Invalide IPCR rating" }); }
+	else{
+		// check if applicant exist
+		Applicant.findById(req.body.applicantId,(error)=>{
+			if(!error){
+				// check if there is achievements to update
+				Achievement.findByApplicantId(req.body.applicantId,(err)=>{
+					if(!err){
+						let achievement = new Achievement({
+							applicantId: req.body.applicantId,
+							eligibility: req.body.eligibility,
+							salaryGrade: req.body.salaryGrade,
+							placeOfAssignment: req.body.placeOfAssignment,
+							statusOfAppointment: req.body.statusOfAppointment,
+							educationalAttainment: req.body.educationalAttainment,
+							dateOfLastPromotion: new Date(req.body.dateOfLastPromotion),
+							latestIpcrRating: req.body.latestIpcrRating
+						});
+						Achievement.update(req.body.applicantId,achievement, (er, app) => {
+							if(!er){
+								res.send(app);
+							}else{
+								res.status(500).send({ message: "Error updating a achievement in database", er });
+							}
+						});
+					}else if ("NOT_FOUND"){
+						res.status(404).send({ message: "Theres no achievement yet for this applicant" });
+					}else{
+						res.status(500).send({ message: "Error finding for existing achievement in database", err });
+					}
+				})
+			}else if ("NOT_FOUND"){
+				res.status(404).send({ message: "Can't proceed with unexisting applicant" });
+			}else{
+				res.status(500).send({ message: "Error finding for existing achievement in database", err });
+			}
+		});
+	}
+}
+exports.removeTrainingsByApplicant = (req,res) => {
+	Training.removeTrainingsByApplicant(req.params.applicantId,(error,result) => {
+		if(!error){
+			res.send({ message: "successfully removed trainings", deletedRows: result.affectedRows });
+		}else{
+			res.status(500).send({ message: "Error removing trainings of applicant in database", err });
+		}
+	});
+}
+exports.removeExperiencesByApplicant = (req,res) => {
+	Experience.removeExperiencesByApplicant(req.params.applicantId,(error,result) => {
+		if(!error){
+			res.send({ message: "successfully removed experiences", deletedRows: result.affectedRows });
+		}else{
+			res.status(500).send({ message: "Error removing trainings of applicant in database", err });
 		}
 	});
 }

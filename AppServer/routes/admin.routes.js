@@ -20,6 +20,13 @@ module.exports = app => {
 	// Create new experience
 	router.post("/applicants/achievement/experience",[auth.verifyToken, auth.isAdmin], admin.createExperience);
 	
+	// Update applicant achievement
+	router.put("/applicants/achievement",[auth.verifyToken, auth.isAdmin], admin.updateAchievement);
+	// Update applicant training
+	router.delete("/applicants/achievement/training/:applicantId",[auth.verifyToken, auth.isAdmin], admin.removeTrainingsByApplicant);
+	// Update applicant experience
+	router.delete("/applicants/achievement/experience/:applicantId",[auth.verifyToken, auth.isAdmin], admin.removeExperiencesByApplicant);
+
 	// // Create a new user
 	// router.post("/signup", users.create);
 	// // Login a user
