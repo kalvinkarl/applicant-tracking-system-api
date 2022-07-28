@@ -1,10 +1,12 @@
 const UserVerification = require("../models/user.verification.model");
 const User = require("../models/user.model");
-const config = require("../config/config.json");
+const config = require("../../config.json");
 const jwt = require('jsonwebtoken');
 const Bcrypt = require("bcryptjs");
+const secret = "kalvin-secret-key";
 const { v4: uuidv4 } = require('uuid');
 const nodemailer = require('nodemailer');
+
 // Create transporter to nodemailer
 const transporter = nodemailer.createTransport({
 	service: "gmail",
@@ -106,7 +108,7 @@ exports.login = (req,res) => {
 	if(req.result){
 		let token = jwt.sign({
 			id: req.result.id
-		},config.secret,{expiresIn: 86400});
+		},secret,{expiresIn: 86400});
 		res.send({ 
 			id:req.result.id,
 			username: req.result.username,

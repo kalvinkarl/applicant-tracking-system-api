@@ -1,11 +1,12 @@
 {
-  "name": "applibrary",
+  "name": "app-server",
   "version": "1.0.0",
   "description": "This is the server",
   "main": "app.js",
   "scripts": {
     "test": "node app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "build": "nexe app.js -r 'src/**/*' -t windows --build --verbose"
   },
   "author": "Kalvin Karl Nonato",
   "license": "ISC",
