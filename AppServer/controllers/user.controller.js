@@ -53,7 +53,7 @@ const sendVerification = (user,res) => {
 		}
 	})
 }
-// Check login username or email
+// Check if signin uses username or email
 const checkUsernameEmail = (user, result) => {
 	if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(user)) {
 		// Login using email address
@@ -68,40 +68,57 @@ const checkUsernameEmail = (user, result) => {
 	}
 }
 // User login
-exports.signin = (req, res) => {
+exports.signin = (req, res, next) => {
 	// Validate Request
 	if (!req.body) {
-		res.status(400).send({
-			message: "Content can not be empty!"
-		})
+		// res.status(400).send({ message: "Content can not be empty!" });
+		res.status(400);
+		next();
 	}
 	checkUsernameEmail(req.body.username, (error,result) => {
 		if(error === 'NOT_FOUND'){
-			res.status(404).send({ message: "User not found" });
+			res.status(404);
+			// req.signinFail++;
+			next();
 		}else if(error){
-			res.status(500).send({ message: "Error retrieving User", error: error });
+			// res.status(500).send({ message: "Error retrieving User", error: error });
+			res.status(500);
+			next();
 		}else{
 			let passwordIsEqual = Bcrypt.compareSync(req.body.password, result.password);
 			if(passwordIsEqual){
 				if(!result.verified){
-					res.status(403).send({message: "Email hasn't been verified yet.", email: result.email})
+					// res.status(403).send({message: "Email hasn't been verified yet.", email: result.email});
 				}else{
-					let token = jwt.sign({
-						id: result.id
-					},config.secret,{expiresIn: 86400});
-					res.status(200).send({ 
-						id:result.id,
-						username: result.username,
-						email: result.email,
-						role: result.role,
-						token: token
-					});
+					res.status(200);
+					req.result = result;
+					next();
 				}
 			}else{
-				res.status(401).send({ message: "Incorrect password!" });
+				// res.status(401).send({ message: "Incorrect password!" });
+				res.status(401);
+				next();
 			}
 		}
-	})
+	});
+}
+exports.login = (req,res) => {
+	if(req.result){
+		let token = jwt.sign({
+			id: req.result.id
+		},config.secret,{expiresIn: 86400});
+		res.send({ 
+			id:req.result.id,
+			username: req.result.username,
+			email: req.result.email,
+			role: req.result.role,
+			token: token
+		});
+	}else if(res.statusCode === 404){
+		res.send({ message: "User not found" });
+	}else{
+		res.send({ message: "Others"});
+	}
 }
 // User signup
 exports.signup = (req, res, next) => {

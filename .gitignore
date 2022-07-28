@@ -1,12 +1,3 @@
-# projects
-AppUI
-AppServer/readme.md
-AppServer/node_modules
-AppServer/dist
-AppServer/tmp
-AppServer/out-tsc
-AppServer/bazel-out
-
 # logs
 AppServer/npm-debug.log
 AppServer/yarn-error.log
