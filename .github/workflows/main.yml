@@ -22,6 +22,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ca-central-1
-    - run: cd AppServer && npm ci
-    - run: cd AppServer; zip -r ../publish.zip *
+    - run: cd backend && npm ci
+    - run: cd backend; zip -r ../publish.zip *
     - run: aws lambda update-function-code --function-name=ApplicantTrackingSystem --zip-file=fileb://publish.zip
