@@ -2,7 +2,7 @@
   "name": "applicant-tracking-system",
   "version": "1.0.0",
   "description": "This server that will monitor and serve application process of clients of DENR Region 2",
-  "main": "AppServer/app.js",
+  "main": "backend/app.js",
   "scripts": {
     "test": "node ./AppServer/app.js",
     "start": "nodemon ./AppServer/app.js"
@@ -12,8 +12,12 @@
     "url": "git+https://github.com/kalvinkarlnonato/ApplicantTrackingSystem.git"
   },
   "keywords": [
-    "Applicant",
-    "Tracking"
+    "appicant",
+    "tracking",
+    "denr",
+    "human resource",
+    "backend",
+    "rest-api"
   ],
   "author": "Kalvin Karl C. Nonato",
   "license": "ISC",
