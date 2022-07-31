@@ -1,0 +1,34 @@
+form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 22px;
+}
+div{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    cursor: pointer;
+}
+mat-form-field{
+    width: 100%;
+}
+mat-card-content{
+    p {
+        display: flex;
+        flex-direction: column;
+        padding-top: 22px;
+    }
+}
+mat-card-actions{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 0 7px;
+    button{
+        width: 200px;
+        float: right;
+    }
+}
