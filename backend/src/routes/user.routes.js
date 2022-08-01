@@ -10,6 +10,10 @@ const isFailed = async (attempts) => {
 }
 const signinLimitter = limitter({
 	windowMs: 3 * 60 * 1000, // 3 minutes
+	// windowMs: async (req, res) => {
+	// 	console.log(await res.statusCode);
+	// 	return (3 * 60 * 1000); // 3 minutes
+	// },
 	message: 'Too many login failed attempts. Please try again after 3 minutes',
 	max: 5, // Limit each IP to 2 requests per `window` (here, per 60 minutes)
 	// max: async (req, res) => {
