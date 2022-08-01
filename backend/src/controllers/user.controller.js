@@ -3,7 +3,7 @@ const User = require("../models/user.model");
 const config = require("../../config.json");
 const jwt = require('jsonwebtoken');
 const Bcrypt = require("bcryptjs");
-const secret = "kalvin-secret-key";
+const secret = "kalvin-karl-secret-key";
 const { v4: uuidv4 } = require('uuid');
 const nodemailer = require('nodemailer');
 
@@ -73,53 +73,53 @@ const checkUsernameEmail = (user, result) => {
 exports.signin = (req, res, next) => {
 	// Validate Request
 	if (!req.body) {
-		// res.status(400).send({ message: "Content can not be empty!" });
 		res.status(400);
 		next();
 	}
-	checkUsernameEmail(req.body.username, (error,result) => {
+	checkUsernameEmail(req.body.username, (error,user) => {
 		if(error === 'NOT_FOUND'){
 			res.status(404);
-			// req.signinFail++;
-			next();
 		}else if(error){
-			// res.status(500).send({ message: "Error retrieving User", error: error });
 			res.status(500);
-			next();
 		}else{
-			let passwordIsEqual = Bcrypt.compareSync(req.body.password, result.password);
+			let passwordIsEqual = Bcrypt.compareSync(req.body.password, user.password);
 			if(passwordIsEqual){
-				if(!result.verified){
-					// res.status(403).send({message: "Email hasn't been verified yet.", email: result.email});
+				req.user = user;
+				if(!user.verified){
+					res.status(403);
 				}else{
 					res.status(200);
-					req.result = result;
-					next();
 				}
 			}else{
-				// res.status(401).send({ message: "Incorrect password!" });
 				res.status(401);
-				next();
 			}
 		}
+		next();
 	});
 }
+// User success login for rate limit middleman
 exports.login = (req,res) => {
-	if(req.result){
-		let token = jwt.sign({
-			id: req.result.id
-		},secret,{expiresIn: 86400});
-		res.send({ 
-			id:req.result.id,
-			username: req.result.username,
-			email: req.result.email,
-			role: req.result.role,
-			token: token
-		});
+	if(res.statusCode === 400){
+		res.send({ message: "Content can not be empty!" });
+	}else if(res.statusCode === 500){
+		res.send({ message: "Error retrieving User"});
+	}else if(res.statusCode === 403){
+		res.send({message: "Email hasn't been verified yet.", email: req.user.email});
 	}else if(res.statusCode === 404){
 		res.send({ message: "User not found" });
+	}else if(res.statusCode === 401){
+		res.send({ message: "Incorrect password!" });
 	}else{
-		res.send({ message: "Others"});
+		let token = jwt.sign({
+			id: req.user.id
+		},secret,{expiresIn: 86400});
+		res.send({ 
+			id:req.user.id,
+			username: req.user.username,
+			email: req.user.email,
+			role: req.user.role,
+			token: token
+		});
 	}
 }
 // User signup
@@ -158,21 +158,21 @@ exports.signup = (req, res, next) => {
 		})
 	})
 }
-// User success for rate limit middleman
+// User success register for rate limit middleman
 exports.register = (req,res) => {
 	// Create a User
 	let user = new User({
-			username: req.body.username,
-			email: req.body.email,
-			password: Bcrypt.hashSync(req.body.password, 12),
-			role: 'ap',
+		username: req.body.username,
+		email: req.body.email,
+		password: Bcrypt.hashSync(req.body.password, 12),
+		role: 'ap',
 	});
 	User.create(user, (error, result) => {
-			if (!error){
-				sendVerification(result,res);
-			} else {
-				res.status(500).send({ message: "Some error occurred while creating the User.", error });
-			}
+		if (!error){
+			sendVerification(result,res);
+		} else {
+			res.status(500).send({ message: "Some error occurred while creating the User.", error });
+		}
 	});
 }
 // Resend verification if verify is less than 3
