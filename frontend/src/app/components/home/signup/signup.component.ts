@@ -53,7 +53,6 @@ export class SignupComponent implements OnInit  {
       this.progress = true;
       this.userService.signup(this.signupForm.value).subscribe({
         error: (err) => {
-          console.log(err.status);
           if(err.status === 429){
             this.manyRequest = true;
             this.progress = false;

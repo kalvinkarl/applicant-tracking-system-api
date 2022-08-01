@@ -2,10 +2,9 @@
   "name": "applicant-tracking-system",
   "version": "1.0.0",
   "description": "This server that will monitor and serve application process of clients of DENR Region 2",
-  "main": "backend/app.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"npm run --prefix frontend start\" \"nodemon backend/app.js\"",
-    "start": "nodemon backend/app.js"
+    "dev": "concurrently --kill-others \"npm run --prefix frontend start --open\" \"nodemon backend/app.js\"",
+    "start": "npm run dev"
   },
   "repository": {
     "type": "git",

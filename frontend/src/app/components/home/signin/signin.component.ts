@@ -47,6 +47,7 @@ export class SigninComponent implements OnInit {
       this.userService.signin(this.signinForm.value)
       .subscribe({
         next: res => {
+          console.log(res);
           this.authService.saveToken(res.token);
           this.authService.saveUser(res);
           window.location.reload();
