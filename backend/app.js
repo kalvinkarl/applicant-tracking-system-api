@@ -8,7 +8,7 @@ var corsOptions = { origin: config.ORIGIN };
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.get("/", (req, res) => res.json({ message: "Welcome to denr human resource website api local." }));
+app.get("/", (req, res) => res.json({ message: "Welcome to dost api." }));
 //Users routes
 require("./src/routes/user.routes")(app);
 //Admin(hr) routes
