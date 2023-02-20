@@ -1,5 +1,5 @@
 {
-	"url" : "https://jobs.ro2denr.ml",
+	"url" : "https://localhost",
 	"PORT": 3001,
 	"ORIGIN": "*",
 	"mysql":{
